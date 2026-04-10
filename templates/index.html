@@ -518,10 +518,11 @@ function updateHeader(d) {
     sb.textContent = '⚠ ' + d.error;
     sb.style.color = '#f85149';
   } else {
-    const polyAge = d.poly_updated
-      ? Math.round((Date.now() - new Date(d.poly_updated)) / 1000) + 's ago'
-      : '—';
-    sb.textContent = `Poly: ${polyAge} · Deribit: ${d.deribit_updated ? Math.round((Date.now() - new Date(d.deribit_updated))/1000) + 's ago' : '—'}`;
+    const pAge  = d.poly_age_s    != null ? `${d.poly_age_s}s ago (/${d.poly_refresh_s}s)`    : '—';
+    const dAge  = d.deribit_age_s != null ? `${d.deribit_age_s}s ago (/${d.deribit_refresh_s}s)` : '—';
+    const pColor = d.poly_age_s    != null && d.poly_age_s    > d.poly_refresh_s    * 3 ? '#f85149' : '#8b949e';
+    const dColor = d.deribit_age_s != null && d.deribit_age_s > d.deribit_refresh_s * 3 ? '#f85149' : '#8b949e';
+    sb.innerHTML = `Poly: <span style="color:${pColor}">${pAge}</span> &nbsp;·&nbsp; Deribit: <span style="color:${dColor}">${dAge}</span>`;
     sb.style.color = '#8b949e';
   }
 }
@@ -540,14 +541,15 @@ function updateExpiryCards(d) {
   }
 
   el.innerHTML = allGroups.map(g => {
-    const n      = g.markets.length;
-    const liq    = g.markets.reduce((s, m) => s + (m.liquidity || 0), 0);
-    const ttl    = g.hours_to_expiry < 1
+    const nTotal  = g.markets.length;
+    const liq     = g.markets.reduce((s, m) => s + (m.liquidity || 0), 0);
+    const ttl     = g.hours_to_expiry < 1
       ? `${Math.round(g.hours_to_expiry * 60)}m`
       : `${g.hours_to_expiry.toFixed(1)}h`;
     const gapMkts = g.markets.filter(m => m.vol_gap !== null);
-    const avgGap  = gapMkts.length
-      ? (gapMkts.reduce((s, m) => s + m.vol_gap, 0) / gapMkts.length).toFixed(1)
+    const nGap    = gapMkts.length;
+    const avgGap  = nGap
+      ? (gapMkts.reduce((s, m) => s + m.vol_gap, 0) / nGap).toFixed(1)
       : '—';
     const gapClass = avgGap !== '—' && parseFloat(avgGap) > 0 ? 'gap-pos'
                    : avgGap !== '—' && parseFloat(avgGap) < 0 ? 'gap-neg'
@@ -556,7 +558,7 @@ function updateExpiryCards(d) {
       <div class="expiry-card">
         <div class="exp-title">${g.label}</div>
         <div class="exp-meta">
-          ${g.ct} &nbsp;·&nbsp; ${n} strikes<br>
+          ${g.ct} &nbsp;·&nbsp; ${nTotal} strikes (${nGap} with IV)<br>
           Expires in: <strong>${ttl}</strong><br>
           Liquidity: $${Math.round(liq / 1000)}k<br>
           Avg vol gap: <span class="${gapClass}">${avgGap !== '—' ? avgGap + '%' : '—'}</span>
@@ -624,9 +626,9 @@ async function refresh() {
   }
 }
 
-// Initial load + poll
+// Initial load + poll every 4s (matches Polymarket backend refresh rate)
 refresh();
-setInterval(refresh, 10_000);
+setInterval(refresh, 4_000);
 </script>
 
 </body>

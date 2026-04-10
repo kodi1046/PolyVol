@@ -17,16 +17,17 @@ from typing import Optional
 from flask import Flask, jsonify, render_template
 
 from fetcher  import fetch_all, discover, refresh, PolyContract
-from deribit  import DeribitSurface
+from deribit  import DeribitSurface, get_spot
 from vol_math import implied_vol_european, implied_vol_one_touch
 from logger   import log_snapshot
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-POLY_REFRESH_S    = 4       # Polymarket price refresh interval (fast, uses cache)
-POLY_DISCOVER_S   = 180     # Polymarket re-discovery interval (slug scan + recent events)
-DERIBIT_REFRESH_S = 30      # Deribit refresh interval (their data moves slower)
-RISK_FREE_RATE    = 0.05    # r used in all IV inversions
+POLY_REFRESH_S      = 4     # Polymarket price refresh (fast concurrent fetch)
+POLY_DISCOVER_S     = 180   # Polymarket re-discovery (slug scan + recent events)
+DERIBIT_SPOT_S      = 5     # Spot price refresh — fast, single API call
+DERIBIT_SURFACE_S   = 30    # Full vol surface rebuild — slower, ~880 options
+RISK_FREE_RATE      = 0.05  # r used in all IV inversions
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO,
@@ -64,9 +65,11 @@ def _contracts_to_api(contracts: list[PolyContract],
     for c in contracts:
         by_expiry.setdefault(c.expiry, []).append(c)
 
-    PRICE_MIN = 0.03
-    PRICE_MAX = 0.97
-    T_MIN     = 1.0 / 365.25 / 48   # ~30 minutes
+    PRICE_MIN   = 0.03
+    PRICE_MAX   = 0.97
+    T_MIN       = 2.0 / 365.25 / 24   # 2 hours — below this near-ATM prices are AMM noise
+    MIN_IV_LIQ  = 1_000               # skip IV if market has < $1k liquidity
+    MAX_IV      = 2.50                 # 250% — anything above is not a tradeable signal
 
     groups = []
     for expiry in sorted(by_expiry.keys()):
@@ -78,18 +81,22 @@ def _contracts_to_api(contracts: list[PolyContract],
 
         markets = []
         for c in cs:
-            # Only invert IV for liquid, non-trivial prices
-            if PRICE_MIN < c.yes_price < PRICE_MAX and T > T_MIN:
+            # Only invert IV for liquid, non-trivial prices with enough time left
+            iv_poly = None
+            if (PRICE_MIN < c.yes_price < PRICE_MAX
+                    and T > T_MIN
+                    and c.liquidity >= MIN_IV_LIQ):
                 if contract_type == "european_digital":
-                    iv_poly = implied_vol_european(
+                    iv_raw = implied_vol_european(
                         c.yes_price, spot, c.strike, T, RISK_FREE_RATE
                     )
                 else:
-                    iv_poly = implied_vol_one_touch(
+                    iv_raw = implied_vol_one_touch(
                         c.yes_price, spot, c.strike, T, RISK_FREE_RATE
                     )
-            else:
-                iv_poly = None
+                # Discard if IV is above physical plausibility ceiling
+                if iv_raw is not None and iv_raw <= MAX_IV:
+                    iv_poly = iv_raw
 
             # Deribit vol interpolated at this strike
             iv_deribit: Optional[float] = None
@@ -160,21 +167,23 @@ def _build_payload() -> dict:
     n_euro = sum(len(g["markets"]) for g in euro_groups)
     n_ot   = sum(len(g["markets"]) for g in ot_groups)
 
-    # Best (largest absolute) vol gap signals
+    # Vol gap signals — one row per individual contract that has a computed gap
     all_gaps = []
     for ct_label, groups in [("ED", euro_groups), ("OT", ot_groups)]:
         for g in groups:
             for m in g["markets"]:
                 if m["vol_gap"] is not None:
                     all_gaps.append({
-                        "type":    ct_label,
-                        "expiry":  g["label"],
-                        "strike":  m["strike"],
-                        "gap_pct": m["vol_gap"],
-                        "iv_poly": m["iv_poly"],
+                        "type":      ct_label,
+                        "expiry":    g["label"],
+                        "strike":    m["strike"],
+                        "direction": m["direction"],
+                        "gap_pct":   m["vol_gap"],
+                        "iv_poly":   m["iv_poly"],
                         "iv_deribit": m["iv_deribit"],
                         "yes_price": m["yes_price"],
                         "liquidity": m["liquidity"],
+                        "question":  m["question"],
                     })
     all_gaps.sort(key=lambda x: abs(x["gap_pct"]), reverse=True)
 
@@ -192,6 +201,10 @@ def _build_payload() -> dict:
         "top_signals":      all_gaps[:20],
         "poly_updated":     p_upd.isoformat() if p_upd else None,
         "deribit_updated":  d_upd.isoformat() if d_upd else None,
+        "poly_age_s":       round((now - p_upd).total_seconds()) if p_upd else None,
+        "deribit_age_s":    round((now - d_upd).total_seconds()) if d_upd else None,
+        "poly_refresh_s":   POLY_REFRESH_S,
+        "deribit_refresh_s": DERIBIT_SPOT_S,
         "error":            error,
         "server_time":      now.isoformat(),
     }
@@ -237,21 +250,37 @@ def _poly_loop() -> None:
         time.sleep(POLY_REFRESH_S)
 
 
-def _deribit_loop() -> None:
+def _deribit_spot_loop() -> None:
+    """Refresh spot price every DERIBIT_SPOT_S seconds — single lightweight API call."""
+    while True:
+        try:
+            spot = get_spot()
+            if spot:
+                with _lock:
+                    _state["spot"]            = spot
+                    _state["deribit_updated"] = datetime.now(timezone.utc)
+                log.debug("Deribit spot: $%.0f", spot)
+        except Exception as e:
+            log.error("Deribit spot fetch error: %s", e)
+        time.sleep(DERIBIT_SPOT_S)
+
+
+def _deribit_surface_loop() -> None:
+    """Rebuild full vol surface every DERIBIT_SURFACE_S seconds."""
     while True:
         try:
             surface = DeribitSurface.build()
             atm30   = surface.atm_vol_30d()
             with _lock:
-                _state["spot"]            = surface.spot
-                _state["surface"]         = surface
-                _state["deribit_atm30"]   = atm30
+                _state["spot"]          = surface.spot   # also updates spot
+                _state["surface"]       = surface
+                _state["deribit_atm30"] = atm30
                 _state["deribit_updated"] = datetime.now(timezone.utc)
-            log.info("Deribit: spot=$%.0f, 30d ATM=%.1f%%, %d expiries",
+            log.info("Deribit surface: spot=$%.0f, 30d ATM=%.1f%%, %d expiries",
                      surface.spot, (atm30 or 0) * 100, len(surface.expiries))
         except Exception as e:
-            log.error("Deribit fetch error: %s", e)
-        time.sleep(DERIBIT_REFRESH_S)
+            log.error("Deribit surface fetch error: %s", e)
+        time.sleep(DERIBIT_SURFACE_S)
 
 
 # ── Flask app ─────────────────────────────────────────────────────────────────
@@ -274,8 +303,9 @@ def api_data():
 
 if __name__ == "__main__":
     # Start background fetch threads
-    threading.Thread(target=_deribit_loop, daemon=True).start()
-    threading.Thread(target=_poly_loop,    daemon=True).start()
+    threading.Thread(target=_deribit_surface_loop, daemon=True).start()
+    threading.Thread(target=_deribit_spot_loop,    daemon=True).start()
+    threading.Thread(target=_poly_loop,            daemon=True).start()
 
     # Give Deribit a head start (spot price needed for IV inversion)
     log.info("Waiting for initial Deribit fetch…")
