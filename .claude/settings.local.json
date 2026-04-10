@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://clob.polymarket.com/markets?next_cursor=&limit=5\")",
+      "Bash(python3 -c \" import json,sys d = json.load\\(sys.stdin\\) print\\('keys:', list\\(d.keys\\(\\)\\) if isinstance\\(d, dict\\) else type\\(d\\)\\) if isinstance\\(d, dict\\): if 'data' in d: print\\('data count:', len\\(d['data']\\)\\) print\\('first item keys:', list\\(d['data'][0].keys\\(\\)\\) if d['data'] else 'empty'\\) print\\('next_cursor:', d.get\\('next_cursor',''\\)\\) for m in d['data'][:2]: print\\(' ', m.get\\('question',''\\)[:60]\\) \")",
+      "Bash(python3 -c \" import json,sys data=json.load\\(sys.stdin\\) print\\(f'Total: {len\\(data\\)}'\\) for e in data[:10]: print\\(e['id'], e.get\\('endDate','?'\\)[:10], e.get\\('title',''\\)[:80]\\) \")"
+    ]
+  }
+}
