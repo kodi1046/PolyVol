@@ -17,7 +17,7 @@ from typing import Optional
 from flask import Flask, jsonify, render_template
 
 from fetcher  import fetch_all, discover, refresh, PolyContract
-from deribit  import DeribitSurface, get_spot
+from deribit  import DeribitSurface, get_spot, get_risk_free_rate
 from vol_math import implied_vol_european, implied_vol_one_touch
 from logger   import log_snapshot
 
@@ -27,7 +27,7 @@ POLY_REFRESH_S      = 4     # Polymarket price refresh (fast concurrent fetch)
 POLY_DISCOVER_S     = 180   # Polymarket re-discovery (slug scan + recent events)
 DERIBIT_SPOT_S      = 5     # Spot price refresh — fast, single API call
 DERIBIT_SURFACE_S   = 30    # Full vol surface rebuild — slower, ~880 options
-RISK_FREE_RATE      = 0.05  # r used in all IV inversions
+RISK_FREE_RATE_FALLBACK = 0.05  # used until first Deribit rate fetch succeeds
 
 log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO,
@@ -41,6 +41,7 @@ _state: dict = {
     "spot":          None,          # float
     "deribit_atm30": None,          # float, 30d ATM vol
     "surface":       None,          # DeribitSurface
+    "risk_free_rate": RISK_FREE_RATE_FALLBACK,  # float, from futures curve
     "poly_raw":      {"european_digital": [], "one_touch": []},
     "api_payload":   None,          # pre-built JSON dict
     "poly_updated":  None,
@@ -55,7 +56,8 @@ def _contracts_to_api(contracts: list[PolyContract],
                       contract_type: str,
                       surface: Optional[DeribitSurface],
                       spot: float,
-                      now: datetime) -> list[dict]:
+                      now: datetime,
+                      r: float = RISK_FREE_RATE_FALLBACK) -> list[dict]:
     """
     Group contracts by expiry, compute IV for each, attach Deribit vol.
     Returns list of expiry-group dicts ready for JSON serialisation.
@@ -88,35 +90,50 @@ def _contracts_to_api(contracts: list[PolyContract],
                     and c.liquidity >= MIN_IV_LIQ):
                 if contract_type == "european_digital":
                     iv_raw = implied_vol_european(
-                        c.yes_price, spot, c.strike, T, RISK_FREE_RATE
+                        c.yes_price, spot, c.strike, T, r
                     )
                 else:
                     iv_raw = implied_vol_one_touch(
-                        c.yes_price, spot, c.strike, T, RISK_FREE_RATE
+                        c.yes_price, spot, c.strike, T, r
                     )
-                # Discard if IV is above physical plausibility ceiling
                 if iv_raw is not None and iv_raw <= MAX_IV:
                     iv_poly = iv_raw
 
-            # Deribit vol interpolated at this strike
+            # Deribit reference vol — vanilla smile interpolation
+            iv_deribit_vanilla: Optional[float] = None
+            if surface:
+                iv_deribit_vanilla = surface.get_vol(c.strike, T, r)
+
+            # Deribit reference for European Digital: synthetic digital via
+            # call spread, which incorporates the smile slope (skew correction).
+            # For One-Touch we fall back to vanilla (no simple static replication).
             iv_deribit: Optional[float] = None
             if surface:
-                iv_deribit = surface.get_vol(c.strike, T, RISK_FREE_RATE)
+                if contract_type == "european_digital":
+                    p_fair = surface.digital_fair_value(c.strike, T, r)
+                    if p_fair is not None and PRICE_MIN < p_fair < PRICE_MAX:
+                        iv_deribit = implied_vol_european(p_fair, spot, c.strike, T, r)
+                    # fall back to vanilla if inversion fails
+                    if iv_deribit is None:
+                        iv_deribit = iv_deribit_vanilla
+                else:
+                    iv_deribit = iv_deribit_vanilla
 
             vol_gap: Optional[float] = None
             if iv_poly is not None and iv_deribit is not None:
                 vol_gap = iv_poly - iv_deribit
 
             markets.append({
-                "strike":          c.strike,
-                "yes_price":       round(c.yes_price, 4),
-                "direction":       c.direction,
-                "liquidity":       round(c.liquidity, 0),
-                "iv_poly":         round(iv_poly * 100, 2)    if iv_poly    is not None else None,
-                "iv_deribit":      round(iv_deribit * 100, 2) if iv_deribit is not None else None,
-                "vol_gap":         round(vol_gap * 100, 2)    if vol_gap    is not None else None,
-                "market_id":       c.market_id,
-                "question":        c.question,
+                "strike":              c.strike,
+                "yes_price":           round(c.yes_price, 4),
+                "direction":           c.direction,
+                "liquidity":           round(c.liquidity, 0),
+                "iv_poly":             round(iv_poly * 100, 2)           if iv_poly            is not None else None,
+                "iv_deribit":          round(iv_deribit * 100, 2)        if iv_deribit         is not None else None,
+                "iv_deribit_vanilla":  round(iv_deribit_vanilla * 100, 2) if iv_deribit_vanilla is not None else None,
+                "vol_gap":             round(vol_gap * 100, 2)           if vol_gap            is not None else None,
+                "market_id":           c.market_id,
+                "question":            c.question,
             })
 
         hours_to_expiry = (expiry - now).total_seconds() / 3600
@@ -148,6 +165,7 @@ def _build_payload() -> dict:
         spot      = _state["spot"]
         atm30     = _state["deribit_atm30"]
         surface   = _state["surface"]
+        r         = _state["risk_free_rate"]
         poly_raw  = dict(_state["poly_raw"])
         p_upd     = _state["poly_updated"]
         d_upd     = _state["deribit_updated"]
@@ -157,10 +175,10 @@ def _build_payload() -> dict:
     now  = datetime.now(timezone.utc)
 
     euro_groups = _contracts_to_api(
-        poly_raw["european_digital"], "european_digital", surface, spot, now
+        poly_raw["european_digital"], "european_digital", surface, spot, now, r
     )
     ot_groups = _contracts_to_api(
-        poly_raw["one_touch"], "one_touch", surface, spot, now
+        poly_raw["one_touch"], "one_touch", surface, spot, now, r
     )
 
     # Summary stats
@@ -201,6 +219,7 @@ def _build_payload() -> dict:
         "top_signals":      all_gaps[:20],
         "poly_updated":     p_upd.isoformat() if p_upd else None,
         "deribit_updated":  d_upd.isoformat() if d_upd else None,
+        "risk_free_rate":   round(r * 100, 2),
         "poly_age_s":       round((now - p_upd).total_seconds()) if p_upd else None,
         "deribit_age_s":    round((now - d_upd).total_seconds()) if d_upd else None,
         "poly_refresh_s":   POLY_REFRESH_S,
@@ -230,17 +249,18 @@ def _poly_loop() -> None:
                 _state["error"]        = None
                 snap_spot    = _state["spot"] or 0.0
                 snap_surface = _state["surface"]
+                snap_r       = _state["risk_free_rate"]
             log.debug("Poly refresh: %d ED + %d OT",
                       len(result["european_digital"]), len(result["one_touch"]))
 
             # Log snapshot for backtesting
             euro_g = _contracts_to_api(
                 result["european_digital"], "european_digital",
-                snap_surface, snap_spot, ts,
+                snap_surface, snap_spot, ts, snap_r,
             )
             ot_g = _contracts_to_api(
                 result["one_touch"], "one_touch",
-                snap_surface, snap_spot, ts,
+                snap_surface, snap_spot, ts, snap_r,
             )
             log_snapshot(ts, snap_spot, [], euro_g, ot_g)
         except Exception as e:
@@ -269,15 +289,17 @@ def _deribit_surface_loop() -> None:
     """Rebuild full vol surface every DERIBIT_SURFACE_S seconds."""
     while True:
         try:
+            r       = get_risk_free_rate(fallback=RISK_FREE_RATE_FALLBACK)
             surface = DeribitSurface.build()
-            atm30   = surface.atm_vol_30d()
+            atm30   = surface.atm_vol_30d(r)
             with _lock:
-                _state["spot"]          = surface.spot   # also updates spot
-                _state["surface"]       = surface
-                _state["deribit_atm30"] = atm30
+                _state["spot"]            = surface.spot
+                _state["surface"]         = surface
+                _state["deribit_atm30"]   = atm30
+                _state["risk_free_rate"]  = r
                 _state["deribit_updated"] = datetime.now(timezone.utc)
-            log.info("Deribit surface: spot=$%.0f, 30d ATM=%.1f%%, %d expiries",
-                     surface.spot, (atm30 or 0) * 100, len(surface.expiries))
+            log.info("Deribit surface: spot=$%.0f, 30d ATM=%.1f%%, r=%.2f%%, %d expiries",
+                     surface.spot, (atm30 or 0) * 100, r * 100, len(surface.expiries))
         except Exception as e:
             log.error("Deribit surface fetch error: %s", e)
         time.sleep(DERIBIT_SURFACE_S)

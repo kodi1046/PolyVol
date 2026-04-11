@@ -13,6 +13,7 @@ from datetime import datetime, timezone, timedelta
 from typing import Optional
 
 import numpy as np
+from scipy.stats import norm
 import requests
 
 log = logging.getLogger(__name__)
@@ -33,6 +34,67 @@ _INST_RE = re.compile(
 
 
 # ── Spot price ────────────────────────────────────────────────────────────────
+
+_FUTURES_RE = re.compile(r"BTC-(\d{1,2})([A-Z]{3})(\d{2})$")
+
+
+def get_risk_free_rate(fallback: float = 0.05) -> float:
+    """
+    Estimate the USD risk-free rate from the BTC futures curve.
+
+    Uses the nearest non-perpetual BTC quarterly future:
+        r = ln(F / S) / T
+
+    Falls back to `fallback` if the request fails or no suitable future exists.
+    """
+    try:
+        spot = get_spot()
+        if not spot:
+            return fallback
+
+        r = requests.get(
+            f"{DERIBIT}/get_book_summary_by_currency",
+            params={"currency": "BTC", "kind": "future"},
+            headers=HEADERS, timeout=TIMEOUT,
+        )
+        r.raise_for_status()
+        futures = r.json()["result"]
+    except Exception as e:
+        log.warning("Futures fetch failed: %s", e)
+        return fallback
+
+    now = datetime.now(timezone.utc)
+    best_rate, best_T = None, None
+
+    for f in futures:
+        name = f.get("instrument_name", "")
+        m = _FUTURES_RE.match(name)
+        if not m:
+            continue   # skip perpetuals and weekly expiries
+        day, mon, yr = m.groups()
+        expiry = _parse_expiry(day, mon, yr)
+        T = (expiry - now).total_seconds() / 86400 / 365.25
+        if T <= 0.02:  # skip if less than ~1 week out
+            continue
+
+        mid = f.get("mid_price") or f.get("mark_price")
+        if not mid or mid <= 0:
+            continue
+
+        # mid is quoted as index price (USD), not as a fraction
+        implied_F = mid
+        implied_r = np.log(implied_F / spot) / T
+
+        # Take the nearest expiry to minimise noise
+        if best_T is None or T < best_T:
+            best_T, best_rate = T, implied_r
+
+    if best_rate is None or not np.isfinite(best_rate):
+        return fallback
+
+    # Clamp to a plausible range (avoid aberrations during market stress)
+    return float(np.clip(best_rate, 0.0, 0.15))
+
 
 def get_spot() -> Optional[float]:
     try:
@@ -221,7 +283,53 @@ class DeribitSurface:
     def atm_vol_30d(self, r: float = 0.05) -> Optional[float]:
         return self.atm_vol(30.0 / 365.25, r)
 
+    def digital_fair_value(self, K: float, T: float,
+                            r: float = 0.05,
+                            eps: float = 250.0) -> Optional[float]:
+        """
+        Synthetic European digital call fair value from the Deribit smile,
+        using a call spread:
+
+            p = [C(K - eps) - C(K + eps)] / (2 * eps)
+
+        where C(K') is the Black-Scholes call price evaluated at the Deribit
+        smile vol at K'.  This incorporates the vol slope (skew) correction
+        that vanilla IV interpolation ignores:
+
+            p_digital = e^{-rT} N(d2) - e^{-rT} n(d2) sqrt(T) * dσ/dK
+
+        Using a finite difference instead of the derivative avoids having to
+        differentiate the smile explicitly and is robust to linear interpolation.
+
+        eps = 250 is a good default for BTC (strikes spaced ~500–1000 apart).
+        """
+        if T <= 1e-8:
+            return None
+        now = datetime.now(timezone.utc)
+        exp = self._nearest_expiry(T, now)
+        if exp is None:
+            return None
+
+        sigma_lo = self._smile_vol(exp, K - eps)
+        sigma_hi = self._smile_vol(exp, K + eps)
+        if sigma_lo is None or sigma_hi is None:
+            return None
+
+        c_lo = self._bs_call(self._spot, K - eps, T, r, sigma_lo)
+        c_hi = self._bs_call(self._spot, K + eps, T, r, sigma_hi)
+        fair = (c_lo - c_hi) / (2.0 * eps)
+        return float(np.clip(fair, 0.0, 1.0))
+
     # ── Internals ─────────────────────────────────────────────────────────────
+
+    @staticmethod
+    def _bs_call(S: float, K: float, T: float, r: float, sigma: float) -> float:
+        """Black-Scholes vanilla call price."""
+        if T <= 1e-8:
+            return max(S - K, 0.0)
+        d1 = (np.log(S / K) + (r + 0.5 * sigma ** 2) * T) / (sigma * np.sqrt(T))
+        d2 = d1 - sigma * np.sqrt(T)
+        return float(S * norm.cdf(d1) - K * np.exp(-r * T) * norm.cdf(d2))
 
     def _nearest_expiry(self, T: float, now: datetime) -> Optional[datetime]:
         if not self._smiles:

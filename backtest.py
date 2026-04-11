@@ -42,15 +42,17 @@ from logger import load_snapshots
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-ENTRY_THRESHOLD = 5.0    # vol gap pp to trigger entry
-EXIT_THRESHOLD  = 2.0    # vol gap pp to trigger exit
-POSITION_SIZE   = 100.0  # USD per trade
-MIN_LIQUIDITY   = 5_000  # minimum pool liquidity to enter
-PRICE_MIN       = 0.05   # skip deep OTM/ITM
-PRICE_MAX       = 0.95
-T_MIN_EXIT      = 0.5 / 365.25 / 24   # 30 min in years — time stop
-SLIPPAGE_CENTS  = 0.005  # 0.5 cents slippage on entry
-POLY_FEE_RATE   = 0.02   # 2% of net winnings
+ENTRY_THRESHOLD    = 5.0    # vol gap pp to trigger entry
+EXIT_THRESHOLD     = 2.0    # vol gap pp to trigger exit
+POSITION_SIZE      = 100.0  # USD per trade
+MIN_LIQUIDITY      = 5_000  # minimum pool liquidity to enter
+PRICE_MIN          = 0.05   # skip deep OTM/ITM
+PRICE_MAX          = 0.95
+T_MIN_EXIT         = 0.5 / 365.25 / 24   # 30 min in years — time stop
+SLIPPAGE_REF_LIQ   = 20_000  # liquidity at which base slippage applies
+SLIPPAGE_BASE_CENTS = 0.005   # 0.5¢ at SLIPPAGE_REF_LIQ; scales as sqrt(ref/actual)
+MAX_POSITION_FRAC  = 0.10    # max position size as fraction of pool liquidity
+POLY_FEE_RATE      = 0.02    # 2% of net winnings
 
 
 # ── Data structures ───────────────────────────────────────────────────────────
@@ -203,12 +205,18 @@ def run_backtest(
             if side is None:
                 continue
 
+            # Liquidity-scaled slippage: wider spread on thinner pools
+            slip = SLIPPAGE_BASE_CENTS * (SLIPPAGE_REF_LIQ / max(liq, 1)) ** 0.5
+
+            # Cap position size at MAX_POSITION_FRAC of pool (avoid moving market)
+            capped_size = min(position_size, liq * MAX_POSITION_FRAC)
+
             # Apply slippage to entry price
-            entry_price = (yes_price + SLIPPAGE_CENTS if side == "buy_yes"
-                           else yes_price - SLIPPAGE_CENTS)
+            entry_price = (yes_price + slip if side == "buy_yes"
+                           else yes_price - slip)
             entry_price = max(0.001, min(0.999, entry_price))
 
-            slippage_cost = (SLIPPAGE_CENTS / entry_price) * position_size
+            slippage_cost = slip * (capped_size / entry_price)
             result.total_slippage += slippage_cost
 
             open_pos[mid] = Position(
@@ -222,7 +230,7 @@ def run_backtest(
                 entry_ts      = ts,
                 entry_price   = entry_price,
                 entry_gap     = gap,
-                size_usd      = position_size,
+                size_usd      = capped_size,
             )
 
     # Force-close any positions still open at last snapshot
