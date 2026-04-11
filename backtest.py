@@ -44,10 +44,11 @@ from logger import load_snapshots
 
 ENTRY_THRESHOLD    = 5.0    # vol gap pp to trigger entry
 EXIT_THRESHOLD     = 2.0    # vol gap pp to trigger exit
+MAX_ENTRY_GAP      = 50.0   # ignore signals with |gap| > 50pp — IV inversion noise
 POSITION_SIZE      = 100.0  # USD per trade
-MIN_LIQUIDITY      = 5_000  # minimum pool liquidity to enter
-PRICE_MIN          = 0.05   # skip deep OTM/ITM
-PRICE_MAX          = 0.95
+MIN_LIQUIDITY      = 20_000  # minimum pool liquidity to enter (= SLIPPAGE_REF_LIQ)
+PRICE_MIN          = 0.10   # skip deep OTM/ITM and near-ATM instability zone
+PRICE_MAX          = 0.90
 T_MIN_EXIT         = 0.5 / 365.25 / 24   # 30 min in years — time stop
 SLIPPAGE_REF_LIQ   = 20_000  # liquidity at which base slippage applies
 SLIPPAGE_BASE_CENTS = 0.005   # 0.5¢ at SLIPPAGE_REF_LIQ; scales as sqrt(ref/actual)
@@ -80,12 +81,16 @@ class Position:
 
 @dataclass
 class BacktestResult:
-    trades:         list[Position] = field(default_factory=list)
-    total_pnl:      float = 0.0
-    win_count:      int   = 0
-    loss_count:     int   = 0
-    total_fees:     float = 0.0
-    total_slippage: float = 0.0
+    trades:           list[Position] = field(default_factory=list)
+    # Realized only (closed trades) — the only trustworthy P&L figure
+    realized_pnl:     float = 0.0
+    win_count:        int   = 0
+    loss_count:       int   = 0
+    total_fees:       float = 0.0
+    total_slippage:   float = 0.0
+    # Unrealized mark — noisy for binaries, shown for context only
+    unrealized_pnl:   float = 0.0
+    open_count:       int   = 0
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -137,6 +142,7 @@ def run_backtest(
     entry_threshold: float = ENTRY_THRESHOLD,
     exit_threshold:  float = EXIT_THRESHOLD,
     position_size:   float = POSITION_SIZE,
+    max_entry_gap:   float = MAX_ENTRY_GAP,
 ) -> BacktestResult:
     """
     Replay snapshots chronologically. One position per market_id at a time.
@@ -176,8 +182,8 @@ def run_backtest(
                     raw = _pnl(pos.side, pos.entry_price, yes_price, pos.size_usd)
                     fee = _fee(pos.side, pos.entry_price, yes_price, pos.size_usd, raw)
                     pos.pnl = raw - fee
-                    result.total_pnl   += pos.pnl
-                    result.total_fees  += fee
+                    result.realized_pnl += pos.pnl
+                    result.total_fees   += fee
                     if pos.pnl >= 0:
                         result.win_count  += 1
                     else:
@@ -195,6 +201,9 @@ def run_backtest(
                 continue
             if T < T_MIN_EXIT:
                 continue
+
+            if abs(gap) > max_entry_gap:
+                continue  # IV inversion noise — gap too large to be a real signal
 
             side = None
             if gap < -entry_threshold:
@@ -233,8 +242,7 @@ def run_backtest(
                 size_usd      = capped_size,
             )
 
-    # Force-close any positions still open at last snapshot
-    # (treat as unresolved — use last known price)
+    # Mark still-open positions at last known price — unrealized, not counted in P&L
     last_snap = snapshots[-1] if snapshots else {}
     last_prices = {c["market_id"]: c["yes_price"]
                    for c in last_snap.get("contracts", [])}
@@ -246,8 +254,9 @@ def run_backtest(
         raw = _pnl(pos.side, pos.entry_price, exit_price, pos.size_usd)
         fee = _fee(pos.side, pos.entry_price, exit_price, pos.size_usd, raw)
         pos.pnl = raw - fee
-        result.total_pnl   += pos.pnl
-        result.total_fees  += fee
+        # Unrealized: tracked separately, NOT added to realized_pnl
+        result.unrealized_pnl += pos.pnl
+        result.open_count     += 1
         result.trades.append(pos)
 
     return result
@@ -259,20 +268,17 @@ def print_report(result: BacktestResult) -> None:
     trades   = result.trades
     closed   = [t for t in trades if t.exit_reason != "still_open"]
     open_pos = [t for t in trades if t.exit_reason == "still_open"]
+    n_closed = len(closed)
+    wr = result.win_count / n_closed * 100 if n_closed else 0.0
 
     print(f"\n{'='*70}")
-    print(f"  BACKTEST REPORT")
+    print(f"  REALIZED P&L  ({n_closed} closed trades)  ← the only number that matters")
     print(f"{'='*70}")
-    print(f"  Total trades (closed):  {len(closed)}")
-    print(f"  Still open:             {len(open_pos)}")
-    print(f"  Wins / Losses:          {result.win_count} / {result.loss_count}")
-    if result.win_count + result.loss_count > 0:
-        wr = result.win_count / (result.win_count + result.loss_count) * 100
-        print(f"  Win rate:               {wr:.1f}%")
-    print(f"  Total PnL:              ${result.total_pnl:+.2f}")
-    print(f"  Total fees paid:        ${result.total_fees:.2f}")
-    print(f"  Total slippage cost:    ${result.total_slippage:.2f}")
-    print(f"  Net PnL (after fees):   ${result.total_pnl:+.2f}")
+    print(f"  Realized P&L:           ${result.realized_pnl:+.2f}")
+    print(f"  Fees paid:              ${result.total_fees:.2f}")
+    print(f"  Slippage cost:          ${result.total_slippage:.2f}")
+    print(f"  Net after fees+slip:    ${result.realized_pnl - result.total_slippage:+.2f}")
+    print(f"  Win rate:               {wr:.1f}%  ({result.win_count}W / {result.loss_count}L)")
     print()
 
     by_reason = {}
@@ -280,20 +286,41 @@ def print_report(result: BacktestResult) -> None:
         by_reason.setdefault(t.exit_reason, []).append(t.pnl or 0)
     for reason, pnls in sorted(by_reason.items()):
         avg = sum(pnls) / len(pnls)
-        print(f"  Exit [{reason:15s}]: {len(pnls):3d} trades  avg PnL ${avg:+.2f}")
+        total = sum(pnls)
+        print(f"  Exit [{reason:15s}]: {len(pnls):3d} trades  avg ${avg:+.2f}  total ${total:+.2f}")
 
     print()
+    print(f"{'='*70}")
+    print(f"  STILL OPEN  ({result.open_count} positions)  ← unreliable mark for binaries")
+    print(f"{'='*70}")
+    if open_pos:
+        print(f"  Unrealized P&L (last snapshot price): ${result.unrealized_pnl:+.2f}")
+        print(f"  NOTE: binary options near expiry can mark at 0.50 but resolve 0 or 1.")
+        print(f"  Do not add this to realized P&L. Run longer to close these out.")
+        print()
+        for t in sorted(open_pos, key=lambda x: x.expiry or ""):
+            held_h = ((_parse_ts(t.exit_ts) - _parse_ts(t.entry_ts)).total_seconds() / 3600
+                      if t.exit_ts else 0)
+            print(f"  {t.side:10s}  K=${t.strike:>9,.0f}  entry={t.entry_price:.3f}"
+                  f"  last={t.exit_price:.3f}  gap@entry={t.entry_gap:+.1f}pp"
+                  f"  held={held_h:.1f}h  exp={t.expiry[:10] if t.expiry else '?'}")
+    else:
+        print("  None.")
+
+    print()
+    print(f"{'='*70}")
+    print(f"  CLOSED TRADE LOG")
+    print(f"{'='*70}")
     print(f"  {'Side':10s} {'Type':20s} {'Strike':>10s} {'Entry':>7s} {'Exit':>7s} "
-          f"{'Gap@E':>7s} {'Gap@X':>7s} {'PnL':>8s}  Reason")
+          f"{'Gap@E':>7s} {'Gap@X':>7s} {'P&L':>8s}  Reason")
     print(f"  {'-'*10} {'-'*20} {'-'*10} {'-'*7} {'-'*7} {'-'*7} {'-'*7} {'-'*8}  ------")
-    for t in sorted(trades, key=lambda x: x.entry_ts):
-        pnl_s = f"${t.pnl:+.2f}" if t.pnl is not None else "  open"
-        ep    = f"{t.entry_price:.3f}"
-        xp    = f"{t.exit_price:.3f}" if t.exit_price is not None else "  ?"
-        ge    = f"{t.entry_gap:+.1f}pp"
-        gx    = f"{t.exit_gap:+.1f}pp" if t.exit_gap is not None else "    ?"
+    for t in sorted(closed, key=lambda x: x.entry_ts):
+        ep = f"{t.entry_price:.3f}"
+        xp = f"{t.exit_price:.3f}" if t.exit_price is not None else "  ?"
+        ge = f"{t.entry_gap:+.1f}pp"
+        gx = f"{t.exit_gap:+.1f}pp" if t.exit_gap is not None else "    ?"
         print(f"  {t.side:10s} {t.contract_type:20s} {t.strike:>10,.0f} "
-              f"{ep:>7s} {xp:>7s} {ge:>7s} {gx:>7s} {pnl_s:>8s}  {t.exit_reason or ''}")
+              f"{ep:>7s} {xp:>7s} {ge:>7s} {gx:>7s} ${t.pnl:+7.2f}  {t.exit_reason or ''}")
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
@@ -308,6 +335,8 @@ if __name__ == "__main__":
                         help="Exit threshold in vol pp (default %(default)s)")
     parser.add_argument("--size",  type=float, default=POSITION_SIZE,
                         help="Position size in USD (default %(default)s)")
+    parser.add_argument("--max-gap", type=float, default=MAX_ENTRY_GAP,
+                        help="Max |vol gap| pp for entry; filters IV noise (default %(default)s)")
     args = parser.parse_args()
 
     snaps = load_snapshots(Path(args.snapshot))
@@ -320,7 +349,7 @@ if __name__ == "__main__":
     span_end   = snaps[-1]["ts"]
     print(f"Loaded {len(snaps)} snapshots  [{span_start}  →  {span_end}]")
     print(f"Entry threshold: {args.entry} pp   Exit threshold: {args.exit} pp   "
-          f"Position size: ${args.size:.0f}")
+          f"Max gap: {args.max_gap} pp   Position size: ${args.size:.0f}")
 
-    result = run_backtest(snaps, args.entry, args.exit, args.size)
+    result = run_backtest(snaps, args.entry, args.exit, args.size, args.max_gap)
     print_report(result)

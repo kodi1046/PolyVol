@@ -62,6 +62,7 @@ class PolyContract:
     yes_price:     float
     liquidity:     float = 0.0
     event_title:   str   = ""
+    slug:          str   = ""   # market slug → polymarket.com/event/{slug}
 
 
 # ── Event ID cache ────────────────────────────────────────────────────────────
@@ -210,6 +211,7 @@ def _parse_euro_market(m: dict, expiry: datetime,
         yes_price=yes_price,
         liquidity=float(m.get("liquidityNum") or m.get("liquidity") or 0),
         event_title=event_title,
+        slug=str(m.get("slug", "")),
     )
 
 
@@ -246,6 +248,7 @@ def _parse_ot_market(m: dict, expiry: datetime,
         yes_price=yes_price,
         liquidity=float(m.get("liquidityNum") or m.get("liquidity") or 0),
         event_title=event_title,
+        slug=str(m.get("slug", "")),
     )
 
 

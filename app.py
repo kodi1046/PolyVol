@@ -134,6 +134,7 @@ def _contracts_to_api(contracts: list[PolyContract],
                 "vol_gap":             round(vol_gap * 100, 2)           if vol_gap            is not None else None,
                 "market_id":           c.market_id,
                 "question":            c.question,
+                "url":                 f"https://polymarket.com/event/{c.slug}" if c.slug else "",
             })
 
         hours_to_expiry = (expiry - now).total_seconds() / 3600
@@ -202,6 +203,7 @@ def _build_payload() -> dict:
                         "yes_price": m["yes_price"],
                         "liquidity": m["liquidity"],
                         "question":  m["question"],
+                        "url":       m["url"],
                     })
     all_gaps.sort(key=lambda x: abs(x["gap_pct"]), reverse=True)
 
