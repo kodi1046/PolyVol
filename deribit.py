@@ -283,6 +283,14 @@ class DeribitSurface:
     def atm_vol_30d(self, r: float = 0.05) -> Optional[float]:
         return self.atm_vol(30.0 / 365.25, r)
 
+    def atm_term_structure(self, r: float = 0.05) -> dict:
+        """ATM vol at 1d, 7d, 30d from the smile — no extra API calls."""
+        return {
+            "1d":  self.atm_vol(1.0  / 365.25, r),
+            "7d":  self.atm_vol(7.0  / 365.25, r),
+            "30d": self.atm_vol(30.0 / 365.25, r),
+        }
+
     def digital_fair_value(self, K: float, T: float,
                             r: float = 0.05,
                             eps: float = 250.0) -> Optional[float]:

@@ -229,9 +229,9 @@
     <span class="label">BTC Spot</span>
     <span class="value spot" id="m-spot">—</span>
   </div>
-  <div class="metric-pill">
-    <span class="label">Deribit 30d ATM</span>
-    <span class="value vol" id="m-dvol">—</span>
+  <div class="metric-pill" style="min-width:200px;">
+    <span class="label">Vol Strip &nbsp;<span style="font-size:9px;opacity:0.6;">1d · 7d · 30d</span></span>
+    <span class="value vol" id="m-ts" style="font-size:13px;letter-spacing:0.03em;">—</span>
   </div>
   <div class="metric-pill">
     <span class="label">Euro Digital</span>
@@ -505,8 +505,21 @@ function renderIVChart(divId, groups, deribitSurface, spot) {
 function updateHeader(d) {
   document.getElementById('m-spot').textContent =
     d.spot ? '$' + Math.round(d.spot).toLocaleString() : '—';
-  document.getElementById('m-dvol').textContent =
-    d.deribit_atm30 ? d.deribit_atm30.toFixed(1) + '%' : '—';
+  const ts = d.vol_term_structure;
+  if (ts && (ts['1d'] || ts['7d'] || ts['30d'])) {
+    const fmt = v => v != null ? v.toFixed(1) + '%' : '—';
+    const v1  = ts['1d'], v30 = ts['30d'];
+    // backwardation = near-term elevated (stress) → red on 1d
+    const c1 = (v1 != null && v30 != null && v1 > v30) ? 'var(--red)' : 'var(--yellow)';
+    document.getElementById('m-ts').innerHTML =
+      `<span style="color:${c1}">${fmt(v1)}</span>` +
+      ` <span style="color:var(--muted);font-size:11px">·</span> ` +
+      `<span>${fmt(ts['7d'])}</span>` +
+      ` <span style="color:var(--muted);font-size:11px">·</span> ` +
+      `<span>${fmt(v30)}</span>`;
+  } else {
+    document.getElementById('m-ts').textContent = '—';
+  }
   document.getElementById('m-ned').textContent =
     d.summary ? d.summary.n_euro_digital : '—';
   document.getElementById('m-not').textContent =

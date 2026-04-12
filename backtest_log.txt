@@ -1,61 +1,1120 @@
-Loaded 1052 snapshots  [2026-04-10T10:29:33.164691+00:00  →  2026-04-11T08:52:57.338847+00:00]
-Entry threshold: 5.0 pp   Exit threshold: 2.0 pp   Position size: $100
+Loaded 2151 snapshots  [2026-01-12T07:00:00+00:00  →  2026-04-12T04:00:00+00:00]
+Entry: 7.0pp   Exit: 2.0pp   Max gap: 50.0pp   Min moneyness: 2%   Size: $100
+Buy-only: True   Contract type: all   Trend filter: 4.0h / 1.0%
 
 ======================================================================
-  BACKTEST REPORT
+  REALIZED P&L  (1025 closed trades)  ← the only number that matters
 ======================================================================
-  Total trades (closed):  31
-  Still open:             11
-  Wins / Losses:          9 / 22
-  Win rate:               29.0%
-  Total PnL:              $-42.93
-  Total fees paid:        $2.37
-  Total slippage cost:    $66.21
-  Net PnL (after fees):   $-42.93
+  Realized P&L:           $-2561.88
+  Fees paid:              $157.77
+  Slippage cost:          $265.06
+  Net after fees+slip:    $-2826.95
+  Win rate:               28.9%  (296W / 729L)
 
-  Exit [gap_closed     ]:  31 trades  avg PnL $-3.36
+  Exit [gap_closed     ]: 1025 trades  avg $-2.50  total $-2561.88
 
-  Side       Type                     Strike   Entry    Exit   Gap@E   Gap@X      PnL  Reason
+======================================================================
+  STILL OPEN  (67 positions)  ← unreliable mark for binaries
+======================================================================
+  Unrealized P&L (last snapshot price): $+0.00
+  NOTE: binary options near expiry can mark at 0.50 but resolve 0 or 1.
+  Do not add this to realized P&L. Run longer to close these out.
+
+  buy_yes     K=$   96,000  entry=0.106  last=0.106  gap@entry=-9.4pp  held=2149.0h  exp=2026-01-17
+  buy_yes     K=$   90,000  entry=0.746  last=0.746  gap@entry=-12.0pp  held=2133.0h  exp=2026-01-17
+  buy_yes     K=$   98,000  entry=0.111  last=0.111  gap@entry=-8.5pp  held=2122.0h  exp=2026-01-18
+  buy_yes     K=$   94,000  entry=0.841  last=0.841  gap@entry=-8.5pp  held=2076.0h  exp=2026-01-18
+  buy_yes     K=$  100,000  entry=0.116  last=0.116  gap@entry=-16.4pp  held=2102.0h  exp=2026-01-19
+  buy_yes     K=$   98,000  entry=0.136  last=0.136  gap@entry=-13.6pp  held=2057.0h  exp=2026-01-19
+  buy_yes     K=$   92,000  entry=0.861  last=0.861  gap@entry=-10.9pp  held=2073.0h  exp=2026-01-20
+  buy_yes     K=$   92,000  entry=0.111  last=0.111  gap@entry=-10.3pp  held=1899.0h  exp=2026-01-24
+  buy_yes     K=$   94,000  entry=0.116  last=0.116  gap@entry=-8.4pp  held=1933.0h  exp=2026-01-25
+  buy_yes     K=$   92,000  entry=0.131  last=0.131  gap@entry=-7.5pp  held=1930.0h  exp=2026-01-25
+  buy_yes     K=$   86,000  entry=0.894  last=0.894  gap@entry=-10.2pp  held=1909.0h  exp=2026-01-25
+  buy_yes     K=$   88,000  entry=0.816  last=0.816  gap@entry=-10.3pp  held=1897.0h  exp=2026-01-25
+  buy_yes     K=$   88,000  entry=0.731  last=0.731  gap@entry=-7.7pp  held=1897.0h  exp=2026-01-27
+  buy_yes     K=$   82,000  entry=0.887  last=0.887  gap@entry=-11.3pp  held=1732.0h  exp=2026-01-31
+  buy_yes     K=$   82,000  entry=0.891  last=0.891  gap@entry=-12.5pp  held=1713.0h  exp=2026-02-01
+  buy_yes     K=$   86,000  entry=0.132  last=0.132  gap@entry=-14.3pp  held=1713.0h  exp=2026-02-01
+  buy_yes     K=$   86,000  entry=0.126  last=0.126  gap@entry=-16.9pp  held=1714.0h  exp=2026-02-02
+  buy_yes     K=$   82,000  entry=0.833  last=0.833  gap@entry=-15.8pp  held=1712.0h  exp=2026-02-02
+  buy_yes     K=$   80,000  entry=0.899  last=0.899  gap@entry=-7.1pp  held=1697.0h  exp=2026-02-02
+  buy_yes     K=$   82,000  entry=0.782  last=0.782  gap@entry=-13.1pp  held=1732.0h  exp=2026-02-03
+  buy_yes     K=$   84,000  entry=0.876  last=0.876  gap@entry=-9.6pp  held=1754.0h  exp=2026-02-04
+  buy_yes     K=$   86,000  entry=0.730  last=0.730  gap@entry=-8.3pp  held=1751.0h  exp=2026-02-04
+  buy_yes     K=$   80,000  entry=0.127  last=0.127  gap@entry=-7.8pp  held=1621.0h  exp=2026-02-04
+  buy_yes     K=$   78,000  entry=0.191  last=0.191  gap@entry=-17.7pp  held=1616.0h  exp=2026-02-05
+  buy_yes     K=$   78,000  entry=0.136  last=0.136  gap@entry=-9.7pp  held=1617.0h  exp=2026-02-06
+  buy_yes     K=$   76,000  entry=0.771  last=0.771  gap@entry=-9.0pp  held=1627.0h  exp=2026-02-07
+  buy_yes     K=$   72,000  entry=0.716  last=0.716  gap@entry=-13.7pp  held=1596.0h  exp=2026-02-07
+  buy_yes     K=$   68,000  entry=0.886  last=0.886  gap@entry=-11.4pp  held=1465.0h  exp=2026-02-10
+  buy_yes     K=$   66,000  entry=0.836  last=0.836  gap@entry=-9.8pp  held=1422.0h  exp=2026-02-12
+  buy_yes     K=$   70,000  entry=0.156  last=0.156  gap@entry=-9.9pp  held=1407.0h  exp=2026-02-13
+  buy_yes     K=$   66,000  entry=0.856  last=0.856  gap@entry=-12.6pp  held=1406.0h  exp=2026-02-13
+  buy_yes     K=$   66,000  entry=0.871  last=0.871  gap@entry=-7.6pp  held=1212.0h  exp=2026-02-21
+  buy_yes     K=$   70,000  entry=0.116  last=0.116  gap@entry=-12.2pp  held=1233.0h  exp=2026-02-22
+  buy_yes     K=$   66,000  entry=0.866  last=0.866  gap@entry=-22.5pp  held=1211.0h  exp=2026-02-22
+  buy_yes     K=$   68,000  entry=0.131  last=0.131  gap@entry=-10.1pp  held=1095.0h  exp=2026-02-26
+  buy_yes     K=$   70,000  entry=0.117  last=0.117  gap@entry=-7.6pp  held=1080.0h  exp=2026-02-26
+  buy_yes     K=$   62,000  entry=0.758  last=0.758  gap@entry=-10.5pp  held=1115.0h  exp=2026-02-28
+  buy_yes     K=$   66,000  entry=0.821  last=0.821  gap@entry=-9.3pp  held=1056.0h  exp=2026-02-28
+  buy_yes     K=$   64,000  entry=0.857  last=0.857  gap@entry=-7.2pp  held=1043.0h  exp=2026-02-28
+  buy_yes     K=$   64,000  entry=0.796  last=0.796  gap@entry=-8.0pp  held=975.0h  exp=2026-03-03
+  buy_yes     K=$   64,000  entry=0.791  last=0.791  gap@entry=-7.8pp  held=976.0h  exp=2026-03-04
+  buy_yes     K=$   70,000  entry=0.131  last=0.131  gap@entry=-7.2pp  held=939.0h  exp=2026-03-04
+  buy_yes     K=$   72,000  entry=0.119  last=0.119  gap@entry=-15.3pp  held=759.0h  exp=2026-03-12
+  buy_yes     K=$   72,000  entry=0.191  last=0.191  gap@entry=-10.6pp  held=741.0h  exp=2026-03-14
+  buy_yes     K=$   70,000  entry=0.259  last=0.259  gap@entry=-18.2pp  held=383.0h  exp=2026-03-28
+  buy_yes     K=$   66,000  entry=0.891  last=0.891  gap@entry=-14.2pp  held=380.0h  exp=2026-03-28
+  buy_yes     K=$   68,000  entry=0.113  last=0.113  gap@entry=-22.4pp  held=359.0h  exp=2026-03-29
+  buy_yes     K=$   68,000  entry=0.721  last=0.721  gap@entry=-12.4pp  held=398.0h  exp=2026-03-29
+  buy_yes     K=$   66,000  entry=0.866  last=0.866  gap@entry=-7.5pp  held=386.0h  exp=2026-03-29
+  buy_yes     K=$   64,000  entry=0.853  last=0.853  gap@entry=-13.9pp  held=375.0h  exp=2026-03-29
+  buy_yes     K=$   68,000  entry=0.166  last=0.166  gap@entry=-10.2pp  held=296.0h  exp=2026-03-31
+  buy_yes     K=$   68,000  entry=0.227  last=0.227  gap@entry=-9.8pp  held=282.0h  exp=2026-04-01
+  buy_yes     K=$   71,000  entry=0.138  last=0.138  gap@entry=-15.7pp  held=262.0h  exp=2026-04-02
+  buy_yes     K=$   70,000  entry=0.116  last=0.116  gap@entry=-11.8pp  held=244.0h  exp=2026-04-02
+  buy_yes     K=$   64,000  entry=0.866  last=0.866  gap@entry=-10.1pp  held=236.0h  exp=2026-04-04
+  buy_yes     K=$   68,000  entry=0.216  last=0.216  gap@entry=-9.1pp  held=231.0h  exp=2026-04-04
+  buy_yes     K=$   72,000  entry=0.121  last=0.121  gap@entry=-11.9pp  held=272.0h  exp=2026-04-05
+  buy_yes     K=$   70,000  entry=0.111  last=0.111  gap@entry=-10.3pp  held=239.0h  exp=2026-04-05
+  buy_yes     K=$   64,000  entry=0.851  last=0.851  gap@entry=-14.6pp  held=236.0h  exp=2026-04-05
+  buy_yes     K=$   62,000  entry=0.872  last=0.872  gap@entry=-8.3pp  held=233.0h  exp=2026-04-08
+  buy_yes     K=$   72,000  entry=0.166  last=0.166  gap@entry=-12.0pp  held=139.0h  exp=2026-04-09
+  buy_yes     K=$   66,000  entry=0.821  last=0.821  gap@entry=-9.6pp  held=110.0h  exp=2026-04-09
+  buy_yes     K=$   66,000  entry=0.771  last=0.771  gap@entry=-9.1pp  held=110.0h  exp=2026-04-10
+  buy_yes     K=$   72,000  entry=0.106  last=0.106  gap@entry=-11.1pp  held=105.0h  exp=2026-04-10
+  buy_yes     K=$   74,000  entry=0.108  last=0.108  gap@entry=-7.4pp  held=41.0h  exp=2026-04-11
+  buy_yes     K=$   72,000  entry=0.130  last=0.130  gap@entry=-9.2pp  held=107.0h  exp=2026-04-11
+  buy_yes     K=$   70,000  entry=0.891  last=0.891  gap@entry=-16.4pp  held=45.0h  exp=2026-04-11
+
+======================================================================
+  CLOSED TRADE LOG
+======================================================================
+  Side       Type                     Strike   Entry    Exit   Gap@E   Gap@X      P&L  Reason
   ---------- -------------------- ---------- ------- ------- ------- ------- --------  ------
-  buy_yes    european_digital         66,000   0.951   0.966  -6.8pp  -0.8pp   $+1.57  gap_closed
-  buy_yes    european_digital         70,000   0.705   0.810  -5.3pp  -0.2pp  $+14.56  gap_closed
-  buy_yes    european_digital         74,000   0.072   0.057  -7.4pp  +1.8pp  $-21.91  gap_closed
-  buy_yes    european_digital         70,000   0.899   0.998  -8.9pp       ?  $+10.69  still_open
-  buy_yes    european_digital         66,000   0.951   0.978  -5.1pp       ?   $+2.81  still_open
-  buy_yes    one_touch                80,000   0.187   0.255  -5.1pp       ?  $+35.91  still_open
-  buy_yes    european_digital         68,000   0.945   0.945  -7.0pp  +1.2pp   $-0.00  gap_closed
-  buy_yes    european_digital         70,000   0.785   0.790  -5.1pp  +0.7pp   $+0.59  gap_closed
-  buy_yes    european_digital         68,000   0.915   0.905  -8.2pp  -2.0pp   $-1.12  gap_closed
-  buy_yes    european_digital         68,000   0.925   0.920  -6.8pp  -1.9pp   $-0.55  gap_closed
-  buy_yes    european_digital         72,000   0.873   0.909  -6.1pp  +0.8pp   $+4.09  gap_closed
-  buy_yes    european_digital         72,000   0.601   0.600  -5.3pp  +1.6pp   $-0.15  gap_closed
-  buy_yes    one_touch                75,000   0.718   0.705  -6.1pp       ?   $-1.76  still_open
-  buy_yes    european_digital         72,000   0.610   0.605  -5.2pp  +1.4pp   $-0.81  gap_closed
-  sell_yes   european_digital         78,000   0.055   0.055  +5.6pp  -0.5pp   $+0.04  gap_closed
-  sell_yes   european_digital         72,000   0.755   0.725  +7.6pp       ?  $+12.18  still_open
-  sell_yes   european_digital         74,000   0.199   0.154  +9.6pp       ?   $+5.43  still_open
-  sell_yes   european_digital         72,000   0.615   0.600  +5.1pp       ?   $+3.86  still_open
-  sell_yes   european_digital         70,000   0.820   0.840  +5.7pp  +1.9pp  $-11.18  gap_closed
-  sell_yes   european_digital         72,000   0.635   0.650  +5.1pp  +1.9pp   $-4.02  gap_closed
-  sell_yes   european_digital         76,000   0.072   0.074  +5.2pp  +1.6pp   $-0.22  gap_closed
-  sell_yes   european_digital         72,000   0.675   0.685  +5.1pp  +1.8pp   $-2.98  gap_closed
-  sell_yes   european_digital         72,000   0.635   0.640  +5.0pp  +1.9pp   $-1.34  gap_closed
-  buy_yes    european_digital         74,000   0.058   0.045  -5.5pp  +1.8pp  $-21.26  gap_closed
-  sell_yes   european_digital         72,000   0.625   0.640  +5.2pp  +0.6pp   $-3.91  gap_closed
-  sell_yes   european_digital         72,000   0.645   0.680  +9.1pp  +0.2pp   $-9.75  gap_closed
-  sell_yes   european_digital         72,000   0.600   0.635  +5.3pp  +1.1pp   $-8.74  gap_closed
-  sell_yes   european_digital         72,000   0.594   0.610  +5.2pp  +1.4pp   $-3.90  gap_closed
-  sell_yes   european_digital         72,000   0.911   0.927  +5.4pp  +1.3pp  $-17.91  gap_closed
-  sell_yes   european_digital         72,000   0.695   0.660  +5.1pp  +1.4pp  $+11.35  gap_closed
-  sell_yes   european_digital         72,000   0.645   0.665  +5.2pp  +0.5pp   $-5.55  gap_closed
-  sell_yes   european_digital         72,000   0.841   0.879  +5.8pp  +1.5pp  $-23.92  gap_closed
-  sell_yes   european_digital         72,000   0.610   0.615  +8.0pp       ?   $-1.27  still_open
-  sell_yes   european_digital         72,000   0.590   0.590  +5.5pp       ?   $+0.02  still_open
-  sell_yes   european_digital         72,000   0.579   0.585  +7.2pp       ?   $-1.39  still_open
-  sell_yes   european_digital         70,000   0.815   0.830  +5.4pp  +0.8pp   $-8.15  gap_closed
-  buy_yes    one_touch                73,000   0.794   0.786 -10.4pp  +0.4pp   $-1.01  gap_closed
-  sell_yes   european_digital         76,000   0.120   0.107  +5.1pp  +1.9pp   $+1.37  gap_closed
-  sell_yes   european_digital         72,000   0.635   0.655  +5.3pp       ?   $-5.37  still_open
-  buy_yes    one_touch                73,000   0.726   0.775  -5.6pp  +0.6pp   $+6.65  gap_closed
-  buy_yes    one_touch                74,000   0.143   0.150  -5.0pp  -1.8pp   $+5.14  gap_closed
-  buy_yes    one_touch                73,000   0.764   0.756  -6.2pp  -0.8pp   $-1.00  gap_closed
+  buy_yes    european_digital         88,000   0.826   0.770 -16.9pp  +0.2pp $  -6.83  gap_closed
+  buy_yes    european_digital         88,000   0.831   0.830 -15.4pp  -1.3pp $  -0.17  gap_closed
+  buy_yes    european_digital         88,000   0.856   0.860 -15.5pp  -1.7pp $  +0.41  gap_closed
+  buy_yes    european_digital         88,000   0.876   0.895 -14.3pp  -1.9pp $  +2.07  gap_closed
+  buy_yes    european_digital         86,000   0.877   0.890  -7.0pp  -1.7pp $  +1.45  gap_closed
+  buy_yes    european_digital         86,000   0.892   0.905  -8.1pp  -0.8pp $  +1.38  gap_closed
+  buy_yes    european_digital         88,000   0.856   0.920 -10.1pp  +1.6pp $  +7.33  gap_closed
+  buy_yes    european_digital         94,000   0.161   0.170 -12.9pp  -1.1pp $  +5.54  gap_closed
+  buy_yes    european_digital         94,000   0.121   0.190 -12.1pp  -0.8pp $ +56.03  gap_closed
+  buy_yes    european_digital         94,000   0.106   0.047 -10.4pp  -1.9pp $ -55.51  gap_closed
+  buy_yes    european_digital         88,000   0.886   0.860 -10.5pp  -0.8pp $  -2.98  gap_closed
+  buy_yes    european_digital         88,000   0.866   0.915 -11.3pp  +0.2pp $  +5.50  gap_closed
+  buy_yes    european_digital         88,000   0.856   0.955 -12.7pp  +1.2pp $ +11.28  gap_closed
+  buy_yes    european_digital         88,000   0.896   0.940 -17.5pp  +0.8pp $  +4.83  gap_closed
+  buy_yes    european_digital         88,000   0.891   0.930 -10.3pp  -1.9pp $  +4.24  gap_closed
+  buy_yes    european_digital         86,000   0.896   0.952  -7.2pp  -1.3pp $  +6.14  gap_closed
+  buy_yes    european_digital         94,000   0.156   0.695  -7.2pp  +0.1pp $+338.85  gap_closed
+  buy_yes    european_digital         90,000   0.806   0.770 -11.0pp  -1.5pp $  -4.46  gap_closed
+  buy_yes    european_digital         90,000   0.771   0.770 -11.6pp  -1.8pp $  -0.11  gap_closed
+  buy_yes    european_digital         90,000   0.866   0.885 -10.5pp  -0.6pp $  +2.16  gap_closed
+  buy_yes    european_digital         90,000   0.716   0.915 -13.0pp  +0.9pp $ +27.20  gap_closed
+  buy_yes    european_digital         90,000   0.731   0.966 -12.8pp  -0.9pp $ +31.44  gap_closed
+  buy_yes    european_digital         90,000   0.826   0.810  -9.3pp  -0.9pp $  -1.93  gap_closed
+  buy_yes    european_digital         96,000   0.131   0.635 -14.2pp  -1.0pp $+377.74  gap_closed
+  buy_yes    european_digital         90,000   0.891   0.945  -9.0pp  -0.1pp $  +5.96  gap_closed
+  buy_yes    european_digital         96,000   0.141   0.705  -8.6pp  -1.5pp $+392.84  gap_closed
+  buy_yes    european_digital         98,000   0.107   0.187  -9.9pp  -0.3pp $ +72.48  gap_closed
+  buy_yes    european_digital         92,000   0.726   0.859  -7.1pp  -0.4pp $ +17.96  gap_closed
+  buy_yes    european_digital         92,000   0.791   0.875  -9.2pp  -1.0pp $ +10.42  gap_closed
+  buy_yes    european_digital         92,000   0.846   0.930  -9.5pp  -1.1pp $  +9.75  gap_closed
+  buy_yes    european_digital         90,000   0.841   0.895  -8.1pp  +0.9pp $  +6.34  gap_closed
+  buy_yes    european_digital         92,000   0.751   0.910 -11.7pp  -1.9pp $ +20.75  gap_closed
+  buy_yes    european_digital         92,000   0.776   0.930 -11.7pp  -0.0pp $ +19.44  gap_closed
+  buy_yes    european_digital         92,000   0.711   0.865 -11.0pp  -1.8pp $ +21.27  gap_closed
+  buy_yes    european_digital         98,000   0.113   0.142 -19.9pp  -0.8pp $ +26.04  gap_closed
+  buy_yes    european_digital         98,000   0.133   0.116  -8.8pp  -0.6pp $ -13.40  gap_closed
+  buy_yes    european_digital        100,000   0.120   0.148  -8.0pp  +1.4pp $ +23.14  gap_closed
+  buy_yes    european_digital         92,000   0.896   0.850  -8.5pp  -0.2pp $  -5.13  gap_closed
+  buy_yes    european_digital         92,000   0.881   0.940  -8.2pp  +1.4pp $  +6.57  gap_closed
+  buy_yes    european_digital         98,000   0.120   0.243  -8.0pp  +1.2pp $+101.13  gap_closed
+  buy_yes    european_digital        100,000   0.144   0.190  -7.0pp  -1.2pp $ +31.33  gap_closed
+  buy_yes    european_digital        100,000   0.169   0.169 -10.3pp  +0.8pp $  +0.16  gap_closed
+  buy_yes    european_digital        102,000   0.106   0.074  -9.5pp  -1.2pp $ -29.47  gap_closed
+  buy_yes    european_digital         94,000   0.801   0.765  -9.9pp  -1.8pp $  -4.47  gap_closed
+  buy_yes    european_digital         94,000   0.851   0.820  -8.4pp  -0.6pp $  -3.63  gap_closed
+  buy_yes    european_digital         94,000   0.781   0.720 -10.1pp  -1.6pp $  -7.79  gap_closed
+  buy_yes    european_digital         94,000   0.826   0.770  -9.7pp  -1.6pp $  -6.77  gap_closed
+  buy_yes    european_digital         94,000   0.746   0.705  -9.2pp  -1.9pp $  -5.45  gap_closed
+  buy_yes    european_digital         92,000   0.871   0.840  -8.9pp  -1.3pp $  -3.53  gap_closed
+  buy_yes    european_digital        102,000   0.106   0.110  -8.1pp  +0.2pp $  +3.93  gap_closed
+  buy_yes    european_digital         94,000   0.831   0.755  -7.7pp  -1.0pp $  -9.13  gap_closed
+  buy_yes    european_digital         94,000   0.876   0.760 -11.2pp  -0.1pp $ -13.23  gap_closed
+  buy_yes    european_digital         94,000   0.826   0.830  -7.3pp  +0.9pp $  +0.50  gap_closed
+  buy_yes    european_digital         94,000   0.811   0.780  -7.2pp  +0.2pp $  -3.81  gap_closed
+  buy_yes    european_digital        100,000   0.116   0.122  -8.4pp  -1.8pp $  +5.29  gap_closed
+  buy_yes    european_digital         94,000   0.886   0.845  -8.7pp  -0.5pp $  -4.61  gap_closed
+  buy_yes    european_digital         94,000   0.801   0.720 -10.5pp  +1.1pp $ -10.10  gap_closed
+  buy_yes    european_digital         94,000   0.771   0.630  -9.3pp  -1.8pp $ -18.25  gap_closed
+  buy_yes    european_digital        100,000   0.108   0.042  -8.5pp  -1.3pp $ -61.66  gap_closed
+  buy_yes    european_digital         94,000   0.876   0.710 -15.6pp  +1.6pp $ -18.94  gap_closed
+  buy_yes    european_digital        100,000   0.114   0.116 -10.1pp  -0.6pp $  +1.61  gap_closed
+  buy_yes    european_digital         94,000   0.796   0.660  -7.1pp  -1.7pp $ -17.07  gap_closed
+  buy_yes    european_digital         94,000   0.781   0.275  -8.5pp  -1.2pp $ -64.78  gap_closed
+  buy_yes    european_digital         92,000   0.881   0.600  -7.8pp  +0.9pp $ -31.88  gap_closed
+  buy_yes    european_digital         90,000   0.896   0.790  -8.2pp  -0.9pp $ -11.81  gap_closed
+  buy_yes    european_digital         92,000   0.791   0.585  -9.8pp  +0.2pp $ -26.04  gap_closed
+  buy_yes    european_digital         98,000   0.136   0.053  -8.9pp  +1.1pp $ -61.17  gap_closed
+  buy_yes    european_digital        100,000   0.121   0.048  -7.4pp  -0.2pp $ -60.70  gap_closed
+  buy_yes    european_digital        100,000   0.112   0.110  -7.2pp  -0.5pp $  -1.58  gap_closed
+  buy_yes    european_digital         98,000   0.131   0.145 -11.6pp  -1.9pp $ +10.15  gap_closed
+  buy_yes    european_digital         90,000   0.896   0.885  -7.3pp  -1.1pp $  -1.17  gap_closed
+  buy_yes    european_digital         92,000   0.781   0.140  -8.3pp  +1.5pp $ -82.07  gap_closed
+  buy_yes    european_digital        100,000   0.112   0.100  -7.1pp  -0.8pp $ -10.97  gap_closed
+  buy_yes    european_digital         92,000   0.801   0.605  -7.6pp  +0.7pp $ -24.46  gap_closed
+  buy_yes    european_digital         92,000   0.841   0.595 -12.6pp  +1.0pp $ -29.26  gap_closed
+  buy_yes    european_digital         90,000   0.891   0.725 -16.5pp  -1.7pp $ -18.62  gap_closed
+  buy_yes    european_digital         90,000   0.871   0.815  -9.9pp  -1.4pp $  -6.40  gap_closed
+  buy_yes    european_digital         90,000   0.811   0.755 -10.7pp  +0.0pp $  -6.85  gap_closed
+  buy_yes    european_digital         90,000   0.816   0.765 -13.8pp  +0.4pp $  -6.23  gap_closed
+  buy_yes    european_digital         96,000   0.131   0.165  -7.5pp  +1.4pp $ +25.55  gap_closed
+  buy_yes    european_digital         90,000   0.786   0.505  -8.1pp  +0.1pp $ -35.74  gap_closed
+  buy_yes    european_digital         90,000   0.806   0.055  -8.1pp  +0.3pp $ -93.17  gap_closed
+  buy_yes    european_digital         90,000   0.846   0.825  -7.1pp  -1.0pp $  -2.45  gap_closed
+  buy_yes    european_digital         96,000   0.161   0.175  -7.9pp  -0.3pp $  +8.75  gap_closed
+  buy_yes    european_digital         90,000   0.841   0.625  -7.5pp  -0.8pp $ -25.64  gap_closed
+  buy_yes    european_digital         88,000   0.896   0.570  -7.4pp  -0.4pp $ -36.36  gap_closed
+  buy_yes    european_digital         90,000   0.786   0.220  -9.1pp  +1.6pp $ -72.01  gap_closed
+  buy_yes    european_digital         90,000   0.876   0.640  -7.0pp  +1.5pp $ -26.92  gap_closed
+  buy_yes    european_digital         90,000   0.891   0.680  -7.4pp  +1.9pp $ -23.66  gap_closed
+  buy_yes    european_digital         88,000   0.891   0.625  -7.8pp  -0.4pp $ -29.83  gap_closed
+  buy_yes    european_digital         88,000   0.881   0.795  -9.2pp  -1.9pp $  -9.76  gap_closed
+  buy_yes    european_digital         88,000   0.867   0.823 -10.2pp  -1.7pp $  -5.17  gap_closed
+  buy_yes    european_digital         88,000   0.896   0.820  -7.2pp  +1.6pp $  -8.51  gap_closed
+  buy_yes    european_digital         88,000   0.836   0.695  -9.6pp  -0.1pp $ -16.86  gap_closed
+  buy_yes    european_digital         88,000   0.822   0.690  -9.0pp  -0.4pp $ -16.04  gap_closed
+  buy_yes    european_digital         86,000   0.881   0.730  -8.3pp  -0.2pp $ -17.13  gap_closed
+  buy_yes    european_digital         86,000   0.881   0.750  -7.4pp  -0.1pp $ -14.85  gap_closed
+  buy_yes    european_digital         88,000   0.852   0.705 -10.8pp  -0.6pp $ -17.23  gap_closed
+  buy_yes    european_digital         86,000   0.806   0.710  -8.9pp  +0.4pp $ -11.88  gap_closed
+  buy_yes    european_digital         84,000   0.896   0.830 -12.1pp  +0.6pp $  -7.36  gap_closed
+  buy_yes    european_digital         86,000   0.856   0.811 -12.2pp  +1.9pp $  -5.25  gap_closed
+  buy_yes    european_digital         86,000   0.850   0.825 -15.7pp  -0.9pp $  -3.00  gap_closed
+  buy_yes    european_digital         94,000   0.121   0.125  -7.3pp  +0.3pp $  +3.23  gap_closed
+  buy_yes    european_digital         92,000   0.141   0.105  -8.1pp  +0.2pp $ -25.52  gap_closed
+  buy_yes    european_digital         86,000   0.811   0.825  -7.2pp  -1.2pp $  +1.72  gap_closed
+  buy_yes    european_digital         86,000   0.846   0.850  -9.1pp  -1.6pp $  +0.47  gap_closed
+  buy_yes    european_digital         86,000   0.892   0.892  -7.9pp  +1.3pp $  +0.06  gap_closed
+  buy_yes    european_digital         86,000   0.866   0.738  -8.6pp  +0.1pp $ -14.87  gap_closed
+  buy_yes    european_digital         92,000   0.136   0.065 -11.6pp  -0.6pp $ -52.10  gap_closed
+  buy_yes    european_digital         92,000   0.166   0.210 -13.6pp  -1.7pp $ +26.08  gap_closed
+  buy_yes    european_digital         88,000   0.731   0.665  -8.9pp  -1.3pp $  -9.01  gap_closed
+  buy_yes    european_digital         88,000   0.751   0.680  -8.9pp  -1.1pp $  -9.41  gap_closed
+  buy_yes    european_digital         88,000   0.801   0.735  -7.6pp  -1.5pp $  -8.24  gap_closed
+  buy_yes    european_digital         88,000   0.781   0.685  -9.5pp  -1.1pp $ -12.26  gap_closed
+  buy_yes    european_digital         86,000   0.871   0.815 -10.3pp  -1.1pp $  -6.40  gap_closed
+  buy_yes    european_digital         86,000   0.836   0.790  -8.4pp  -1.2pp $  -5.50  gap_closed
+  buy_yes    european_digital         86,000   0.886   0.840  -9.4pp  -1.3pp $  -5.18  gap_closed
+  buy_yes    european_digital         94,000   0.106   0.090  -8.2pp  -1.2pp $ -15.06  gap_closed
+  buy_yes    european_digital         86,000   0.861   0.845  -7.1pp  -1.8pp $  -1.83  gap_closed
+  buy_yes    european_digital         88,000   0.731   0.645 -11.8pp  -1.3pp $ -11.75  gap_closed
+  buy_yes    european_digital         88,000   0.751   0.655 -11.8pp  +0.3pp $ -12.74  gap_closed
+  buy_yes    european_digital         88,000   0.816   0.745 -11.9pp  +1.8pp $  -8.70  gap_closed
+  buy_yes    european_digital         88,000   0.706   0.585 -10.6pp  -1.1pp $ -17.12  gap_closed
+  buy_yes    european_digital         86,000   0.866   0.805  -8.4pp  -0.1pp $  -7.02  gap_closed
+  buy_yes    european_digital         92,000   0.111   0.150  -9.0pp  +0.3pp $ +34.60  gap_closed
+  buy_yes    european_digital         86,000   0.806   0.795  -8.0pp  -1.6pp $  -1.34  gap_closed
+  buy_yes    european_digital         86,000   0.831   0.810  -8.8pp  -1.0pp $  -2.53  gap_closed
+  buy_yes    european_digital         86,000   0.876   0.865  -8.3pp  -1.7pp $  -1.25  gap_closed
+  buy_yes    european_digital         92,000   0.126   0.160  -8.8pp  +1.7pp $ +26.58  gap_closed
+  buy_yes    european_digital         86,000   0.826   0.800  -9.4pp  +0.3pp $  -3.12  gap_closed
+  buy_yes    european_digital         86,000   0.851   0.825 -10.1pp  -0.1pp $  -3.06  gap_closed
+  buy_yes    european_digital         86,000   0.866   0.805  -9.2pp  -2.0pp $  -7.02  gap_closed
+  buy_yes    european_digital         86,000   0.886   0.911  -9.6pp  -1.1pp $  +2.77  gap_closed
+  buy_yes    european_digital         88,000   0.861   0.810  -8.7pp  +1.5pp $  -5.92  gap_closed
+  buy_yes    european_digital         88,000   0.786   0.695 -10.3pp  +1.9pp $ -11.54  gap_closed
+  buy_yes    european_digital         88,000   0.711   0.515  -8.9pp  -0.8pp $ -27.55  gap_closed
+  buy_yes    european_digital         92,000   0.121   0.105  -7.5pp  -1.6pp $ -13.02  gap_closed
+  buy_yes    european_digital         92,000   0.141   0.175 -15.6pp  +0.5pp $ +23.61  gap_closed
+  buy_yes    european_digital         94,000   0.111   0.090  -8.0pp  -1.3pp $ -18.90  gap_closed
+  buy_yes    european_digital         88,000   0.801   0.600  -7.6pp  +1.2pp $ -25.06  gap_closed
+  buy_yes    european_digital         86,000   0.891   0.725  -7.7pp  +0.1pp $ -18.61  gap_closed
+  buy_yes    european_digital         88,000   0.751   0.590  -7.9pp  -1.8pp $ -21.43  gap_closed
+  buy_yes    european_digital         86,000   0.871   0.810 -10.6pp  -1.9pp $  -6.98  gap_closed
+  buy_yes    european_digital         86,000   0.891   0.775 -10.4pp  +0.5pp $ -13.02  gap_closed
+  buy_yes    european_digital         86,000   0.801   0.730  -7.1pp  -1.5pp $  -8.87  gap_closed
+  buy_yes    european_digital         86,000   0.771   0.750  -9.0pp  -0.4pp $  -2.69  gap_closed
+  buy_yes    european_digital         86,000   0.761   0.645  -7.0pp  -1.0pp $ -15.25  gap_closed
+  buy_yes    european_digital         86,000   0.826   0.590  -7.7pp  +1.1pp $ -28.55  gap_closed
+  buy_yes    european_digital         86,000   0.736   0.650  -9.4pp  +1.6pp $ -11.65  gap_closed
+  buy_yes    european_digital         86,000   0.786   0.740  -8.7pp  +0.9pp $  -5.85  gap_closed
+  buy_yes    european_digital         86,000   0.761   0.815  -9.6pp  -1.4pp $  +6.99  gap_closed
+  buy_yes    european_digital         84,000   0.801   0.715  -7.2pp  -1.4pp $ -10.72  gap_closed
+  buy_yes    european_digital         84,000   0.840   0.740  -7.0pp  +0.6pp $ -11.96  gap_closed
+  buy_yes    european_digital         84,000   0.821   0.795  -7.3pp  -0.0pp $  -3.13  gap_closed
+  buy_yes    european_digital         82,000   0.881   0.835  -7.8pp  +0.6pp $  -5.22  gap_closed
+  buy_yes    european_digital         84,000   0.830   0.762 -11.3pp  +1.2pp $  -8.21  gap_closed
+  buy_yes    european_digital         84,000   0.865   0.807 -11.2pp  -1.5pp $  -6.76  gap_closed
+  buy_yes    european_digital         84,000   0.885   0.842  -7.4pp  +1.4pp $  -4.90  gap_closed
+  buy_yes    european_digital         84,000   0.741   0.785  -7.9pp  -1.6pp $  +5.84  gap_closed
+  buy_yes    european_digital         90,000   0.106   0.170  -9.5pp  +0.6pp $ +59.24  gap_closed
+  buy_yes    european_digital         90,000   0.161   0.215  -9.6pp  -1.2pp $ +33.11  gap_closed
+  buy_yes    european_digital         86,000   0.691   0.695  -9.0pp  +0.3pp $  +0.60  gap_closed
+  buy_yes    european_digital         86,000   0.696   0.690  -7.2pp  +0.0pp $  -0.87  gap_closed
+  buy_yes    european_digital         86,000   0.736   0.710  -9.1pp  +0.4pp $  -3.50  gap_closed
+  buy_yes    european_digital         84,000   0.875   0.850  -7.0pp  -0.8pp $  -2.91  gap_closed
+  buy_yes    european_digital         84,000   0.851   0.855  -7.0pp  -2.0pp $  +0.50  gap_closed
+  buy_yes    european_digital         84,000   0.841   0.830  -8.4pp  -1.4pp $  -1.29  gap_closed
+  buy_yes    european_digital         92,000   0.116   0.140  -7.5pp  +0.1pp $ +20.49  gap_closed
+  buy_yes    european_digital         86,000   0.751   0.680 -13.7pp  -1.4pp $  -9.42  gap_closed
+  buy_yes    european_digital         86,000   0.851   0.835 -10.2pp  -0.1pp $  -1.88  gap_closed
+  buy_yes    european_digital         84,000   0.831   0.810  -8.4pp  -1.3pp $  -2.51  gap_closed
+  buy_yes    european_digital         84,000   0.871   0.845  -8.2pp  -0.2pp $  -2.95  gap_closed
+  buy_yes    european_digital         86,000   0.731   0.730  -8.8pp  +1.7pp $  -0.10  gap_closed
+  buy_yes    european_digital         86,000   0.766   0.715  -8.4pp  +1.0pp $  -6.62  gap_closed
+  buy_yes    european_digital         86,000   0.806   0.850  -8.2pp  -1.9pp $  +5.34  gap_closed
+  buy_yes    european_digital         86,000   0.856   0.770  -7.1pp  -0.6pp $ -10.02  gap_closed
+  buy_yes    european_digital         86,000   0.816   0.740  -7.2pp  -1.0pp $  -9.28  gap_closed
+  buy_yes    european_digital         86,000   0.871   0.825  -7.9pp  +1.7pp $  -5.28  gap_closed
+  buy_yes    european_digital         84,000   0.896   0.875  -9.0pp  +0.5pp $  -2.33  gap_closed
+  buy_yes    european_digital         84,000   0.851   0.850  -7.5pp  +0.9pp $  -0.10  gap_closed
+  buy_yes    european_digital         84,000   0.876   0.830 -10.7pp  +1.4pp $  -5.23  gap_closed
+  buy_yes    european_digital         90,000   0.176   0.080  -8.3pp  -0.2pp $ -54.53  gap_closed
+  buy_yes    european_digital         92,000   0.116   0.180 -10.4pp  +1.4pp $ +54.35  gap_closed
+  buy_yes    european_digital         92,000   0.146   0.170 -11.0pp  +0.9pp $ +16.38  gap_closed
+  buy_yes    european_digital         86,000   0.896   0.870  -7.3pp  -1.8pp $  -2.87  gap_closed
+  buy_yes    european_digital         86,000   0.791   0.790  -7.3pp  -0.8pp $  -0.09  gap_closed
+  buy_yes    european_digital         86,000   0.816   0.805  -8.1pp  +0.1pp $  -1.31  gap_closed
+  buy_yes    european_digital         86,000   0.846   0.875  -8.9pp  -1.8pp $  +3.39  gap_closed
+  buy_yes    european_digital         92,000   0.121   0.165  -8.6pp  +0.5pp $ +35.87  gap_closed
+  buy_yes    european_digital         86,000   0.831   0.820  -7.8pp  -0.6pp $  -1.29  gap_closed
+  buy_yes    european_digital         86,000   0.851   0.845  -7.7pp  -1.1pp $  -0.67  gap_closed
+  buy_yes    european_digital         92,000   0.111   0.180  -7.3pp  +1.2pp $ +60.98  gap_closed
+  buy_yes    european_digital         92,000   0.166   0.170  -9.3pp  +0.1pp $  +2.49  gap_closed
+  buy_yes    european_digital         94,000   0.112   0.115  -8.5pp  -1.1pp $  +2.45  gap_closed
+  buy_yes    european_digital         88,000   0.721   0.680  -9.7pp  +0.4pp $  -5.68  gap_closed
+  buy_yes    european_digital         88,000   0.736   0.690  -9.3pp  +1.6pp $  -6.24  gap_closed
+  buy_yes    european_digital         88,000   0.761   0.720  -9.6pp  -0.0pp $  -5.39  gap_closed
+  buy_yes    european_digital         88,000   0.781   0.740  -8.3pp  +1.8pp $  -5.25  gap_closed
+  buy_yes    european_digital         86,000   0.886   0.165 -10.1pp  -1.6pp $ -81.37  gap_closed
+  buy_yes    european_digital         86,000   0.871   0.165 -10.8pp  -0.3pp $ -81.05  gap_closed
+  buy_yes    european_digital         86,000   0.891   0.140  -8.6pp  -1.8pp $ -84.28  gap_closed
+  buy_yes    european_digital         92,000   0.166   0.125  -9.0pp  -0.6pp $ -24.60  gap_closed
+  buy_yes    european_digital         86,000   0.891   0.820 -12.8pp  -1.5pp $  -7.94  gap_closed
+  buy_yes    european_digital         86,000   0.871   0.090 -16.3pp  +1.3pp $ -89.67  gap_closed
+  buy_yes    european_digital         86,000   0.866   0.850  -7.1pp  +0.5pp $  -1.82  gap_closed
+  buy_yes    european_digital         84,000   0.881   0.510  -7.1pp  +1.2pp $ -42.10  gap_closed
+  buy_yes    european_digital         90,000   0.171   0.200  -7.5pp  -1.6pp $ +16.64  gap_closed
+  buy_yes    european_digital         82,000   0.804   0.663 -17.5pp  -1.2pp $ -17.51  gap_closed
+  buy_yes    european_digital         80,000   0.898   0.807 -10.3pp  -0.1pp $ -10.03  gap_closed
+  buy_yes    european_digital         82,000   0.826   0.672 -17.6pp  +0.2pp $ -18.61  gap_closed
+  buy_yes    european_digital         82,000   0.855   0.700 -17.9pp  -1.3pp $ -18.17  gap_closed
+  buy_yes    european_digital         82,000   0.885   0.716 -17.5pp  +1.4pp $ -19.20  gap_closed
+  buy_yes    european_digital         80,000   0.869   0.823 -10.4pp  +1.3pp $  -5.32  gap_closed
+  buy_yes    european_digital         82,000   0.756   0.593  -7.9pp  -1.8pp $ -21.65  gap_closed
+  buy_yes    european_digital         82,000   0.838   0.640  -7.3pp  -0.3pp $ -23.63  gap_closed
+  buy_yes    european_digital         80,000   0.875   0.703  -7.1pp  +1.9pp $ -19.67  gap_closed
+  buy_yes    european_digital         82,000   0.716   0.550  -9.3pp  -0.5pp $ -23.19  gap_closed
+  buy_yes    european_digital         82,000   0.817   0.614 -14.0pp  +0.2pp $ -24.90  gap_closed
+  buy_yes    european_digital         80,000   0.831   0.695 -20.9pp  -0.1pp $ -16.33  gap_closed
+  buy_yes    european_digital         80,000   0.870   0.762 -20.6pp  -1.9pp $ -12.38  gap_closed
+  buy_yes    european_digital         80,000   0.759   0.784  -7.9pp  -0.8pp $  +3.27  gap_closed
+  buy_yes    european_digital         80,000   0.798   0.829  -8.2pp  -1.5pp $  +3.77  gap_closed
+  buy_yes    european_digital         80,000   0.812   0.786  -8.3pp  -1.9pp $  -3.16  gap_closed
+  buy_yes    european_digital         80,000   0.751   0.700  -9.9pp  +1.4pp $  -6.75  gap_closed
+  buy_yes    european_digital         80,000   0.772   0.725 -10.2pp  -0.1pp $  -6.09  gap_closed
+  buy_yes    european_digital         80,000   0.785   0.739  -8.8pp  +1.6pp $  -5.89  gap_closed
+  buy_yes    european_digital         80,000   0.867   0.847 -10.3pp  +1.4pp $  -2.40  gap_closed
+  buy_yes    european_digital         80,000   0.791   0.807  -9.2pp  +0.3pp $  +1.96  gap_closed
+  buy_yes    european_digital         80,000   0.776   0.745 -11.1pp  -0.2pp $  -3.95  gap_closed
+  buy_yes    european_digital         80,000   0.791   0.760 -10.4pp  +0.7pp $  -3.86  gap_closed
+  buy_yes    european_digital         80,000   0.805   0.789  -8.9pp  +0.1pp $  -2.01  gap_closed
+  buy_yes    european_digital         80,000   0.839   0.815  -8.9pp  +1.4pp $  -2.88  gap_closed
+  buy_yes    european_digital         80,000   0.886   0.861  -9.3pp  +1.6pp $  -2.86  gap_closed
+  buy_yes    european_digital         80,000   0.805   0.821  -7.8pp  +1.9pp $  +2.01  gap_closed
+  buy_yes    european_digital         80,000   0.791   0.090  -8.7pp  -1.2pp $ -88.62  gap_closed
+  buy_yes    european_digital         80,000   0.872   0.859 -11.7pp  +0.3pp $  -1.57  gap_closed
+  buy_yes    european_digital         80,000   0.892   0.888 -10.0pp  +1.2pp $  -0.47  gap_closed
+  buy_yes    european_digital         82,000   0.771   0.150 -19.1pp  +1.7pp $ -80.55  gap_closed
+  buy_yes    european_digital         82,000   0.751   0.070 -15.7pp  +0.5pp $ -90.68  gap_closed
+  buy_yes    european_digital         82,000   0.767   0.089 -15.3pp  +0.3pp $ -88.33  gap_closed
+  buy_yes    european_digital         80,000   0.900   0.252 -10.0pp  -1.8pp $ -72.06  gap_closed
+  buy_yes    european_digital         80,000   0.871   0.075  -9.0pp  +0.5pp $ -91.39  gap_closed
+  buy_yes    european_digital         80,000   0.886   0.153 -11.5pp  +0.8pp $ -82.68  gap_closed
+  buy_yes    european_digital         78,000   0.866   0.555 -16.0pp  +1.0pp $ -35.90  gap_closed
+  buy_yes    european_digital         78,000   0.886   0.590 -15.9pp  +0.6pp $ -33.39  gap_closed
+  buy_yes    european_digital         76,000   0.862   0.730  -8.1pp  -0.3pp $ -15.33  gap_closed
+  buy_yes    european_digital         78,000   0.793   0.607  -8.7pp  +1.5pp $ -23.47  gap_closed
+  buy_yes    european_digital         78,000   0.851   0.636 -10.3pp  +2.0pp $ -25.21  gap_closed
+  buy_yes    european_digital         76,000   0.815   0.660 -14.8pp  +0.7pp $ -19.02  gap_closed
+  buy_yes    european_digital         74,000   0.887   0.801  -9.0pp  +1.9pp $  -9.75  gap_closed
+  buy_yes    european_digital         74,000   0.836   0.775 -11.1pp  -0.5pp $  -7.28  gap_closed
+  buy_yes    european_digital         76,000   0.736   0.565 -20.2pp  +1.7pp $ -23.23  gap_closed
+  buy_yes    european_digital         76,000   0.771   0.738  -7.0pp  +0.5pp $  -4.29  gap_closed
+  buy_yes    european_digital         76,000   0.730   0.547  -7.5pp  +0.5pp $ -24.96  gap_closed
+  buy_yes    european_digital         76,000   0.783   0.716 -12.8pp  +0.5pp $  -8.63  gap_closed
+  buy_yes    european_digital         74,000   0.811   0.780  -8.2pp  -0.5pp $  -3.81  gap_closed
+  buy_yes    european_digital         74,000   0.817   0.753  -8.8pp  +1.5pp $  -7.83  gap_closed
+  buy_yes    european_digital         72,000   0.891   0.875  -7.5pp  -0.8pp $  -1.78  gap_closed
+  buy_yes    european_digital         74,000   0.811   0.690 -13.8pp  +1.7pp $ -14.92  gap_closed
+  buy_yes    european_digital         74,000   0.786   0.672 -12.1pp  -1.9pp $ -14.50  gap_closed
+  buy_yes    european_digital         72,000   0.886   0.825 -11.6pp  +0.7pp $  -6.87  gap_closed
+  buy_yes    european_digital         74,000   0.776   0.810 -13.9pp  -0.2pp $  +4.31  gap_closed
+  buy_yes    european_digital         76,000   0.686   0.735 -10.8pp  -0.1pp $  +7.02  gap_closed
+  buy_yes    european_digital         76,000   0.741   0.705  -9.8pp  -0.1pp $  -4.86  gap_closed
+  buy_yes    european_digital         74,000   0.866   0.825  -7.5pp  +1.1pp $  -4.73  gap_closed
+  buy_yes    european_digital         76,000   0.756   0.715  -9.5pp  +1.2pp $  -5.40  gap_closed
+  buy_yes    european_digital         76,000   0.746   0.735  -8.1pp  +1.2pp $  -1.47  gap_closed
+  buy_yes    european_digital         74,000   0.851   0.850  -7.3pp  +0.1pp $  -0.12  gap_closed
+  buy_yes    european_digital         74,000   0.846   0.845 -10.6pp  -1.5pp $  -0.11  gap_closed
+  buy_yes    european_digital         76,000   0.776   0.755 -19.6pp  -1.4pp $  -2.70  gap_closed
+  buy_yes    european_digital         74,000   0.891   0.880 -10.8pp  +0.3pp $  -1.22  gap_closed
+  buy_yes    european_digital         76,000   0.826   0.812 -17.8pp  +0.8pp $  -1.70  gap_closed
+  buy_yes    european_digital         74,000   0.896   0.890  -7.2pp  -1.4pp $  -0.67  gap_closed
+  buy_yes    european_digital         76,000   0.766   0.705 -20.9pp  +1.7pp $  -7.94  gap_closed
+  buy_yes    european_digital         74,000   0.881   0.845 -12.7pp  +0.6pp $  -4.09  gap_closed
+  buy_yes    european_digital         76,000   0.741   0.710 -20.0pp  +0.0pp $  -4.18  gap_closed
+  buy_yes    european_digital         76,000   0.782   0.750 -17.1pp  -1.6pp $  -4.17  gap_closed
+  buy_yes    european_digital         74,000   0.851   0.820  -7.4pp  +1.4pp $  -3.63  gap_closed
+  buy_yes    european_digital         76,000   0.766   0.745 -11.8pp  +1.0pp $  -2.74  gap_closed
+  buy_yes    european_digital         76,000   0.821   0.816  -9.8pp  +0.9pp $  -0.61  gap_closed
+  buy_yes    european_digital         76,000   0.721   0.675  -7.5pp  +0.8pp $  -6.38  gap_closed
+  buy_yes    european_digital         76,000   0.751   0.695  -9.5pp  -0.2pp $  -7.44  gap_closed
+  buy_yes    european_digital         74,000   0.876   0.742  -9.7pp  -1.7pp $ -15.35  gap_closed
+  buy_yes    european_digital         74,000   0.861   0.665 -12.5pp  -1.3pp $ -22.75  gap_closed
+  buy_yes    european_digital         74,000   0.821   0.645 -13.6pp  -1.4pp $ -21.43  gap_closed
+  buy_yes    european_digital         74,000   0.851   0.715 -14.7pp  +1.8pp $ -15.98  gap_closed
+  buy_yes    european_digital         72,000   0.891   0.770 -11.2pp  +0.6pp $ -13.55  gap_closed
+  buy_yes    european_digital         72,000   0.851   0.790 -19.1pp  +1.3pp $  -7.15  gap_closed
+  buy_yes    european_digital         72,000   0.861   0.890 -16.8pp  -1.9pp $  +3.31  gap_closed
+  buy_yes    european_digital         70,000   0.828   0.905 -19.8pp  -1.1pp $  +9.21  gap_closed
+  buy_yes    european_digital         70,000   0.841   0.914 -18.4pp  +1.8pp $  +8.53  gap_closed
+  buy_yes    european_digital         68,000   0.895   0.949 -10.8pp  -1.0pp $  +5.93  gap_closed
+  buy_yes    european_digital         70,000   0.844   0.926 -14.6pp  -0.1pp $  +9.62  gap_closed
+  buy_yes    european_digital         70,000   0.801   0.870 -18.6pp  -1.7pp $  +8.48  gap_closed
+  buy_yes    european_digital         80,000   0.106   0.130  -9.1pp  -1.5pp $ +22.13  gap_closed
+  buy_yes    european_digital         80,000   0.141   0.155  -9.0pp  +0.1pp $  +9.90  gap_closed
+  buy_yes    european_digital         74,000   0.691   0.685  -9.7pp  +0.2pp $  -0.84  gap_closed
+  buy_yes    european_digital         72,000   0.796   0.770  -8.8pp  -1.1pp $  -3.24  gap_closed
+  buy_yes    european_digital         74,000   0.715   0.772  -8.4pp  +0.0pp $  +7.81  gap_closed
+  buy_yes    european_digital         74,000   0.706   0.695 -13.7pp  +1.8pp $  -1.55  gap_closed
+  buy_yes    european_digital         74,000   0.751   0.200 -13.6pp  -1.1pp $ -73.36  gap_closed
+  buy_yes    european_digital         74,000   0.716   0.105  -9.0pp  +0.8pp $ -85.33  gap_closed
+  buy_yes    european_digital         74,000   0.721   0.060 -13.4pp  +1.7pp $ -91.68  gap_closed
+  buy_yes    european_digital         74,000   0.746   0.034 -13.9pp  -2.0pp $ -95.51  gap_closed
+  buy_yes    european_digital         72,000   0.871   0.084  -7.2pp  -0.3pp $ -90.35  gap_closed
+  buy_yes    european_digital         72,000   0.876   0.715 -17.0pp  -1.3pp $ -18.37  gap_closed
+  buy_yes    european_digital         72,000   0.806   0.635 -18.5pp  -0.0pp $ -21.19  gap_closed
+  buy_yes    european_digital         70,000   0.891   0.770 -11.2pp  +1.5pp $ -13.55  gap_closed
+  buy_yes    european_digital         72,000   0.811   0.140 -16.2pp  -1.1pp $ -82.73  gap_closed
+  buy_yes    european_digital         68,000   0.866   0.875 -11.9pp  -1.9pp $  +1.04  gap_closed
+  buy_yes    european_digital         70,000   0.797   0.839 -11.0pp  -0.2pp $  +5.08  gap_closed
+  buy_yes    european_digital         70,000   0.762   0.571 -15.4pp  -1.1pp $ -25.10  gap_closed
+  buy_yes    european_digital         70,000   0.786   0.580 -15.0pp  -0.0pp $ -26.19  gap_closed
+  buy_yes    european_digital         70,000   0.801   0.560  -9.7pp  +0.2pp $ -30.06  gap_closed
+  buy_yes    european_digital         70,000   0.771   0.600  -7.7pp  +0.1pp $ -22.16  gap_closed
+  buy_yes    european_digital         70,000   0.821   0.760  -8.0pp  -0.6pp $  -7.45  gap_closed
+  buy_yes    european_digital         68,000   0.831   0.700  -7.9pp  +0.9pp $ -15.74  gap_closed
+  buy_yes    european_digital         68,000   0.806   0.752  -7.0pp  +1.1pp $  -6.74  gap_closed
+  buy_yes    european_digital         68,000   0.845   0.764  -8.6pp  -1.3pp $  -9.51  gap_closed
+  buy_yes    european_digital         68,000   0.806   0.620 -11.3pp  +0.6pp $ -23.06  gap_closed
+  buy_yes    european_digital         68,000   0.721   0.535  -9.3pp  -0.5pp $ -25.77  gap_closed
+  buy_yes    european_digital         68,000   0.834   0.159 -12.6pp  +0.1pp $ -80.93  gap_closed
+  buy_yes    european_digital         68,000   0.789   0.642 -10.5pp  +0.5pp $ -18.67  gap_closed
+  buy_yes    european_digital         66,000   0.781   0.735  -8.3pp  +0.6pp $  -5.85  gap_closed
+  buy_yes    european_digital         64,000   0.813   0.625 -24.2pp  -0.0pp $ -23.18  gap_closed
+  buy_yes    european_digital         66,000   0.726   0.685 -41.5pp  +1.5pp $  -5.60  gap_closed
+  buy_yes    european_digital         66,000   0.729   0.879 -39.5pp  +0.6pp $ +20.15  gap_closed
+  buy_yes    european_digital         58,000   0.821   0.735 -17.3pp  +0.5pp $ -10.47  gap_closed
+  buy_yes    european_digital         62,000   0.676   0.770 -47.4pp  -1.5pp $ +13.55  gap_closed
+  buy_yes    european_digital         60,000   0.746   0.957 -26.1pp  -1.8pp $ +27.61  gap_closed
+  buy_yes    european_digital         70,000   0.118   0.206 -12.5pp  +1.3pp $ +73.31  gap_closed
+  buy_yes    european_digital         74,000   0.111   0.145  -7.8pp  -0.5pp $ +30.12  gap_closed
+  buy_yes    european_digital         68,000   0.691   0.655 -22.1pp  -1.1pp $  -5.16  gap_closed
+  buy_yes    european_digital         66,000   0.851   0.825 -13.1pp  -0.6pp $  -3.02  gap_closed
+  buy_yes    european_digital         68,000   0.830   0.789 -22.4pp  -0.6pp $  -4.98  gap_closed
+  buy_yes    european_digital         66,000   0.831   0.820 -13.6pp  +1.2pp $  -1.29  gap_closed
+  buy_yes    european_digital         68,000   0.731   0.600 -23.3pp  -1.0pp $ -17.89  gap_closed
+  buy_yes    european_digital         68,000   0.726   0.615 -25.4pp  -0.5pp $ -15.27  gap_closed
+  buy_yes    european_digital         68,000   0.731   0.850 -19.4pp  +1.6pp $ +15.98  gap_closed
+  buy_yes    european_digital         66,000   0.806   0.785  -7.7pp  -1.4pp $  -2.60  gap_closed
+  buy_yes    european_digital         76,000   0.121   0.075  -8.2pp  +1.7pp $ -37.99  gap_closed
+  buy_yes    european_digital         66,000   0.836   0.790 -10.1pp  -1.9pp $  -5.50  gap_closed
+  buy_yes    european_digital         66,000   0.881   0.835 -10.3pp  -1.8pp $  -5.19  gap_closed
+  buy_yes    european_digital         68,000   0.736   0.575 -17.4pp  +0.8pp $ -21.83  gap_closed
+  buy_yes    european_digital         68,000   0.848   0.702 -19.4pp  +0.2pp $ -17.31  gap_closed
+  buy_yes    european_digital         74,000   0.136   0.065 -10.7pp  +0.7pp $ -52.18  gap_closed
+  buy_yes    european_digital         66,000   0.811   0.715  -8.4pp  +1.6pp $ -11.83  gap_closed
+  buy_yes    european_digital         66,000   0.841   0.735 -10.1pp  +1.6pp $ -12.57  gap_closed
+  buy_yes    european_digital         66,000   0.856   0.760  -8.2pp  +1.8pp $ -11.18  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.790 -12.6pp  +1.8pp $ -11.35  gap_closed
+  buy_yes    european_digital         64,000   0.871   0.765 -12.6pp  +0.8pp $ -12.17  gap_closed
+  buy_yes    european_digital         66,000   0.841   0.680 -18.0pp  +1.5pp $ -19.09  gap_closed
+  buy_yes    european_digital         72,000   0.121   0.180 -12.6pp  +1.5pp $ +48.18  gap_closed
+  buy_yes    european_digital         68,000   0.833   0.775 -13.1pp  +0.6pp $  -6.94  gap_closed
+  buy_yes    european_digital         68,000   0.666   0.615 -11.9pp  +1.9pp $  -7.63  gap_closed
+  buy_yes    european_digital         68,000   0.626   0.615 -12.9pp  -0.7pp $  -1.75  gap_closed
+  buy_yes    european_digital         68,000   0.641   0.670 -14.1pp  +0.4pp $  +4.49  gap_closed
+  buy_yes    european_digital         68,000   0.656   0.775 -14.3pp  +0.3pp $ +17.81  gap_closed
+  buy_yes    european_digital         68,000   0.696   0.660 -13.7pp  -1.2pp $  -5.17  gap_closed
+  buy_yes    european_digital         68,000   0.741   0.720  -9.3pp  -0.7pp $  -2.80  gap_closed
+  buy_yes    european_digital         68,000   0.838   0.877  -7.0pp  -1.5pp $  +4.58  gap_closed
+  buy_yes    european_digital         68,000   0.766   0.680  -7.5pp  +0.4pp $ -11.23  gap_closed
+  buy_yes    european_digital         66,000   0.841   0.825  -7.1pp  -0.6pp $  -1.92  gap_closed
+  buy_yes    european_digital         68,000   0.771   0.745 -12.9pp  -1.5pp $  -3.35  gap_closed
+  buy_yes    european_digital         68,000   0.786   0.770  -9.4pp  +0.9pp $  -2.01  gap_closed
+  buy_yes    european_digital         68,000   0.741   0.690 -11.9pp  +0.4pp $  -6.84  gap_closed
+  buy_yes    european_digital         66,000   0.846   0.815  -7.7pp  +0.9pp $  -3.69  gap_closed
+  buy_yes    european_digital         68,000   0.746   0.700 -13.5pp  +0.5pp $  -6.16  gap_closed
+  buy_yes    european_digital         68,000   0.776   0.745  -8.0pp  +1.2pp $  -3.97  gap_closed
+  buy_yes    european_digital         66,000   0.826   0.805  -9.0pp  -0.5pp $  -2.57  gap_closed
+  buy_yes    european_digital         68,000   0.766   0.785 -13.1pp  -0.4pp $  +2.45  gap_closed
+  buy_yes    european_digital         68,000   0.716   0.575 -15.7pp  -1.9pp $ -19.69  gap_closed
+  buy_yes    european_digital         68,000   0.796   0.765  -9.1pp  -1.9pp $  -3.88  gap_closed
+  buy_yes    european_digital         68,000   0.736   0.595  -7.6pp  -0.0pp $ -19.16  gap_closed
+  buy_yes    european_digital         66,000   0.821   0.705 -10.4pp  -0.7pp $ -14.15  gap_closed
+  buy_yes    european_digital         68,000   0.811   0.895  -7.3pp  -1.6pp $ +10.17  gap_closed
+  buy_yes    european_digital         66,000   0.826   0.860  -7.4pp  +0.2pp $  +4.02  gap_closed
+  buy_yes    european_digital         68,000   0.766   0.850 -11.2pp  -1.9pp $ +10.78  gap_closed
+  buy_yes    european_digital         68,000   0.696   0.730  -9.9pp  -1.8pp $  +4.84  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.820 -10.3pp  +1.2pp $  -5.36  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.825  -9.1pp  +1.9pp $  -6.38  gap_closed
+  buy_yes    european_digital         66,000   0.851   0.790 -10.2pp  +1.6pp $  -7.13  gap_closed
+  buy_yes    european_digital         66,000   0.776   0.870 -10.5pp  -0.8pp $ +11.88  gap_closed
+  buy_yes    european_digital         66,000   0.821   0.900 -12.9pp  +0.3pp $  +9.47  gap_closed
+  buy_yes    european_digital         66,000   0.731   0.760 -11.8pp  -0.0pp $  +3.86  gap_closed
+  buy_yes    european_digital         72,000   0.166   0.070 -14.7pp  -0.0pp $ -57.77  gap_closed
+  buy_yes    european_digital         68,000   0.721   0.670 -12.9pp  +2.0pp $  -7.03  gap_closed
+  buy_yes    european_digital         68,000   0.736   0.640 -12.7pp  -0.0pp $ -13.04  gap_closed
+  buy_yes    european_digital         66,000   0.861   0.785  -8.2pp  +0.5pp $  -8.85  gap_closed
+  buy_yes    european_digital         68,000   0.846   0.635  -7.0pp  +1.3pp $ -24.92  gap_closed
+  buy_yes    european_digital         66,000   0.821   0.765  -7.1pp  +0.4pp $  -6.82  gap_closed
+  buy_yes    european_digital         68,000   0.736   0.610  -7.7pp  +1.9pp $ -17.08  gap_closed
+  buy_yes    european_digital         68,000   0.771   0.615  -7.8pp  +0.1pp $ -20.22  gap_closed
+  buy_yes    european_digital         72,000   0.231   0.195 -10.0pp  +1.5pp $ -15.47  gap_closed
+  buy_yes    european_digital         68,000   0.711   0.570 -14.8pp  -0.6pp $ -19.79  gap_closed
+  buy_yes    european_digital         66,000   0.821   0.775 -14.5pp  -1.7pp $  -5.60  gap_closed
+  buy_yes    european_digital         66,000   0.861   0.825  -8.4pp  -1.6pp $  -4.17  gap_closed
+  buy_yes    european_digital         66,000   0.896   0.860  -7.5pp  -0.1pp $  -3.99  gap_closed
+  buy_yes    european_digital         66,000   0.846   0.750 -11.2pp  +0.0pp $ -11.36  gap_closed
+  buy_yes    european_digital         66,000   0.801   0.750  -7.8pp  -1.1pp $  -6.39  gap_closed
+  buy_yes    european_digital         68,000   0.681   0.585 -20.3pp  -0.5pp $ -14.09  gap_closed
+  buy_yes    european_digital         66,000   0.801   0.725 -11.6pp  -0.8pp $  -9.48  gap_closed
+  buy_yes    european_digital         66,000   0.766   0.735  -7.1pp  +1.5pp $  -4.07  gap_closed
+  buy_yes    european_digital         66,000   0.771   0.800  -9.2pp  +1.6pp $  +3.67  gap_closed
+  buy_yes    european_digital         66,000   0.761   0.785 -14.4pp  -1.1pp $  +3.06  gap_closed
+  buy_yes    european_digital         66,000   0.746   0.730 -15.3pp  +0.4pp $  -2.14  gap_closed
+  buy_yes    european_digital         64,000   0.871   0.870  -7.3pp  +1.7pp $  -0.16  gap_closed
+  buy_yes    european_digital         66,000   0.786   0.800  -8.2pp  -1.9pp $  +1.75  gap_closed
+  buy_yes    european_digital         68,000   0.636   0.840  -8.9pp  -0.7pp $ +31.51  gap_closed
+  buy_yes    european_digital         72,000   0.191   0.135  -8.2pp  -1.7pp $ -29.26  gap_closed
+  buy_yes    european_digital         74,000   0.121   0.095  -7.5pp  +0.5pp $ -21.38  gap_closed
+  buy_yes    european_digital         66,000   0.831   0.760 -17.2pp  -1.7pp $  -8.57  gap_closed
+  buy_yes    european_digital         66,000   0.836   0.775 -13.7pp  +1.0pp $  -7.31  gap_closed
+  buy_yes    european_digital         64,000   0.896   0.835 -13.3pp  -1.7pp $  -6.85  gap_closed
+  buy_yes    european_digital         66,000   0.791   0.730 -17.4pp  -0.4pp $  -7.70  gap_closed
+  buy_yes    european_digital         66,000   0.756   0.745  -9.9pp  +0.3pp $  -1.45  gap_closed
+  buy_yes    european_digital         66,000   0.781   0.775 -10.5pp  -1.4pp $  -0.80  gap_closed
+  buy_yes    european_digital         66,000   0.776   0.575  -8.3pp  -0.4pp $ -25.90  gap_closed
+  buy_yes    european_digital         66,000   0.761   0.530  -9.1pp  +0.3pp $ -30.35  gap_closed
+  buy_yes    european_digital         66,000   0.801   0.650  -8.7pp  +0.1pp $ -18.87  gap_closed
+  buy_yes    european_digital         66,000   0.806   0.620  -8.6pp  -1.5pp $ -23.09  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.790  -8.5pp  +0.3pp $ -11.38  gap_closed
+  buy_yes    european_digital         64,000   0.851   0.720  -9.3pp  +0.0pp $ -15.43  gap_closed
+  buy_yes    european_digital         66,000   0.791   0.620  -7.2pp  +0.1pp $ -21.61  gap_closed
+  buy_yes    european_digital         64,000   0.861   0.750  -7.4pp  +0.9pp $ -12.91  gap_closed
+  buy_yes    european_digital         66,000   0.811   0.720 -14.5pp  -2.0pp $ -11.19  gap_closed
+  buy_yes    european_digital         64,000   0.791   0.765 -11.2pp  -0.0pp $  -3.34  gap_closed
+  buy_yes    european_digital         62,000   0.876   0.845 -10.1pp  -0.9pp $  -3.56  gap_closed
+  buy_yes    european_digital         64,000   0.816   0.785 -10.0pp  +0.3pp $  -3.82  gap_closed
+  buy_yes    european_digital         62,000   0.886   0.845  -8.1pp  +0.1pp $  -4.66  gap_closed
+  buy_yes    european_digital         64,000   0.726   0.740  -8.7pp  -1.4pp $  +1.84  gap_closed
+  buy_yes    european_digital         64,000   0.841   0.760 -13.8pp  +1.7pp $  -9.65  gap_closed
+  buy_yes    european_digital         64,000   0.781   0.790 -13.9pp  +0.7pp $  +1.10  gap_closed
+  buy_yes    european_digital         64,000   0.776   0.795 -16.5pp  -1.9pp $  +2.35  gap_closed
+  buy_yes    european_digital         64,000   0.816   0.840 -15.3pp  -0.3pp $  +2.83  gap_closed
+  buy_yes    european_digital         62,000   0.866   0.880  -7.2pp  +1.0pp $  +1.56  gap_closed
+  buy_yes    european_digital         62,000   0.881   0.931  -7.6pp  -0.5pp $  +5.53  gap_closed
+  buy_yes    european_digital         64,000   0.761   0.865 -10.6pp  -1.7pp $ +13.36  gap_closed
+  buy_yes    european_digital         64,000   0.791   0.905  -7.2pp  +0.1pp $ +14.12  gap_closed
+  buy_yes    european_digital         70,000   0.126   0.185  -7.5pp  +1.9pp $ +46.22  gap_closed
+  buy_yes    european_digital         70,000   0.151   0.175 -12.2pp  +0.8pp $ +15.83  gap_closed
+  buy_yes    european_digital         72,000   0.111   0.055  -7.2pp  -0.5pp $ -50.43  gap_closed
+  buy_yes    european_digital         66,000   0.666   0.620 -10.9pp  +1.8pp $  -6.90  gap_closed
+  buy_yes    european_digital         66,000   0.691   0.640 -12.1pp  +0.7pp $  -7.41  gap_closed
+  buy_yes    european_digital         66,000   0.656   0.555 -12.2pp  +1.6pp $ -15.39  gap_closed
+  buy_yes    european_digital         66,000   0.631   0.650  -8.4pp  +1.9pp $  +2.98  gap_closed
+  buy_yes    european_digital         64,000   0.821   0.760 -11.4pp  +1.8pp $  -7.47  gap_closed
+  buy_yes    european_digital         64,000   0.831   0.785  -9.0pp  +1.4pp $  -5.56  gap_closed
+  buy_yes    european_digital         64,000   0.801   0.770 -11.4pp  -1.0pp $  -3.92  gap_closed
+  buy_yes    european_digital         64,000   0.871   0.845 -11.0pp  -1.2pp $  -3.03  gap_closed
+  buy_yes    european_digital         66,000   0.751   0.695 -20.3pp  +0.4pp $  -7.47  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.870  -7.8pp  +1.3pp $  -2.38  gap_closed
+  buy_yes    european_digital         66,000   0.736   0.690  -8.8pp  -1.9pp $  -6.24  gap_closed
+  buy_yes    european_digital         64,000   0.806   0.760  -7.5pp  -1.9pp $  -5.75  gap_closed
+  buy_yes    european_digital         66,000   0.721   0.640 -13.3pp  -1.1pp $ -11.25  gap_closed
+  buy_yes    european_digital         64,000   0.831   0.860  -7.6pp  -0.2pp $  +3.39  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.885  -8.5pp  +1.5pp $  +2.10  gap_closed
+  buy_yes    european_digital         64,000   0.796   0.725  -9.4pp  +1.0pp $  -8.97  gap_closed
+  buy_yes    european_digital         66,000   0.716   0.580 -18.4pp  +0.2pp $ -19.02  gap_closed
+  buy_yes    european_digital         66,000   0.686   0.535 -17.0pp  -1.6pp $ -22.01  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.845  -9.1pp  +0.7pp $  -4.11  gap_closed
+  buy_yes    european_digital         70,000   0.136   0.175  -8.1pp  -1.6pp $ +28.37  gap_closed
+  buy_yes    european_digital         70,000   0.206   0.065  -7.6pp  +1.6pp $ -68.40  gap_closed
+  buy_yes    european_digital         66,000   0.781   0.715  -7.3pp  -1.1pp $  -8.47  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.645  -9.3pp  +1.6pp $ -26.81  gap_closed
+  buy_yes    european_digital         64,000   0.851   0.650  -8.7pp  +0.8pp $ -23.65  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.675  -8.8pp  -0.3pp $ -23.42  gap_closed
+  buy_yes    european_digital         62,000   0.876   0.770 -13.7pp  +0.2pp $ -12.10  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.815 -20.0pp  -0.8pp $  -5.91  gap_closed
+  buy_yes    european_digital         62,000   0.896   0.870 -13.5pp  +1.6pp $  -2.93  gap_closed
+  buy_yes    european_digital         62,000   0.801   0.815  -8.0pp  +1.7pp $  +1.71  gap_closed
+  buy_yes    european_digital         64,000   0.651   0.710 -17.4pp  +0.4pp $  +8.84  gap_closed
+  buy_yes    european_digital         64,000   0.696   0.775 -16.7pp  +0.9pp $ +11.09  gap_closed
+  buy_yes    european_digital         64,000   0.726   0.815 -16.8pp  +0.7pp $ +11.95  gap_closed
+  buy_yes    european_digital         64,000   0.681   0.730 -17.8pp  -0.3pp $  +6.99  gap_closed
+  buy_yes    european_digital         62,000   0.786   0.875  -8.8pp  -1.6pp $ +11.06  gap_closed
+  buy_yes    european_digital         68,000   0.196   0.205 -11.8pp  +1.5pp $  +4.51  gap_closed
+  buy_yes    european_digital         64,000   0.821   0.855  -9.4pp  +1.3pp $  +4.03  gap_closed
+  buy_yes    european_digital         70,000   0.121   0.145  -7.6pp  -1.8pp $ +19.65  gap_closed
+  buy_yes    european_digital         64,000   0.806   0.765  -7.1pp  -1.8pp $  -5.11  gap_closed
+  buy_yes    european_digital         64,000   0.741   0.735  -8.1pp  +0.7pp $  -0.84  gap_closed
+  buy_yes    european_digital         64,000   0.756   0.760  -7.5pp  -0.5pp $  +0.46  gap_closed
+  buy_yes    european_digital         64,000   0.861   0.860  -9.6pp  -0.3pp $  -0.17  gap_closed
+  buy_yes    european_digital         64,000   0.746   0.780  -7.9pp  +0.4pp $  +4.41  gap_closed
+  buy_yes    european_digital         64,000   0.781   0.815  -9.0pp  -0.2pp $  +4.24  gap_closed
+  buy_yes    european_digital         68,000   0.196   0.680 -13.0pp  +0.8pp $+242.03  gap_closed
+  buy_yes    european_digital         70,000   0.121   0.540  -7.6pp  -0.5pp $+340.13  gap_closed
+  buy_yes    european_digital         70,000   0.106   0.090 -16.0pp  -0.1pp $ -14.89  gap_closed
+  buy_yes    european_digital         72,000   0.141   0.190 -11.7pp  -1.5pp $ +34.06  gap_closed
+  buy_yes    european_digital         72,000   0.109   0.132 -11.5pp  -1.8pp $ +20.18  gap_closed
+  buy_yes    european_digital         66,000   0.801   0.835  -7.1pp  -0.3pp $  +4.19  gap_closed
+  buy_yes    european_digital         66,000   0.841   0.870  -9.2pp  -0.8pp $  +3.39  gap_closed
+  buy_yes    european_digital         66,000   0.876   0.925  -9.2pp  -0.3pp $  +5.54  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.875  -7.4pp  -1.1pp $  -1.80  gap_closed
+  buy_yes    european_digital         66,000   0.766   0.790  -7.2pp  -0.7pp $  +3.11  gap_closed
+  buy_yes    european_digital         66,000   0.791   0.805  -8.4pp  +0.6pp $  +1.77  gap_closed
+  buy_yes    european_digital         64,000   0.896   0.910  -7.1pp  +1.0pp $  +1.51  gap_closed
+  buy_yes    european_digital         68,000   0.831   0.890  -8.4pp  -0.2pp $  +6.96  gap_closed
+  buy_yes    european_digital         68,000   0.681   0.645 -12.0pp  -0.9pp $  -5.22  gap_closed
+  buy_yes    european_digital         66,000   0.851   0.810  -8.1pp  +1.8pp $  -4.78  gap_closed
+  buy_yes    european_digital         68,000   0.721   0.675 -12.8pp  -0.2pp $  -6.34  gap_closed
+  buy_yes    european_digital         68,000   0.741   0.695 -11.5pp  +1.2pp $  -6.17  gap_closed
+  buy_yes    european_digital         68,000   0.701   0.715 -12.9pp  -0.6pp $  +1.97  gap_closed
+  buy_yes    european_digital         66,000   0.876   0.890  -8.1pp  +1.3pp $  +1.59  gap_closed
+  buy_yes    european_digital         66,000   0.831   0.850  -8.6pp  -0.4pp $  +2.28  gap_closed
+  buy_yes    european_digital         68,000   0.876   0.915 -17.8pp  +1.1pp $  +4.37  gap_closed
+  buy_yes    european_digital         68,000   0.716   0.735  -7.1pp  +0.7pp $  +2.64  gap_closed
+  buy_yes    european_digital         68,000   0.686   0.685  -9.5pp  +1.9pp $  -0.08  gap_closed
+  buy_yes    european_digital         68,000   0.741   0.775  -7.2pp  +0.2pp $  +4.54  gap_closed
+  buy_yes    european_digital         66,000   0.826   0.800  -7.5pp  +0.1pp $  -3.16  gap_closed
+  buy_yes    european_digital         68,000   0.671   0.530  -9.2pp  -0.4pp $ -20.98  gap_closed
+  buy_yes    european_digital         74,000   0.116   0.120  -7.8pp  -1.8pp $  +3.41  gap_closed
+  buy_yes    european_digital         72,000   0.112   0.208 -13.3pp  -1.6pp $ +83.69  gap_closed
+  buy_yes    european_digital         74,000   0.111   0.100  -8.2pp  -0.2pp $  -9.88  gap_closed
+  buy_yes    european_digital         72,000   0.171   0.130 -13.2pp  -1.2pp $ -23.97  gap_closed
+  buy_yes    european_digital         74,000   0.131   0.130  -7.0pp  -1.3pp $  -0.65  gap_closed
+  buy_yes    european_digital         68,000   0.776   0.615  -7.1pp  -1.0pp $ -20.74  gap_closed
+  buy_yes    european_digital         68,000   0.816   0.550  -8.6pp  -1.2pp $ -32.58  gap_closed
+  buy_yes    european_digital         68,000   0.766   0.585  -9.4pp  +1.9pp $ -23.58  gap_closed
+  buy_yes    european_digital         68,000   0.856   0.570  -8.1pp  +1.4pp $ -33.39  gap_closed
+  buy_yes    european_digital         66,000   0.871   0.730 -14.4pp  -1.6pp $ -16.16  gap_closed
+  buy_yes    european_digital         66,000   0.856   0.735 -15.3pp  +0.7pp $ -14.14  gap_closed
+  buy_yes    european_digital         66,000   0.826   0.805  -8.4pp  -1.3pp $  -2.51  gap_closed
+  buy_yes    european_digital         66,000   0.861   0.835  -8.6pp  -1.0pp $  -3.00  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.850  -7.5pp  -1.3pp $  -4.62  gap_closed
+  buy_yes    european_digital         66,000   0.801   0.745  -7.8pp  +0.6pp $  -6.96  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.850  -8.0pp  -1.0pp $  -1.88  gap_closed
+  buy_yes    european_digital         66,000   0.736   0.710 -10.6pp  +1.9pp $  -3.52  gap_closed
+  buy_yes    european_digital         66,000   0.751   0.725  -7.1pp  -0.6pp $  -3.45  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.855  -8.0pp  -1.1pp $  -2.98  gap_closed
+  buy_yes    european_digital         66,000   0.781   0.725  -7.5pp  +1.3pp $  -7.14  gap_closed
+  buy_yes    european_digital         66,000   0.796   0.755 -10.3pp  -0.8pp $  -5.12  gap_closed
+  buy_yes    european_digital         66,000   0.826   0.760  -8.7pp  +0.8pp $  -7.97  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.860 -10.2pp  -1.9pp $  -2.41  gap_closed
+  buy_yes    european_digital         66,000   0.796   0.760  -8.6pp  +0.8pp $  -4.49  gap_closed
+  buy_yes    european_digital         66,000   0.766   0.730 -15.5pp  +0.4pp $  -4.69  gap_closed
+  buy_yes    european_digital         66,000   0.786   0.755  -8.0pp  -0.5pp $  -3.95  gap_closed
+  buy_yes    european_digital         72,000   0.151   0.135 -17.2pp  -0.9pp $ -10.48  gap_closed
+  buy_yes    european_digital         72,000   0.111   0.090 -16.6pp  -1.2pp $ -18.77  gap_closed
+  buy_yes    european_digital         66,000   0.871   0.740 -23.0pp  -1.7pp $ -15.01  gap_closed
+  buy_yes    european_digital         64,000   0.851   0.805 -13.8pp  -1.6pp $  -5.44  gap_closed
+  buy_yes    european_digital         64,000   0.851   0.815 -10.2pp  +1.0pp $  -4.25  gap_closed
+  buy_yes    european_digital         64,000   0.886   0.850 -11.6pp  +1.0pp $  -4.07  gap_closed
+  buy_yes    european_digital         66,000   0.746   0.685 -21.1pp  +1.6pp $  -8.14  gap_closed
+  buy_yes    european_digital         66,000   0.887   0.855 -19.1pp  -0.5pp $  -3.60  gap_closed
+  buy_yes    european_digital         64,000   0.831   0.830  -9.2pp  -1.5pp $  -0.10  gap_closed
+  buy_yes    european_digital         66,000   0.676   0.720 -10.5pp  -1.2pp $  +6.42  gap_closed
+  buy_yes    european_digital         70,000   0.131   0.235 -12.6pp  -0.1pp $ +77.95  gap_closed
+  buy_yes    european_digital         70,000   0.211   0.240 -14.4pp  +1.1pp $ +13.54  gap_closed
+  buy_yes    european_digital         72,000   0.136   0.145  -7.7pp  -0.7pp $  +6.69  gap_closed
+  buy_yes    european_digital         72,000   0.121   0.140  -8.5pp  +0.1pp $ +15.58  gap_closed
+  buy_yes    european_digital         66,000   0.761   0.740 -10.1pp  -1.1pp $  -2.75  gap_closed
+  buy_yes    european_digital         66,000   0.836   0.815  -7.8pp  +1.7pp $  -2.48  gap_closed
+  buy_yes    european_digital         64,000   0.886   0.870  -7.3pp  -1.7pp $  -1.84  gap_closed
+  buy_yes    european_digital         66,000   0.806   0.775  -9.2pp  +1.5pp $  -3.81  gap_closed
+  buy_yes    european_digital         66,000   0.786   0.730 -10.6pp  -1.8pp $  -7.13  gap_closed
+  buy_yes    european_digital         64,000   0.876   0.805  -8.9pp  -1.8pp $  -8.09  gap_closed
+  buy_yes    european_digital         66,000   0.756   0.640 -12.3pp  -1.3pp $ -15.31  gap_closed
+  buy_yes    european_digital         72,000   0.121   0.125  -8.3pp  +1.1pp $  +3.41  gap_closed
+  buy_yes    european_digital         66,000   0.771   0.635  -7.4pp  -0.6pp $ -17.63  gap_closed
+  buy_yes    european_digital         66,000   0.841   0.820  -7.5pp  +0.3pp $  -2.46  gap_closed
+  buy_yes    european_digital         66,000   0.836   0.795  -8.6pp  -0.7pp $  -4.87  gap_closed
+  buy_yes    european_digital         66,000   0.891   0.850  -7.8pp  +0.7pp $  -4.58  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.845  -8.8pp  -0.4pp $  -5.19  gap_closed
+  buy_yes    european_digital         66,000   0.806   0.745 -10.4pp  +1.1pp $  -7.54  gap_closed
+  buy_yes    european_digital         66,000   0.776   0.735  -8.9pp  -0.2pp $  -5.25  gap_closed
+  buy_yes    european_digital         66,000   0.751   0.645  -9.7pp  +1.6pp $ -14.12  gap_closed
+  buy_yes    european_digital         66,000   0.851   0.820  -8.9pp  +0.1pp $  -3.62  gap_closed
+  buy_yes    european_digital         64,000   0.856   0.845  -7.6pp  -1.9pp $  -1.32  gap_closed
+  buy_yes    european_digital         66,000   0.791   0.775 -10.5pp  +0.4pp $  -1.99  gap_closed
+  buy_yes    european_digital         72,000   0.121   0.100  -7.2pp  -0.5pp $ -17.27  gap_closed
+  buy_yes    european_digital         70,000   0.206   0.180  -8.1pp  -0.7pp $ -12.55  gap_closed
+  buy_yes    european_digital         64,000   0.856   0.805 -19.0pp  -1.0pp $  -5.99  gap_closed
+  buy_yes    european_digital         64,000   0.886   0.825 -19.6pp  +0.5pp $  -6.90  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.890  -7.3pp  -1.3pp $  +1.00  gap_closed
+  buy_yes    european_digital         64,000   0.821   0.795  -7.9pp  +0.8pp $  -3.20  gap_closed
+  buy_yes    european_digital         64,000   0.846   0.835  -7.4pp  -1.2pp $  -1.32  gap_closed
+  buy_yes    european_digital         72,000   0.106   0.070 -14.1pp  +1.1pp $ -33.98  gap_closed
+  buy_yes    european_digital         64,000   0.821   0.760  -8.2pp  -1.0pp $  -7.39  gap_closed
+  buy_yes    european_digital         66,000   0.736   0.645 -12.8pp  -1.9pp $ -12.37  gap_closed
+  buy_yes    european_digital         66,000   0.741   0.665  -7.8pp  -0.2pp $ -10.22  gap_closed
+  buy_yes    european_digital         66,000   0.691   0.625 -14.9pp  -0.2pp $  -9.51  gap_closed
+  buy_yes    european_digital         66,000   0.721   0.650 -14.4pp  +0.4pp $  -9.84  gap_closed
+  buy_yes    european_digital         66,000   0.796   0.785  -9.1pp  -0.8pp $  -1.34  gap_closed
+  buy_yes    european_digital         66,000   0.861   0.895  -7.7pp  -0.5pp $  +3.90  gap_closed
+  buy_yes    european_digital         70,000   0.131   0.140  -7.2pp  -0.9pp $  +6.87  gap_closed
+  buy_yes    european_digital         66,000   0.756   0.730 -10.4pp  +1.1pp $  -3.40  gap_closed
+  buy_yes    european_digital         66,000   0.816   0.795 -10.4pp  -0.2pp $  -2.54  gap_closed
+  buy_yes    european_digital         64,000   0.846   0.840  -8.6pp  -1.4pp $  -0.69  gap_closed
+  buy_yes    european_digital         64,000   0.826   0.785  -8.7pp  +1.9pp $  -4.93  gap_closed
+  buy_yes    european_digital         66,000   0.736   0.645 -13.3pp  +0.9pp $ -12.37  gap_closed
+  buy_yes    european_digital         66,000   0.666   0.665 -10.9pp  +1.8pp $  -0.10  gap_closed
+  buy_yes    european_digital         66,000   0.706   0.730 -12.4pp  -0.6pp $  +3.34  gap_closed
+  buy_yes    european_digital         66,000   0.696   0.625 -14.2pp  -1.4pp $ -10.17  gap_closed
+  buy_yes    european_digital         70,000   0.151   0.095  -8.7pp  -1.3pp $ -37.01  gap_closed
+  buy_yes    european_digital         64,000   0.876   0.875  -7.1pp  -1.7pp $  -0.10  gap_closed
+  buy_yes    european_digital         64,000   0.896   0.845  -9.5pp  -0.1pp $  -5.72  gap_closed
+  buy_yes    european_digital         66,000   0.881   0.740 -13.5pp  -0.7pp $ -15.98  gap_closed
+  buy_yes    european_digital         66,000   0.816   0.530 -14.2pp  -1.6pp $ -35.03  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.755  -7.8pp  +1.1pp $ -14.32  gap_closed
+  buy_yes    european_digital         70,000   0.146   0.130  -8.5pp  -1.4pp $ -10.74  gap_closed
+  buy_yes    european_digital         70,000   0.166   0.110 -13.1pp  -0.9pp $ -33.66  gap_closed
+  buy_yes    european_digital         64,000   0.841   0.735 -14.8pp  -0.2pp $ -12.57  gap_closed
+  buy_yes    european_digital         64,000   0.876   0.915 -12.6pp  -1.9pp $  +4.33  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.800 -13.2pp  -0.7pp $ -10.22  gap_closed
+  buy_yes    european_digital         62,000   0.886   0.845 -12.6pp  -0.2pp $  -4.64  gap_closed
+  buy_yes    european_digital         64,000   0.776   0.715 -18.8pp  +0.4pp $  -7.86  gap_closed
+  buy_yes    european_digital         62,000   0.866   0.870  -8.4pp  -1.2pp $  +0.46  gap_closed
+  buy_yes    european_digital         62,000   0.886   0.880  -7.9pp  +1.8pp $  -0.71  gap_closed
+  buy_yes    european_digital         70,000   0.136   0.110 -11.3pp  -0.4pp $ -19.05  gap_closed
+  buy_yes    european_digital         70,000   0.106   0.095 -10.1pp  -0.3pp $ -10.22  gap_closed
+  buy_yes    european_digital         64,000   0.756   0.685  -8.0pp  +1.5pp $  -9.39  gap_closed
+  buy_yes    european_digital         64,000   0.776   0.840  -8.2pp  -1.0pp $  +8.13  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.860  -7.0pp  +0.4pp $  -0.71  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.956  -7.4pp  +0.3pp $  +7.08  gap_closed
+  buy_yes    european_digital         62,000   0.891   0.830  -7.0pp  -0.3pp $  -6.86  gap_closed
+  buy_yes    european_digital         62,000   0.891   0.860 -13.3pp  -1.9pp $  -3.47  gap_closed
+  buy_yes    european_digital         64,000   0.886   0.955 -12.1pp  +1.8pp $  +7.63  gap_closed
+  buy_yes    european_digital         68,000   0.161   0.200 -10.6pp  -0.7pp $ +24.08  gap_closed
+  buy_yes    european_digital         70,000   0.121   0.205 -11.5pp  +0.3pp $ +68.21  gap_closed
+  buy_yes    european_digital         64,000   0.731   0.815  -9.0pp  -1.0pp $ +11.26  gap_closed
+  buy_yes    european_digital         64,000   0.766   0.795  -8.8pp  -1.2pp $  +3.71  gap_closed
+  buy_yes    european_digital         66,000   0.766   0.780  -9.6pp  -1.7pp $  +1.78  gap_closed
+  buy_yes    european_digital         66,000   0.631   0.580  -8.3pp  +1.4pp $  -8.06  gap_closed
+  buy_yes    european_digital         66,000   0.656   0.595 -11.8pp  -1.4pp $  -9.28  gap_closed
+  buy_yes    european_digital         72,000   0.106   0.085  -8.8pp  -0.7pp $ -19.88  gap_closed
+  buy_yes    european_digital         66,000   0.716   0.605  -9.3pp  -0.4pp $ -15.46  gap_closed
+  buy_yes    european_digital         64,000   0.836   0.775  -8.0pp  +1.9pp $  -7.29  gap_closed
+  buy_yes    european_digital         66,000   0.791   0.720 -11.0pp  +0.3pp $  -8.97  gap_closed
+  buy_yes    european_digital         64,000   0.861   0.775  -7.2pp  -2.0pp $  -9.99  gap_closed
+  buy_yes    european_digital         64,000   0.896   0.795  -8.9pp  -0.7pp $ -11.24  gap_closed
+  buy_yes    european_digital         64,000   0.896   0.830 -16.2pp  -0.8pp $  -7.35  gap_closed
+  buy_yes    european_digital         72,000   0.111   0.145  -7.7pp  -1.1pp $ +30.06  gap_closed
+  buy_yes    european_digital         66,000   0.751   0.790  -9.0pp  -1.9pp $  +5.13  gap_closed
+  buy_yes    european_digital         64,000   0.836   0.820  -8.8pp  -1.8pp $  -1.91  gap_closed
+  buy_yes    european_digital         64,000   0.851   0.840  -7.4pp  -1.2pp $  -1.29  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.865  -9.7pp  -0.6pp $  -2.88  gap_closed
+  buy_yes    european_digital         66,000   0.706   0.695 -14.4pp  -0.3pp $  -1.53  gap_closed
+  buy_yes    european_digital         66,000   0.691   0.675 -14.8pp  -1.8pp $  -2.30  gap_closed
+  buy_yes    european_digital         66,000   0.746   0.740 -17.3pp  -1.1pp $  -0.76  gap_closed
+  buy_yes    european_digital         64,000   0.861   0.845  -8.0pp  +0.6pp $  -1.86  gap_closed
+  buy_yes    european_digital         64,000   0.841   0.865  -8.5pp  -0.6pp $  +2.80  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.925  -8.4pp  -1.2pp $  +3.78  gap_closed
+  buy_yes    european_digital         66,000   0.681   0.655 -14.1pp  -1.4pp $  -3.81  gap_closed
+  buy_yes    european_digital         64,000   0.826   0.815  -9.2pp  -0.5pp $  -1.32  gap_closed
+  buy_yes    european_digital         66,000   0.731   0.110  -9.2pp  +0.2pp $ -84.95  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.890  -9.4pp  -0.3pp $  +1.00  gap_closed
+  buy_yes    european_digital         64,000   0.871   0.665  -8.0pp  +0.6pp $ -23.62  gap_closed
+  buy_yes    european_digital         66,000   0.736   0.800  -8.9pp  -1.8pp $  +8.57  gap_closed
+  buy_yes    european_digital         64,000   0.896   0.870  -8.1pp  -1.4pp $  -2.90  gap_closed
+  buy_yes    european_digital         72,000   0.126   0.140  -7.2pp  +1.7pp $ +10.92  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.860  -9.4pp  -1.3pp $  -3.48  gap_closed
+  buy_yes    european_digital         70,000   0.156   0.155  -9.3pp  -0.3pp $  -0.56  gap_closed
+  buy_yes    european_digital         70,000   0.206   0.175  -9.5pp  -1.5pp $ -14.99  gap_closed
+  buy_yes    european_digital         66,000   0.696   0.670  -8.3pp  -1.5pp $  -3.72  gap_closed
+  buy_yes    european_digital         66,000   0.686   0.810 -10.6pp  +1.6pp $ +17.73  gap_closed
+  buy_yes    european_digital         64,000   0.801   0.655  -8.5pp  -0.8pp $ -18.21  gap_closed
+  buy_yes    european_digital         66,000   0.646   0.765 -12.5pp  -0.6pp $ +18.13  gap_closed
+  buy_yes    european_digital         66,000   0.786   0.185  -8.4pp  -1.2pp $ -76.45  gap_closed
+  buy_yes    european_digital         66,000   0.706   0.185  -8.8pp  +1.1pp $ -73.79  gap_closed
+  buy_yes    european_digital         64,000   0.846   0.585 -16.9pp  -1.6pp $ -30.84  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.790 -13.7pp  -0.8pp $ -11.34  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.735 -15.6pp  +2.0pp $ -15.12  gap_closed
+  buy_yes    european_digital         68,000   0.126   0.175  -7.2pp  -0.9pp $ +38.21  gap_closed
+  buy_yes    european_digital         68,000   0.171   0.090 -10.4pp  +0.3pp $ -47.28  gap_closed
+  buy_yes    european_digital         70,000   0.111   0.070  -7.2pp  -1.8pp $ -36.77  gap_closed
+  buy_yes    european_digital         62,000   0.816   0.810  -7.8pp  +1.9pp $  -0.72  gap_closed
+  buy_yes    european_digital         62,000   0.834   0.843  -7.2pp  -1.1pp $  +0.94  gap_closed
+  buy_yes    european_digital         64,000   0.696   0.510 -17.8pp  -0.3pp $ -26.71  gap_closed
+  buy_yes    european_digital         64,000   0.686   0.860 -12.5pp  -0.6pp $ +24.91  gap_closed
+  buy_yes    european_digital         70,000   0.111   0.150  -9.6pp  +0.8pp $ +34.50  gap_closed
+  buy_yes    european_digital         68,000   0.146   0.215 -17.6pp  +1.9pp $ +46.40  gap_closed
+  buy_yes    european_digital         64,000   0.726   0.540  -9.7pp  -0.5pp $ -25.61  gap_closed
+  buy_yes    european_digital         62,000   0.836   0.615  -7.6pp  +0.2pp $ -26.43  gap_closed
+  buy_yes    european_digital         64,000   0.836   0.285  -7.8pp  -0.8pp $ -65.90  gap_closed
+  buy_yes    european_digital         64,000   0.731   0.735 -11.0pp  +0.3pp $  +0.54  gap_closed
+  buy_yes    european_digital         64,000   0.761   0.855  -8.4pp  +1.0pp $ +12.10  gap_closed
+  buy_yes    european_digital         62,000   0.829   0.714  -9.2pp  +0.6pp $ -13.87  gap_closed
+  buy_yes    european_digital         62,000   0.816   0.755 -10.8pp  -0.7pp $  -7.48  gap_closed
+  buy_yes    european_digital         62,000   0.836   0.790  -7.8pp  -0.8pp $  -5.49  gap_closed
+  buy_yes    european_digital         62,000   0.769   0.756  -7.8pp  +0.5pp $  -1.69  gap_closed
+  buy_yes    european_digital         60,000   0.891   0.847  -9.0pp  +0.2pp $  -5.04  gap_closed
+  buy_yes    european_digital         60,000   0.877   0.748 -10.7pp  +1.3pp $ -14.74  gap_closed
+  buy_yes    european_digital         62,000   0.801   0.615 -16.7pp  -1.9pp $ -23.23  gap_closed
+  buy_yes    european_digital         62,000   0.836   0.635 -16.1pp  -0.8pp $ -24.03  gap_closed
+  buy_yes    european_digital         62,000   0.790   0.611 -19.5pp  -1.8pp $ -22.77  gap_closed
+  buy_yes    european_digital         62,000   0.872   0.710 -12.5pp  -1.1pp $ -18.65  gap_closed
+  buy_yes    european_digital         66,000   0.151   0.230  -8.8pp  +1.5pp $ +51.41  gap_closed
+  buy_yes    european_digital         66,000   0.111   0.140 -10.7pp  +1.7pp $ +25.79  gap_closed
+  buy_yes    european_digital         68,000   0.126   0.095 -10.3pp  +2.0pp $ -24.49  gap_closed
+  buy_yes    european_digital         62,000   0.726   0.865  -8.8pp  +0.9pp $ +18.78  gap_closed
+  buy_yes    european_digital         62,000   0.716   0.775  -9.8pp  +0.9pp $  +8.08  gap_closed
+  buy_yes    european_digital         62,000   0.856   0.795 -15.5pp  -1.3pp $  -7.11  gap_closed
+  buy_yes    european_digital         62,000   0.811   0.750 -16.9pp  +0.8pp $  -7.53  gap_closed
+  buy_yes    european_digital         60,000   0.882   0.944 -10.8pp  -1.1pp $  +6.86  gap_closed
+  buy_yes    european_digital         60,000   0.846   0.930 -12.1pp  -1.2pp $  +9.75  gap_closed
+  buy_yes    european_digital         66,000   0.181   0.927 -11.4pp  -0.6pp $+404.57  gap_closed
+  buy_yes    european_digital         64,000   0.771   0.635  -7.3pp  -0.0pp $ -17.63  gap_closed
+  buy_yes    european_digital         64,000   0.736   0.790 -12.5pp  -0.4pp $  +7.21  gap_closed
+  buy_yes    european_digital         64,000   0.691   0.780 -10.7pp  -1.4pp $ +12.64  gap_closed
+  buy_yes    european_digital         62,000   0.896   0.850 -10.5pp  -1.2pp $  -5.14  gap_closed
+  buy_yes    european_digital         68,000   0.136   0.255 -10.5pp  -1.9pp $ +85.92  gap_closed
+  buy_yes    european_digital         64,000   0.746   0.810  -7.3pp  -2.0pp $  +8.42  gap_closed
+  buy_yes    european_digital         62,000   0.831   0.825 -10.0pp  -0.9pp $  -0.72  gap_closed
+  buy_yes    european_digital         64,000   0.831   0.880 -14.4pp  -0.8pp $  +5.78  gap_closed
+  buy_yes    european_digital         70,000   0.106   0.117 -18.8pp  +1.4pp $ +10.30  gap_closed
+  buy_yes    european_digital         70,000   0.114   0.237 -10.8pp  +1.5pp $+106.27  gap_closed
+  buy_yes    european_digital         70,000   0.146   0.105 -13.2pp  -0.5pp $ -28.07  gap_closed
+  buy_yes    european_digital         72,000   0.109   0.169 -10.6pp  -1.7pp $ +53.66  gap_closed
+  buy_yes    european_digital         72,000   0.125   0.144 -13.6pp  +0.7pp $ +14.92  gap_closed
+  buy_yes    european_digital         72,000   0.121   0.151  -9.8pp  +1.4pp $ +23.83  gap_closed
+  buy_yes    european_digital         66,000   0.851   0.675 -22.8pp  +0.1pp $ -20.67  gap_closed
+  buy_yes    european_digital         66,000   0.861   0.750  -8.2pp  -0.6pp $ -12.86  gap_closed
+  buy_yes    european_digital         66,000   0.806   0.570 -13.8pp  -0.4pp $ -29.26  gap_closed
+  buy_yes    european_digital         64,000   0.871   0.810  -7.1pp  -0.1pp $  -7.00  gap_closed
+  buy_yes    european_digital         64,000   0.876   0.830  -8.2pp  +0.0pp $  -5.24  gap_closed
+  buy_yes    european_digital         72,000   0.119   0.119  -9.6pp  +0.4pp $  +0.07  gap_closed
+  buy_yes    european_digital         66,000   0.706   0.565  -9.3pp  -1.9pp $ -19.96  gap_closed
+  buy_yes    european_digital         70,000   0.220   0.181 -11.4pp  +0.7pp $ -17.61  gap_closed
+  buy_yes    european_digital         66,000   0.806   0.140 -10.9pp  +1.6pp $ -82.62  gap_closed
+  buy_yes    european_digital         64,000   0.851   0.830  -8.3pp  +0.3pp $  -2.47  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.750  -7.2pp  -0.7pp $ -13.38  gap_closed
+  buy_yes    european_digital         70,000   0.181   0.062 -15.6pp  -1.5pp $ -65.51  gap_closed
+  buy_yes    european_digital         66,000   0.836   0.785  -9.3pp  -1.2pp $  -6.06  gap_closed
+  buy_yes    european_digital         64,000   0.856   0.755  -7.2pp  +1.8pp $ -11.80  gap_closed
+  buy_yes    european_digital         66,000   0.796   0.725  -9.1pp  +0.5pp $  -8.88  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.815  -7.8pp  -1.5pp $  -8.51  gap_closed
+  buy_yes    european_digital         72,000   0.111   0.035  -7.7pp  -0.7pp $ -67.95  gap_closed
+  buy_yes    european_digital         66,000   0.836   0.810  -9.2pp  -1.2pp $  -3.10  gap_closed
+  buy_yes    european_digital         66,000   0.781   0.755 -15.2pp  -0.3pp $  -3.29  gap_closed
+  buy_yes    european_digital         64,000   0.821   0.770  -9.0pp  -1.7pp $  -6.21  gap_closed
+  buy_yes    european_digital         66,000   0.691   0.615 -16.8pp  +1.1pp $ -10.97  gap_closed
+  buy_yes    european_digital         66,000   0.671   0.590 -16.0pp  +0.7pp $ -12.06  gap_closed
+  buy_yes    european_digital         66,000   0.866   0.815  -8.7pp  -0.5pp $  -5.88  gap_closed
+  buy_yes    european_digital         64,000   0.846   0.805 -10.6pp  -1.4pp $  -4.83  gap_closed
+  buy_yes    european_digital         64,000   0.871   0.940 -16.1pp  +0.4pp $  +7.78  gap_closed
+  buy_yes    european_digital         64,000   0.892   0.879 -12.2pp  -1.6pp $  -1.48  gap_closed
+  buy_yes    european_digital         68,000   0.201   0.165 -12.7pp  +0.1pp $ -17.80  gap_closed
+  buy_yes    european_digital         62,000   0.871   0.845 -12.6pp  -1.6pp $  -2.97  gap_closed
+  buy_yes    european_digital         62,000   0.861   0.850  -7.9pp  -1.1pp $  -1.27  gap_closed
+  buy_yes    european_digital         68,000   0.111   0.293  -7.7pp  -0.1pp $+161.33  gap_closed
+  buy_yes    european_digital         64,000   0.651   0.650  -9.9pp  -1.3pp $  -0.13  gap_closed
+  buy_yes    european_digital         70,000   0.106   0.070  -9.4pp  -1.4pp $ -33.82  gap_closed
+  buy_yes    european_digital         64,000   0.691   0.710 -12.6pp  -0.5pp $  +2.72  gap_closed
+  buy_yes    european_digital         68,000   0.116   0.705  -8.6pp  +1.2pp $+498.97  gap_closed
+  buy_yes    european_digital         62,000   0.799   0.799 -14.9pp  -0.1pp $  -0.05  gap_closed
+  buy_yes    european_digital         62,000   0.676   0.940  -8.4pp  -0.2pp $ +38.28  gap_closed
+  buy_yes    european_digital         62,000   0.671   0.885 -13.1pp  +1.1pp $ +31.28  gap_closed
+  buy_yes    european_digital         66,000   0.141   0.160  -9.8pp  -0.6pp $ +13.53  gap_closed
+  buy_yes    european_digital         68,000   0.131   0.180 -13.8pp  -1.9pp $ +37.13  gap_closed
+  buy_yes    european_digital         70,000   0.104   0.167  -7.5pp  -0.2pp $ +59.39  gap_closed
+  buy_yes    european_digital         64,000   0.731   0.735  -8.2pp  -1.6pp $  +0.56  gap_closed
+  buy_yes    european_digital         70,000   0.146   0.130  -9.1pp  -1.0pp $ -10.82  gap_closed
+  buy_yes    european_digital         64,000   0.826   0.760  -8.8pp  +1.3pp $  -7.98  gap_closed
+  buy_yes    european_digital         64,000   0.791   0.815 -11.3pp  +0.3pp $  +2.98  gap_closed
+  buy_yes    european_digital         64,000   0.741   0.755  -7.6pp  +0.1pp $  +1.87  gap_closed
+  buy_yes    european_digital         64,000   0.816   0.775  -9.3pp  -1.1pp $  -5.02  gap_closed
+  buy_yes    european_digital         64,000   0.756   0.710 -11.2pp  +1.7pp $  -6.07  gap_closed
+  buy_yes    european_digital         64,000   0.721   0.900  -8.3pp  +1.1pp $ +24.36  gap_closed
+  buy_yes    european_digital         66,000   0.746   0.735  -7.3pp  -1.6pp $  -1.46  gap_closed
+  buy_yes    european_digital         66,000   0.766   0.730 -11.6pp  -0.1pp $  -4.69  gap_closed
+  buy_yes    european_digital         66,000   0.751   0.665  -9.6pp  -1.5pp $ -11.44  gap_closed
+  buy_yes    european_digital         64,000   0.861   0.765 -12.4pp  +1.1pp $ -11.13  gap_closed
+  buy_yes    european_digital         70,000   0.186   0.165 -11.3pp  -0.2pp $ -11.19  gap_closed
+  buy_yes    european_digital         66,000   0.726   0.700  -8.6pp  +0.8pp $  -3.57  gap_closed
+  buy_yes    european_digital         66,000   0.881   0.740 -11.0pp  -0.2pp $ -16.00  gap_closed
+  buy_yes    european_digital         66,000   0.781   0.700  -9.5pp  -1.7pp $ -10.36  gap_closed
+  buy_yes    european_digital         68,000   0.741   0.660  -8.4pp  -0.8pp $ -10.94  gap_closed
+  buy_yes    european_digital         68,000   0.671   0.640 -13.8pp  -0.6pp $  -4.63  gap_closed
+  buy_yes    european_digital         68,000   0.676   0.695  -7.0pp  +0.7pp $  +2.74  gap_closed
+  buy_yes    european_digital         68,000   0.741   0.650  -8.6pp  -0.5pp $ -12.29  gap_closed
+  buy_yes    european_digital         68,000   0.726   0.720 -13.8pp  -1.0pp $  -0.84  gap_closed
+  buy_yes    european_digital         66,000   0.826   0.790  -7.0pp  +1.3pp $  -4.35  gap_closed
+  buy_yes    european_digital         68,000   0.826   0.795 -11.5pp  -1.8pp $  -3.76  gap_closed
+  buy_yes    european_digital         68,000   0.831   0.810  -8.6pp  -0.6pp $  -2.54  gap_closed
+  buy_yes    european_digital         68,000   0.891   0.800 -10.3pp  -0.7pp $ -10.22  gap_closed
+  buy_yes    european_digital         66,000   0.886   0.865  -7.0pp  -1.6pp $  -2.36  gap_closed
+  buy_yes    european_digital         74,000   0.151   0.165 -10.6pp  -0.5pp $  +9.27  gap_closed
+  buy_yes    european_digital         68,000   0.836   0.800  -7.8pp  -1.7pp $  -4.31  gap_closed
+  buy_yes    european_digital         68,000   0.821   0.790  -9.8pp  -1.8pp $  -3.78  gap_closed
+  buy_yes    european_digital         74,000   0.151   0.185  -9.9pp  +1.6pp $ +22.27  gap_closed
+  buy_yes    european_digital         74,000   0.171   0.200  -9.4pp  -1.4pp $ +16.79  gap_closed
+  buy_yes    european_digital         72,000   0.806   0.850  -8.4pp  -1.9pp $  +5.36  gap_closed
+  buy_yes    european_digital         66,000   0.821   0.795  -8.6pp  -0.3pp $  -3.13  gap_closed
+  buy_yes    european_digital         66,000   0.871   0.810  -8.0pp  -1.1pp $  -6.97  gap_closed
+  buy_yes    european_digital         68,000   0.801   0.800 -31.8pp  +1.0pp $  -0.12  gap_closed
+  buy_yes    european_digital         66,000   0.866   0.830  -8.3pp  -0.7pp $  -4.12  gap_closed
+  buy_yes    european_digital         66,000   0.891   0.860  -8.9pp  -1.1pp $  -3.45  gap_closed
+  buy_yes    european_digital         66,000   0.851   0.755 -22.2pp  +0.0pp $ -11.25  gap_closed
+  buy_yes    european_digital         66,000   0.861   0.780 -20.3pp  -0.3pp $  -9.38  gap_closed
+  buy_yes    european_digital         66,000   0.846   0.745 -24.6pp  -1.7pp $ -11.94  gap_closed
+  buy_yes    european_digital         66,000   0.741   0.715  -7.0pp  -1.1pp $  -3.51  gap_closed
+  buy_yes    european_digital         64,000   0.836   0.835  -7.9pp  -1.7pp $  -0.12  gap_closed
+  buy_yes    european_digital         66,000   0.746   0.745 -11.5pp  -1.1pp $  -0.10  gap_closed
+  buy_yes    european_digital         66,000   0.721   0.725 -11.0pp  -1.4pp $  +0.59  gap_closed
+  buy_yes    european_digital         66,000   0.746   0.705 -10.5pp  -1.4pp $  -5.46  gap_closed
+  buy_yes    european_digital         66,000   0.711   0.645 -12.4pp  +0.8pp $  -9.29  gap_closed
+  buy_yes    european_digital         66,000   0.721   0.720 -10.4pp  -1.3pp $  -0.09  gap_closed
+  buy_yes    european_digital         66,000   0.651   0.635  -7.4pp  -0.1pp $  -2.45  gap_closed
+  buy_yes    european_digital         66,000   0.721   0.740 -10.6pp  +0.8pp $  +2.62  gap_closed
+  buy_yes    european_digital         66,000   0.686   0.705 -10.2pp  +1.3pp $  +2.72  gap_closed
+  buy_yes    european_digital         66,000   0.696   0.700  -8.9pp  -1.6pp $  +0.56  gap_closed
+  buy_yes    european_digital         64,000   0.841   0.805 -13.0pp  +0.9pp $  -4.29  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.820 -13.7pp  +1.0pp $  -5.31  gap_closed
+  buy_yes    european_digital         66,000   0.731   0.830 -22.7pp  -0.7pp $ +13.28  gap_closed
+  buy_yes    european_digital         64,000   0.871   0.965 -10.1pp  +0.0pp $ +10.53  gap_closed
+  buy_yes    european_digital         74,000   0.106   0.090 -15.0pp  +0.7pp $ -14.98  gap_closed
+  buy_yes    european_digital         68,000   0.786   0.695 -23.8pp  +0.1pp $ -11.57  gap_closed
+  buy_yes    european_digital         68,000   0.816   0.785 -21.6pp  +0.4pp $  -3.80  gap_closed
+  buy_yes    european_digital         68,000   0.791   0.755 -21.7pp  -1.4pp $  -4.55  gap_closed
+  buy_yes    european_digital         68,000   0.751   0.705 -11.7pp  +1.3pp $  -6.12  gap_closed
+  buy_yes    european_digital         66,000   0.871   0.820  -9.0pp  -0.1pp $  -5.85  gap_closed
+  buy_yes    european_digital         68,000   0.761   0.710 -10.3pp  -1.2pp $  -6.69  gap_closed
+  buy_yes    european_digital         66,000   0.881   0.880  -7.4pp  +0.9pp $  -0.11  gap_closed
+  buy_yes    european_digital         68,000   0.726   0.690  -9.5pp  -0.4pp $  -4.95  gap_closed
+  buy_yes    european_digital         68,000   0.756   0.725  -7.7pp  +0.3pp $  -4.10  gap_closed
+  buy_yes    european_digital         74,000   0.121   0.080 -14.0pp  +1.7pp $ -33.87  gap_closed
+  buy_yes    european_digital         68,000   0.766   0.740  -9.6pp  +1.4pp $  -3.39  gap_closed
+  buy_yes    european_digital         68,000   0.801   0.635  -7.8pp  +0.9pp $ -20.72  gap_closed
+  buy_yes    european_digital         68,000   0.781   0.625  -7.9pp  -1.2pp $ -19.97  gap_closed
+  buy_yes    european_digital         68,000   0.761   0.690  -8.0pp  -1.4pp $  -9.32  gap_closed
+  buy_yes    european_digital         68,000   0.796   0.710 -14.0pp  -1.4pp $ -10.80  gap_closed
+  buy_yes    european_digital         66,000   0.861   0.830 -11.0pp  -1.3pp $  -3.59  gap_closed
+  buy_yes    european_digital         66,000   0.891   0.870 -12.5pp  -1.5pp $  -2.35  gap_closed
+  buy_yes    european_digital         66,000   0.861   0.815  -8.9pp  -0.3pp $  -5.35  gap_closed
+  buy_yes    european_digital         68,000   0.721   0.765 -13.9pp  -0.6pp $  +5.99  gap_closed
+  buy_yes    european_digital         66,000   0.771   0.745  -8.2pp  +0.0pp $  -3.36  gap_closed
+  buy_yes    european_digital         74,000   0.106   0.160 -10.2pp  -1.0pp $ +49.47  gap_closed
+  buy_yes    european_digital         72,000   0.151   0.205 -15.9pp  -1.9pp $ +35.09  gap_closed
+  buy_yes    european_digital         74,000   0.122   0.095 -12.3pp  -1.2pp $ -22.01  gap_closed
+  buy_yes    european_digital         68,000   0.786   0.755  -9.0pp  -1.7pp $  -3.94  gap_closed
+  buy_yes    european_digital         68,000   0.756   0.780  -7.7pp  +0.3pp $  +3.12  gap_closed
+  buy_yes    european_digital         68,000   0.796   0.770  -7.6pp  +1.3pp $  -3.27  gap_closed
+  buy_yes    european_digital         68,000   0.726   0.730  -7.4pp  -0.7pp $  +0.54  gap_closed
+  buy_yes    european_digital         70,000   0.696   0.635  -7.4pp  +1.6pp $  -8.78  gap_closed
+  buy_yes    european_digital         68,000   0.866   0.810  -7.6pp  -0.3pp $  -6.46  gap_closed
+  buy_yes    european_digital         70,000   0.716   0.605  -9.1pp  -1.3pp $ -15.50  gap_closed
+  buy_yes    european_digital         70,000   0.746   0.650  -7.0pp  -1.0pp $ -12.88  gap_closed
+  buy_yes    european_digital         70,000   0.671   0.160  -9.2pp  +0.5pp $ -76.15  gap_closed
+  buy_yes    european_digital         70,000   0.661   0.130 -10.2pp  +1.8pp $ -80.33  gap_closed
+  buy_yes    european_digital         68,000   0.801   0.755  -8.9pp  +1.0pp $  -5.74  gap_closed
+  buy_yes    european_digital         68,000   0.886   0.835  -9.2pp  -1.7pp $  -5.76  gap_closed
+  buy_yes    european_digital         66,000   0.891   0.880  -7.2pp  -0.7pp $  -1.22  gap_closed
+  buy_yes    european_digital         74,000   0.121   0.110  -8.6pp  -1.2pp $  -8.99  gap_closed
+  buy_yes    european_digital         68,000   0.896   0.860  -8.2pp  -0.2pp $  -4.01  gap_closed
+  buy_yes    european_digital         66,000   0.876   0.855  -8.1pp  -1.9pp $  -2.40  gap_closed
+  buy_yes    european_digital         68,000   0.756   0.745 -10.3pp  +1.0pp $  -1.47  gap_closed
+  buy_yes    european_digital         68,000   0.786   0.770 -12.3pp  -0.4pp $  -2.03  gap_closed
+  buy_yes    european_digital         68,000   0.816   0.800 -13.6pp  -1.8pp $  -1.96  gap_closed
+  buy_yes    european_digital         68,000   0.836   0.820 -12.4pp  +0.1pp $  -1.91  gap_closed
+  buy_yes    european_digital         74,000   0.111   0.135  -8.2pp  -1.9pp $ +21.34  gap_closed
+  buy_yes    european_digital         74,000   0.161   0.135  -8.8pp  -1.3pp $ -16.32  gap_closed
+  buy_yes    european_digital         68,000   0.826   0.265  -7.4pp  -1.6pp $ -67.92  gap_closed
+  buy_yes    european_digital         68,000   0.801   0.225  -7.3pp  -0.1pp $ -71.91  gap_closed
+  buy_yes    european_digital         68,000   0.886   0.765 -10.2pp  -0.9pp $ -13.66  gap_closed
+  buy_yes    european_digital         68,000   0.766   0.615  -9.1pp  -1.4pp $ -19.72  gap_closed
+  buy_yes    european_digital         68,000   0.851   0.690 -10.9pp  -1.5pp $ -18.91  gap_closed
+  buy_yes    european_digital         68,000   0.891   0.830 -14.2pp  -1.4pp $  -6.84  gap_closed
+  buy_yes    european_digital         66,000   0.856   0.790 -10.2pp  -1.7pp $  -7.71  gap_closed
+  buy_yes    european_digital         66,000   0.881   0.810 -10.9pp  -1.3pp $  -8.05  gap_closed
+  buy_yes    european_digital         66,000   0.871   0.840  -8.9pp  -1.9pp $  -3.55  gap_closed
+  buy_yes    european_digital         68,000   0.821   0.605  -9.9pp  -0.1pp $ -26.31  gap_closed
+  buy_yes    european_digital         66,000   0.896   0.820  -7.7pp  +1.3pp $  -8.48  gap_closed
+  buy_yes    european_digital         68,000   0.781   0.600 -14.5pp  -1.0pp $ -23.17  gap_closed
+  buy_yes    european_digital         66,000   0.836   0.755  -7.8pp  +1.4pp $  -9.67  gap_closed
+  buy_yes    european_digital         68,000   0.656   0.235 -11.5pp  -1.6pp $ -64.18  gap_closed
+  buy_yes    european_digital         66,000   0.806   0.735 -11.8pp  +1.1pp $  -8.81  gap_closed
+  buy_yes    european_digital         66,000   0.851   0.780 -11.1pp  +1.9pp $  -8.34  gap_closed
+  buy_yes    european_digital         72,000   0.107   0.135  -7.5pp  -1.9pp $ +26.22  gap_closed
+  buy_yes    european_digital         72,000   0.141   0.155  -7.2pp  -1.3pp $  +9.63  gap_closed
+  buy_yes    european_digital         66,000   0.866   0.840  -8.3pp  -0.8pp $  -3.00  gap_closed
+  buy_yes    european_digital         66,000   0.771   0.555  -7.3pp  +0.1pp $ -28.02  gap_closed
+  buy_yes    european_digital         66,000   0.741   0.730  -7.3pp  -0.9pp $  -1.47  gap_closed
+  buy_yes    european_digital         66,000   0.781   0.775  -7.1pp  -1.7pp $  -0.75  gap_closed
+  buy_yes    european_digital         66,000   0.751   0.550  -7.2pp  -0.7pp $ -26.75  gap_closed
+  buy_yes    european_digital         66,000   0.811   0.775  -7.1pp  -1.7pp $  -4.43  gap_closed
+  buy_yes    european_digital         66,000   0.786   0.595  -8.1pp  +1.1pp $ -24.29  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.735  -8.6pp  -0.8pp $ -15.11  gap_closed
+  buy_yes    european_digital         64,000   0.856   0.745 -10.5pp  -0.2pp $ -12.96  gap_closed
+  buy_yes    european_digital         66,000   0.786   0.625 -15.1pp  +0.6pp $ -20.48  gap_closed
+  buy_yes    european_digital         64,000   0.856   0.750 -20.6pp  +1.2pp $ -12.37  gap_closed
+  buy_yes    european_digital         64,000   0.890   0.783 -20.9pp  +0.9pp $ -11.96  gap_closed
+  buy_yes    european_digital         62,000   0.856   0.815  -8.8pp  -0.7pp $  -4.76  gap_closed
+  buy_yes    european_digital         62,000   0.877   0.862  -8.6pp  +0.2pp $  -1.71  gap_closed
+  buy_yes    european_digital         64,000   0.746   0.720 -13.6pp  -0.7pp $  -3.46  gap_closed
+  buy_yes    european_digital         64,000   0.761   0.810 -11.9pp  -1.6pp $  +6.32  gap_closed
+  buy_yes    european_digital         64,000   0.805   0.890 -14.0pp  -1.4pp $ +10.29  gap_closed
+  buy_yes    european_digital         64,000   0.894   0.964  -8.6pp  -1.5pp $  +7.56  gap_closed
+  buy_yes    european_digital         62,000   0.806   0.785  -8.0pp  -1.1pp $  -2.63  gap_closed
+  buy_yes    european_digital         70,000   0.111   0.140  -7.2pp  -0.7pp $ +25.66  gap_closed
+  buy_yes    european_digital         64,000   0.721   0.735  -8.5pp  -0.5pp $  +1.91  gap_closed
+  buy_yes    european_digital         62,000   0.851   0.835  -8.2pp  -0.7pp $  -1.90  gap_closed
+  buy_yes    european_digital         62,000   0.894   0.903  -8.1pp  -0.2pp $  +1.04  gap_closed
+  buy_yes    european_digital         64,000   0.751   0.765 -11.2pp  +0.9pp $  +1.85  gap_closed
+  buy_yes    european_digital         62,000   0.871   0.880  -8.2pp  -1.4pp $  +1.04  gap_closed
+  buy_yes    european_digital         64,000   0.846   0.830  -9.5pp  -1.3pp $  -1.88  gap_closed
+  buy_yes    european_digital         64,000   0.781   0.775  -8.8pp  -1.9pp $  -0.75  gap_closed
+  buy_yes    european_digital         64,000   0.811   0.790  -9.5pp  +1.9pp $  -2.57  gap_closed
+  buy_yes    european_digital         64,000   0.746   0.715  -9.5pp  -0.2pp $  -4.17  gap_closed
+  buy_yes    european_digital         62,000   0.881   0.850  -8.3pp  -1.4pp $  -3.55  gap_closed
+  buy_yes    european_digital         62,000   0.881   0.870  -8.4pp  -0.6pp $  -1.27  gap_closed
+  buy_yes    european_digital         70,000   0.151   0.160  -7.2pp  -1.8pp $  +5.97  gap_closed
+  buy_yes    european_digital         70,000   0.106   0.120  -8.6pp  -1.6pp $ +13.00  gap_closed
+  buy_yes    european_digital         64,000   0.866   0.835  -8.8pp  -0.8pp $  -3.57  gap_closed
+  buy_yes    one_touch                69,000   0.123   0.140 -10.1pp  -1.4pp $ +13.63  gap_closed
+  buy_yes    one_touch                68,000   0.307   0.400 -14.1pp  +0.4pp $ +29.58  gap_closed
+  buy_yes    european_digital         70,000   0.136   0.155  -7.1pp  +1.6pp $ +13.85  gap_closed
+  buy_yes    european_digital         64,000   0.821   0.775  -8.0pp  +0.4pp $  -5.58  gap_closed
+  buy_yes    european_digital         64,000   0.791   0.700  -8.7pp  +0.5pp $ -11.49  gap_closed
+  buy_yes    european_digital         64,000   0.741   0.735 -13.8pp  +0.1pp $  -0.82  gap_closed
+  buy_yes    european_digital         62,000   0.876   0.850 -11.5pp  +1.6pp $  -3.02  gap_closed
+  buy_yes    european_digital         68,000   0.166   0.205  -7.7pp  -1.6pp $ +23.06  gap_closed
+  buy_yes    european_digital         64,000   0.816   0.735 -18.7pp  -0.2pp $  -9.90  gap_closed
+  buy_yes    european_digital         68,000   0.136   0.365  -8.7pp  +0.1pp $+165.10  gap_closed
+  buy_yes    european_digital         70,000   0.131   0.180  -8.1pp  -0.4pp $ +36.85  gap_closed
+  buy_yes    european_digital         70,000   0.116   0.140  -7.6pp  +0.3pp $ +20.33  gap_closed
+  buy_yes    european_digital         66,000   0.671   0.650  -9.7pp  +0.1pp $  -3.11  gap_closed
+  buy_yes    european_digital         66,000   0.721   0.725  -8.5pp  -1.7pp $  +0.54  gap_closed
+  buy_yes    european_digital         64,000   0.806   0.755  -8.4pp  -0.8pp $  -6.33  gap_closed
+  buy_yes    european_digital         64,000   0.806   0.815  -7.0pp  -0.8pp $  +1.08  gap_closed
+  buy_yes    european_digital         66,000   0.686   0.685  -7.7pp  -0.7pp $  -0.12  gap_closed
+  buy_yes    european_digital         66,000   0.666   0.520 -10.8pp  +0.8pp $ -21.92  gap_closed
+  buy_yes    european_digital         66,000   0.711   0.685 -12.2pp  -0.8pp $  -3.64  gap_closed
+  buy_yes    european_digital         66,000   0.786   0.785  -7.1pp  -0.1pp $  -0.11  gap_closed
+  buy_yes    european_digital         66,000   0.676   0.725 -14.4pp  +0.6pp $  +7.09  gap_closed
+  buy_yes    european_digital         70,000   0.166   0.185  -7.0pp  -0.9pp $ +11.34  gap_closed
+  buy_yes    one_touch                69,000   0.267   0.205 -12.0pp  -1.8pp $ -23.31  gap_closed
+  buy_yes    european_digital         66,000   0.706   0.675 -15.2pp  -0.6pp $  -4.37  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.870  -7.3pp  +0.8pp $  -2.34  gap_closed
+  buy_yes    european_digital         64,000   0.841   0.780  -7.7pp  -1.2pp $  -7.26  gap_closed
+  buy_yes    european_digital         66,000   0.696   0.530 -10.1pp  +0.9pp $ -23.83  gap_closed
+  buy_yes    european_digital         66,000   0.771   0.915 -10.8pp  -0.2pp $ +18.30  gap_closed
+  buy_yes    european_digital         66,000   0.721   0.825  -9.5pp  -0.6pp $ +14.15  gap_closed
+  buy_yes    european_digital         64,000   0.886   0.795  -7.6pp  -0.6pp $ -10.26  gap_closed
+  buy_yes    european_digital         64,000   0.726   0.710  -8.9pp  -1.1pp $  -2.19  gap_closed
+  buy_yes    european_digital         70,000   0.146   0.190  -8.8pp  +0.5pp $ +29.52  gap_closed
+  buy_yes    european_digital         70,000   0.121   0.150 -15.3pp  +0.6pp $ +23.68  gap_closed
+  buy_yes    european_digital         72,000   0.111   0.125 -11.3pp  +0.9pp $ +12.28  gap_closed
+  buy_yes    european_digital         66,000   0.681   0.545  -9.7pp  -0.5pp $ -19.98  gap_closed
+  buy_yes    european_digital         64,000   0.836   0.850  -8.8pp  +0.3pp $  +1.64  gap_closed
+  buy_yes    european_digital         64,000   0.841   0.725  -7.2pp  -1.5pp $ -13.80  gap_closed
+  buy_yes    european_digital         64,000   0.886   0.850 -11.4pp  -1.0pp $  -4.05  gap_closed
+  buy_yes    european_digital         70,000   0.131   0.060  -8.0pp  +1.9pp $ -54.23  gap_closed
+  buy_yes    european_digital         64,000   0.841   0.860 -17.0pp  -1.8pp $  +2.20  gap_closed
+  buy_yes    european_digital         64,000   0.786   0.835 -16.0pp  -1.8pp $  +6.12  gap_closed
+  buy_yes    european_digital         64,000   0.836   0.790 -14.0pp  -2.0pp $  -5.50  gap_closed
+  buy_yes    european_digital         66,000   0.721   0.760 -11.1pp  +0.2pp $  +5.32  gap_closed
+  buy_yes    european_digital         66,000   0.691   0.695 -15.0pp  +1.1pp $  +0.57  gap_closed
+  buy_yes    european_digital         66,000   0.661   0.725 -11.9pp  +0.8pp $  +9.48  gap_closed
+  buy_yes    european_digital         66,000   0.671   0.740 -16.9pp  -0.8pp $ +10.06  gap_closed
+  buy_yes    european_digital         70,000   0.151   0.160 -10.2pp  -0.1pp $  +5.83  gap_closed
+  buy_yes    european_digital         66,000   0.801   0.805  -7.4pp  -1.5pp $  +0.51  gap_closed
+  buy_yes    european_digital         64,000   0.851   0.805  -8.7pp  +0.1pp $  -5.40  gap_closed
+  buy_yes    european_digital         66,000   0.846   0.885 -14.6pp  +1.8pp $  +4.53  gap_closed
+  buy_yes    european_digital         66,000   0.776   0.775 -18.5pp  +0.9pp $  -0.14  gap_closed
+  buy_yes    european_digital         70,000   0.151   0.255 -12.7pp  -0.6pp $ +67.48  gap_closed
+  buy_yes    european_digital         72,000   0.121   0.160  -7.4pp  -0.9pp $ +31.50  gap_closed
+  buy_yes    one_touch                70,000   0.287   0.375 -10.9pp  -0.2pp $ +30.24  gap_closed
+  buy_yes    european_digital         72,000   0.106   0.115 -11.5pp  -1.7pp $  +8.06  gap_closed
+  buy_yes    european_digital         66,000   0.876   0.835  -9.9pp  -2.0pp $  -4.66  gap_closed
+  buy_yes    european_digital         66,000   0.821   0.750 -13.1pp  +0.6pp $  -8.65  gap_closed
+  buy_yes    european_digital         72,000   0.121   0.120  -8.9pp  -0.6pp $  -0.89  gap_closed
+  buy_yes    european_digital         64,000   0.856   0.840  -8.4pp  +0.8pp $  -1.87  gap_closed
+  buy_yes    european_digital         64,000   0.876   0.865  -8.1pp  +0.3pp $  -1.25  gap_closed
+  buy_yes    european_digital         66,000   0.826   0.810  -9.7pp  +0.3pp $  -1.92  gap_closed
+  buy_yes    one_touch                70,000   0.177   0.360 -13.8pp  -0.5pp $+101.81  gap_closed
+  buy_yes    european_digital         72,000   0.111   0.110  -8.2pp  -0.3pp $  -0.97  gap_closed
+  buy_yes    european_digital         70,000   0.166   0.145 -12.9pp  +0.2pp $ -12.66  gap_closed
+  buy_yes    european_digital         66,000   0.766   0.580  -7.2pp  -1.3pp $ -24.29  gap_closed
+  buy_yes    european_digital         66,000   0.796   0.590  -8.7pp  -1.3pp $ -25.88  gap_closed
+  buy_yes    european_digital         66,000   0.836   0.600 -10.8pp  +0.5pp $ -28.23  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.835  -9.1pp  -1.5pp $  -5.22  gap_closed
+  buy_yes    european_digital         66,000   0.696   0.600  -9.3pp  -1.8pp $ -13.77  gap_closed
+  buy_yes    european_digital         64,000   0.851   0.740  -7.9pp  -1.7pp $ -13.07  gap_closed
+  buy_yes    european_digital         66,000   0.796   0.660  -7.7pp  -0.1pp $ -17.09  gap_closed
+  buy_yes    european_digital         64,000   0.891   0.745 -15.7pp  +0.6pp $ -16.38  gap_closed
+  buy_yes    european_digital         64,000   0.881   0.760 -17.7pp  -1.8pp $ -13.73  gap_closed
+  buy_yes    european_digital         62,000   0.894   0.838  -8.5pp  +0.8pp $  -6.36  gap_closed
+  buy_yes    european_digital         64,000   0.856   0.775 -11.8pp  +0.4pp $  -9.47  gap_closed
+  buy_yes    european_digital         64,000   0.876   0.825  -8.3pp  +0.8pp $  -5.83  gap_closed
+  buy_yes    one_touch                68,000   0.327   0.250 -10.8pp  +1.1pp $ -23.64  gap_closed
+  buy_yes    european_digital         68,000   0.221   0.160  -9.2pp  +0.1pp $ -27.56  gap_closed
+  buy_yes    one_touch                69,000   0.123   0.070  -7.7pp  +1.4pp $ -43.36  gap_closed
+  buy_yes    european_digital         64,000   0.821   0.949 -14.9pp  +1.1pp $ +15.29  gap_closed
+  buy_yes    european_digital         64,000   0.791   0.895 -14.2pp  -1.3pp $ +12.89  gap_closed
+  buy_yes    european_digital         64,000   0.766   0.890 -13.4pp  -1.7pp $ +15.83  gap_closed
+  buy_yes    european_digital         70,000   0.131   0.036  -9.2pp  -1.3pp $ -72.08  gap_closed
+  buy_yes    european_digital         62,000   0.896   0.940  -7.5pp  -1.2pp $  +4.76  gap_closed
+  buy_yes    european_digital         64,000   0.776   0.940  -8.5pp  -1.5pp $ +20.65  gap_closed
+  buy_yes    european_digital         70,000   0.126   0.215 -11.8pp  -1.3pp $ +69.32  gap_closed
+  buy_yes    european_digital         64,000   0.791   0.905  -9.0pp  -1.5pp $ +14.10  gap_closed
+  buy_yes    european_digital         70,000   0.126   0.250 -11.6pp  +0.4pp $ +96.42  gap_closed
+  buy_yes    european_digital         66,000   0.816   0.695 -16.2pp  -1.3pp $ -14.83  gap_closed
+  buy_yes    european_digital         66,000   0.646   0.615  -8.5pp  +0.8pp $  -4.87  gap_closed
+  buy_yes    european_digital         64,000   0.821   0.915  -9.7pp  -1.4pp $ +11.23  gap_closed
+  buy_yes    european_digital         66,000   0.661   0.650 -10.2pp  +0.2pp $  -1.74  gap_closed
+  buy_yes    european_digital         66,000   0.716   0.905  -8.4pp  -1.4pp $ +25.90  gap_closed
+  buy_yes    european_digital         66,000   0.691   0.855  -8.4pp  +0.7pp $ +23.23  gap_closed
+  buy_yes    european_digital         66,000   0.801   0.780  -8.5pp  +1.4pp $  -2.68  gap_closed
+  buy_yes    european_digital         72,000   0.106   0.175  -9.8pp  -0.7pp $ +63.95  gap_closed
+  buy_yes    european_digital         68,000   0.706   0.660  -7.4pp  +0.0pp $  -6.58  gap_closed
+  buy_yes    european_digital         68,000   0.741   0.680  -8.4pp  -0.9pp $  -8.22  gap_closed
+  buy_yes    european_digital         68,000   0.781   0.710  -8.1pp  +0.6pp $  -9.08  gap_closed
+  buy_yes    european_digital         66,000   0.866   0.835  -7.0pp  -1.6pp $  -3.64  gap_closed
+  buy_yes    european_digital         68,000   0.721   0.585  -9.8pp  +1.7pp $ -18.84  gap_closed
+  buy_yes    european_digital         72,000   0.138   0.163  -7.8pp  -1.9pp $ +18.00  gap_closed
+  buy_yes    european_digital         74,000   0.110   0.083  -8.6pp  -1.9pp $ -24.95  gap_closed
+  buy_yes    european_digital         66,000   0.871   0.850  -7.7pp  -0.4pp $  -2.47  gap_closed
+  buy_yes    european_digital         68,000   0.791   0.790  -8.8pp  -1.5pp $  -0.12  gap_closed
+  buy_yes    european_digital         68,000   0.876   0.885  -8.6pp  -1.3pp $  +1.00  gap_closed
+  buy_yes    european_digital         68,000   0.776   0.615 -13.8pp  -1.2pp $ -20.74  gap_closed
+  buy_yes    european_digital         68,000   0.721   0.900 -10.2pp  -0.2pp $ +24.25  gap_closed
+  buy_yes    european_digital         68,000   0.806   0.615 -11.3pp  +0.1pp $ -23.69  gap_closed
+  buy_yes    european_digital         66,000   0.846   0.755 -12.4pp  +1.2pp $ -10.81  gap_closed
+  buy_yes    european_digital         66,000   0.841   0.745 -18.0pp  -1.7pp $ -11.47  gap_closed
+  buy_yes    european_digital         70,000   0.196   0.770  -7.9pp  +2.0pp $+286.70  gap_closed
+  buy_yes    european_digital         66,000   0.801   0.825  -8.2pp  +1.6pp $  +2.87  gap_closed
+  buy_yes    european_digital         74,000   0.115   0.155 -19.9pp  +1.9pp $ +34.18  gap_closed
+  buy_yes    european_digital         74,000   0.151   0.083 -12.7pp  -1.8pp $ -45.30  gap_closed
+  buy_yes    european_digital         70,000   0.806   0.715 -10.8pp  +1.2pp $ -11.28  gap_closed
+  buy_yes    european_digital         70,000   0.866   0.830  -8.4pp  -1.9pp $  -4.17  gap_closed
+  buy_yes    european_digital         70,000   0.781   0.685 -13.6pp  +1.1pp $ -12.29  gap_closed
+  buy_yes    one_touch                73,000   0.127   0.235  -9.0pp  +0.0pp $ +83.79  gap_closed
+  buy_yes    european_digital         74,000   0.173   0.189  -7.2pp  +0.7pp $  +9.11  gap_closed
+  buy_yes    european_digital         74,000   0.120   0.090 -14.3pp  -2.0pp $ -24.95  gap_closed

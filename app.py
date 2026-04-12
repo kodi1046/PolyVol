@@ -210,6 +210,10 @@ def _build_payload() -> dict:
     return {
         "spot":             spot,
         "deribit_atm30":    round(atm30 * 100, 2) if atm30 else None,
+        "vol_term_structure": {
+            k: round(v * 100, 2) if v is not None else None
+            for k, v in surface.atm_term_structure(r).items()
+        } if surface else None,
         "deribit_surface":  surface.to_api() if surface else [],
         "european_digital": euro_groups,
         "one_touch":        ot_groups,

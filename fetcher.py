@@ -178,7 +178,8 @@ def _fetch_recent_events(session: requests.Session, n_pages: int = 4) -> list[di
 # ── Market parsers ────────────────────────────────────────────────────────────
 
 def _parse_euro_market(m: dict, expiry: datetime,
-                       event_id: str, event_title: str
+                       event_id: str, event_title: str,
+                       event_slug: str = ""
                        ) -> Optional[PolyContract]:
     q = m.get("question", "")
     q_lower = q.lower()
@@ -211,12 +212,13 @@ def _parse_euro_market(m: dict, expiry: datetime,
         yes_price=yes_price,
         liquidity=float(m.get("liquidityNum") or m.get("liquidity") or 0),
         event_title=event_title,
-        slug=str(m.get("slug", "")),
+        slug=event_slug,
     )
 
 
 def _parse_ot_market(m: dict, expiry: datetime,
-                     event_id: str, event_title: str
+                     event_id: str, event_title: str,
+                     event_slug: str = ""
                      ) -> Optional[PolyContract]:
     q = m.get("question", "")
     q_lower = q.lower()
@@ -248,7 +250,7 @@ def _parse_ot_market(m: dict, expiry: datetime,
         yes_price=yes_price,
         liquidity=float(m.get("liquidityNum") or m.get("liquidity") or 0),
         event_title=event_title,
-        slug=str(m.get("slug", "")),
+        slug=event_slug,
     )
 
 
@@ -258,9 +260,10 @@ def _parse_event(event: dict, parser) -> list[PolyContract]:
         return []
     event_id    = str(event.get("id", ""))
     event_title = event.get("title", "")
+    event_slug  = str(event.get("slug", ""))
     out = []
     for m in event.get("markets", []):
-        c = parser(m, expiry, event_id, event_title)
+        c = parser(m, expiry, event_id, event_title, event_slug)
         if c:
             out.append(c)
     return out

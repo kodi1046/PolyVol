@@ -33,8 +33,9 @@ Usage:
 import argparse
 import json
 import sys
+from collections import deque
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -42,18 +43,26 @@ from logger import load_snapshots
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-ENTRY_THRESHOLD    = 5.0    # vol gap pp to trigger entry
+ENTRY_THRESHOLD    = 7.0    # vol gap pp to trigger entry (raised: higher threshold = cleaner signal)
 EXIT_THRESHOLD     = 2.0    # vol gap pp to trigger exit
 MAX_ENTRY_GAP      = 50.0   # ignore signals with |gap| > 50pp — IV inversion noise
 POSITION_SIZE      = 100.0  # USD per trade
 MIN_LIQUIDITY      = 20_000  # minimum pool liquidity to enter (= SLIPPAGE_REF_LIQ)
 PRICE_MIN          = 0.10   # skip deep OTM/ITM and near-ATM instability zone
 PRICE_MAX          = 0.90
+MIN_MONEYNESS      = 0.02   # skip strikes within 2% of spot — too much delta exposure
 T_MIN_EXIT         = 0.5 / 365.25 / 24   # 30 min in years — time stop
+MAX_HOLD_HOURS     = 2.0                 # exit after this many hours if gap hasn't closed
 SLIPPAGE_REF_LIQ   = 20_000  # liquidity at which base slippage applies
 SLIPPAGE_BASE_CENTS = 0.005   # 0.5¢ at SLIPPAGE_REF_LIQ; scales as sqrt(ref/actual)
 MAX_POSITION_FRAC  = 0.10    # max position size as fraction of pool liquidity
 POLY_FEE_RATE      = 0.02    # 2% of net winnings
+
+# Directional / filtering defaults
+BUY_ONLY           = True    # only trade buy_yes (sell_yes has delta risk in trending markets)
+CONTRACT_TYPES     = None    # None = all; or set {"one_touch"} / {"european_digital"}
+TREND_HOURS        = 4.0     # lookback window for BTC trend detection
+TREND_THRESHOLD    = 0.01    # skip sell_yes if spot rose > 1% over TREND_HOURS
 
 
 # ── Data structures ───────────────────────────────────────────────────────────
@@ -138,23 +147,53 @@ def _fee(side: str, entry_price: float, exit_price: float, size_usd: float,
 # ── Main backtester ───────────────────────────────────────────────────────────
 
 def run_backtest(
-    snapshots:       list[dict],
-    entry_threshold: float = ENTRY_THRESHOLD,
-    exit_threshold:  float = EXIT_THRESHOLD,
-    position_size:   float = POSITION_SIZE,
-    max_entry_gap:   float = MAX_ENTRY_GAP,
+    snapshots:        list[dict],
+    entry_threshold:  float = ENTRY_THRESHOLD,
+    exit_threshold:   float = EXIT_THRESHOLD,
+    position_size:    float = POSITION_SIZE,
+    max_entry_gap:    float = MAX_ENTRY_GAP,
+    min_moneyness:    float = MIN_MONEYNESS,
+    buy_only:         bool  = BUY_ONLY,
+    contract_types:   Optional[set] = None,   # None = allow all
+    trend_hours:      float = TREND_HOURS,
+    trend_threshold:  float = TREND_THRESHOLD,
+    max_hold_hours:   float = MAX_HOLD_HOURS,
 ) -> BacktestResult:
     """
     Replay snapshots chronologically. One position per market_id at a time.
+
+    Filters applied at entry:
+      buy_only        — skip all sell_yes signals (default True; they have delta risk)
+      contract_types  — restrict to e.g. {"one_touch"}; None = all types
+      trend filter    — skip sell_yes when BTC spot rose > trend_threshold over last
+                        trend_hours (requires buy_only=False to matter)
     """
     result   = BacktestResult()
     open_pos: dict[str, Position] = {}   # market_id → Position
 
+    # Rolling deque of (datetime, spot) for trend detection
+    trend_window: deque[tuple[datetime, float]] = deque()
+    trend_cutoff = timedelta(hours=trend_hours)
+
     for snap in snapshots:
-        ts   = snap["ts"]
-        spot = snap["spot"]
+        ts_str = snap["ts"]
+        ts     = _parse_ts(ts_str)
+        spot   = snap["spot"]
+
+        # Maintain rolling spot window
+        trend_window.append((ts, spot))
+        while trend_window and ts - trend_window[0][0] > trend_cutoff:
+            trend_window.popleft()
+
+        # BTC trend over the window: positive = rising
+        def _spot_trending_up() -> bool:
+            if len(trend_window) < 2:
+                return False
+            oldest_spot = trend_window[0][1]
+            return oldest_spot > 0 and (spot - oldest_spot) / oldest_spot > trend_threshold
 
         for c in snap["contracts"]:
+            ts = ts_str   # reuse string form for Position fields
             mid       = c["market_id"]
             gap       = c.get("vol_gap")
             yes_price = c["yes_price"]
@@ -169,10 +208,13 @@ def run_backtest(
                 pos = open_pos[mid]
                 exit_reason = None
 
+                held_hours = (_parse_ts(ts) - _parse_ts(pos.entry_ts)).total_seconds() / 3600
                 if abs(gap) < exit_threshold:
                     exit_reason = "gap_closed"
                 elif T < T_MIN_EXIT:
                     exit_reason = "time_stop"
+                elif max_hold_hours > 0 and held_hours >= max_hold_hours:
+                    exit_reason = "max_hold"
 
                 if exit_reason:
                     pos.exit_ts     = ts
@@ -205,6 +247,14 @@ def run_backtest(
             if abs(gap) > max_entry_gap:
                 continue  # IV inversion noise — gap too large to be a real signal
 
+            strike = c.get("strike", 0)
+            if spot and strike and abs(spot - strike) / spot < min_moneyness:
+                continue  # too close to ATM — high delta, not a pure vol bet
+
+            # Contract type filter
+            if contract_types and c.get("contract_type") not in contract_types:
+                continue
+
             side = None
             if gap < -entry_threshold:
                 side = "buy_yes"    # poly IV too low → YES underpriced
@@ -213,6 +263,13 @@ def run_backtest(
 
             if side is None:
                 continue
+
+            # Directional filters for sell_yes
+            if side == "sell_yes":
+                if buy_only:
+                    continue   # sell_yes disabled — delta risk in trending markets
+                if _spot_trending_up():
+                    continue   # BTC trending up — short delta exposure, skip
 
             # Liquidity-scaled slippage: wider spread on thinner pools
             slip = SLIPPAGE_BASE_CENTS * (SLIPPAGE_REF_LIQ / max(liq, 1)) ** 0.5
@@ -337,7 +394,22 @@ if __name__ == "__main__":
                         help="Position size in USD (default %(default)s)")
     parser.add_argument("--max-gap", type=float, default=MAX_ENTRY_GAP,
                         help="Max |vol gap| pp for entry; filters IV noise (default %(default)s)")
+    parser.add_argument("--min-moneyness", type=float, default=MIN_MONEYNESS,
+                        help="Min |spot-strike|/spot to enter; skips near-ATM high-delta (default %(default)s)")
+    parser.add_argument("--buy-only", action=argparse.BooleanOptionalAction, default=BUY_ONLY,
+                        help="Only trade buy_yes signals; use --no-buy-only to allow sell_yes (default %(default)s)")
+    parser.add_argument("--contract-type", choices=["european_digital", "one_touch", "all"],
+                        default="all",
+                        help="Restrict to one contract type (default: all)")
+    parser.add_argument("--trend-hours", type=float, default=TREND_HOURS,
+                        help="Lookback window in hours for BTC trend filter on sell_yes (default %(default)s)")
+    parser.add_argument("--trend-threshold", type=float, default=TREND_THRESHOLD,
+                        help="Skip sell_yes if BTC rose more than this fraction over trend window (default %(default)s)")
+    parser.add_argument("--max-hold", type=float, default=MAX_HOLD_HOURS,
+                        help="Max hours to hold a position before force-exit; 0 = disabled (default %(default)s)")
     args = parser.parse_args()
+
+    ct_filter = None if args.contract_type == "all" else {args.contract_type}
 
     snaps = load_snapshots(Path(args.snapshot))
     if not snaps:
@@ -348,8 +420,23 @@ if __name__ == "__main__":
     span_start = snaps[0]["ts"]
     span_end   = snaps[-1]["ts"]
     print(f"Loaded {len(snaps)} snapshots  [{span_start}  →  {span_end}]")
-    print(f"Entry threshold: {args.entry} pp   Exit threshold: {args.exit} pp   "
-          f"Max gap: {args.max_gap} pp   Position size: ${args.size:.0f}")
+    print(f"Entry: {args.entry}pp   Exit: {args.exit}pp   Max gap: {args.max_gap}pp   "
+          f"Min moneyness: {args.min_moneyness*100:.0f}%   Size: ${args.size:.0f}")
+    print(f"Buy-only: {args.buy_only}   Contract type: {args.contract_type}   "
+          f"Trend filter: {args.trend_hours}h / {args.trend_threshold*100:.1f}%   "
+          f"Max hold: {args.max_hold}h")
 
-    result = run_backtest(snaps, args.entry, args.exit, args.size, args.max_gap)
+    result = run_backtest(
+        snaps,
+        entry_threshold = args.entry,
+        exit_threshold  = args.exit,
+        position_size   = args.size,
+        max_entry_gap   = args.max_gap,
+        min_moneyness   = args.min_moneyness,
+        buy_only        = args.buy_only,
+        contract_types  = ct_filter,
+        trend_hours     = args.trend_hours,
+        trend_threshold = args.trend_threshold,
+        max_hold_hours  = args.max_hold,
+    )
     print_report(result)
