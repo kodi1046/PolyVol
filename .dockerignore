@@ -1,0 +1,14 @@
+.venv
+__pycache__
+*.py[cod]
+*.pyo
+.git
+.env
+*.db
+*.db-wal
+*.db-shm
+.ipynb_checkpoints
+*.ipynb
+backtest_rigorous.csv
+backtest_rigorous_chart.png
+backtest_cache/

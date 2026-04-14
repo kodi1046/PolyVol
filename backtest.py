@@ -40,17 +40,18 @@ from pathlib import Path
 from typing import Optional
 
 from logger import load_snapshots
+from vol_math import european_digital_price, one_touch_price
 
 # ── Config ────────────────────────────────────────────────────────────────────
 
-ENTRY_THRESHOLD    = 7.0    # vol gap pp to trigger entry (raised: higher threshold = cleaner signal)
+ENTRY_THRESHOLD    = 7.0    # vol gap pp to trigger entry
 EXIT_THRESHOLD     = 2.0    # vol gap pp to trigger exit
 MAX_ENTRY_GAP      = 50.0   # ignore signals with |gap| > 50pp — IV inversion noise
 POSITION_SIZE      = 100.0  # USD per trade
-MIN_LIQUIDITY      = 20_000  # minimum pool liquidity to enter (= SLIPPAGE_REF_LIQ)
-PRICE_MIN          = 0.10   # skip deep OTM/ITM and near-ATM instability zone
-PRICE_MAX          = 0.90
-MIN_MONEYNESS      = 0.02   # skip strikes within 2% of spot — too much delta exposure
+MIN_LIQUIDITY      = 1_000   # minimum pool liquidity to enter (matches app.py MIN_IV_LIQ)
+PRICE_MIN          = 0.05   # skip deep OTM/ITM
+PRICE_MAX          = 0.95
+MIN_MONEYNESS      = 0.01   # skip strikes within 1% of spot
 T_MIN_EXIT         = 0.5 / 365.25 / 24   # 30 min in years — time stop
 MAX_HOLD_HOURS     = 2.0                 # exit after this many hours if gap hasn't closed
 SLIPPAGE_REF_LIQ   = 20_000  # liquidity at which base slippage applies
@@ -59,10 +60,12 @@ MAX_POSITION_FRAC  = 0.10    # max position size as fraction of pool liquidity
 POLY_FEE_RATE      = 0.02    # 2% of net winnings
 
 # Directional / filtering defaults
-BUY_ONLY           = True    # only trade buy_yes (sell_yes has delta risk in trending markets)
+BUY_ONLY           = False   # trade both directions
 CONTRACT_TYPES     = None    # None = all; or set {"one_touch"} / {"european_digital"}
 TREND_HOURS        = 4.0     # lookback window for BTC trend detection
 TREND_THRESHOLD    = 0.01    # skip sell_yes if spot rose > 1% over TREND_HOURS
+PRICE_GAP_THRESHOLD = 0.03   # min |yes_price - deribit_fair| to enter
+RISK_FREE_RATE      = 0.05   # fallback r (snapshots don't store it)
 
 
 # ── Data structures ───────────────────────────────────────────────────────────
@@ -100,6 +103,7 @@ class BacktestResult:
     # Unrealized mark — noisy for binaries, shown for context only
     unrealized_pnl:   float = 0.0
     open_count:       int   = 0
+    filter_stats:     dict  = field(default_factory=dict)
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -171,6 +175,13 @@ def run_backtest(
     result   = BacktestResult()
     open_pos: dict[str, Position] = {}   # market_id → Position
 
+    # Filter diagnostic counters
+    filt = {
+        "gap_null": 0, "liq": 0, "price": 0, "time": 0,
+        "gap_large": 0, "moneyness": 0, "gap_small": 0,
+        "price_gap_small": 0, "buy_only": 0, "trend": 0, "entered": 0,
+    }
+
     # Rolling deque of (datetime, spot) for trend detection
     trend_window: deque[tuple[datetime, float]] = deque()
     trend_cutoff = timedelta(hours=trend_hours)
@@ -201,6 +212,7 @@ def run_backtest(
             liq       = c["liquidity"]
 
             if gap is None:
+                filt["gap_null"] += 1
                 continue
 
             # ── Check exit for open positions ──────────────────────────────
@@ -238,37 +250,70 @@ def run_backtest(
             if mid in open_pos:
                 continue
             if liq < MIN_LIQUIDITY:
+                filt["liq"] += 1
                 continue
             if not (PRICE_MIN < yes_price < PRICE_MAX):
+                filt["price"] += 1
                 continue
             if T < T_MIN_EXIT:
+                filt["time"] += 1
                 continue
 
             if abs(gap) > max_entry_gap:
+                filt["gap_large"] += 1
                 continue  # IV inversion noise — gap too large to be a real signal
 
             strike = c.get("strike", 0)
             if spot and strike and abs(spot - strike) / spot < min_moneyness:
+                filt["moneyness"] += 1
                 continue  # too close to ATM — high delta, not a pure vol bet
 
             # Contract type filter
             if contract_types and c.get("contract_type") not in contract_types:
                 continue
 
+            # Pre-screen: require meaningful IV divergence before computing price
+            if abs(gap) < entry_threshold:
+                filt["gap_small"] += 1
+                continue
+
+            # Direction via price gap — correct for both OTM and ITM digitals.
+            # vol_gap sign is unreliable for ITM contracts (negative vega flips it).
+            iv_d = c.get("iv_deribit")
+            if iv_d is None:
+                filt["gap_null"] += 1
+                continue
+            try:
+                sigma_d  = iv_d / 100.0
+                ct       = c.get("contract_type", "european_digital")
+                raw_fair = (one_touch_price(spot, strike, T, RISK_FREE_RATE, sigma_d)
+                            if ct == "one_touch"
+                            else european_digital_price(spot, strike, T, RISK_FREE_RATE, sigma_d))
+                dirn         = c.get("direction", "above")
+                deribit_fair = 1.0 - raw_fair if dirn == "below" else raw_fair
+            except Exception:
+                filt["gap_null"] += 1
+                continue
+
+            price_gap = yes_price - deribit_fair  # >0 → poly dear; <0 → poly cheap
+
             side = None
-            if gap < -entry_threshold:
-                side = "buy_yes"    # poly IV too low → YES underpriced
-            elif gap > entry_threshold:
-                side = "sell_yes"   # poly IV too high → YES overpriced
+            if price_gap < -PRICE_GAP_THRESHOLD:
+                side = "buy_yes"    # poly cheaper than Deribit fair → underpriced
+            elif price_gap > PRICE_GAP_THRESHOLD:
+                side = "sell_yes"   # poly more expensive than Deribit fair → overpriced
 
             if side is None:
+                filt["price_gap_small"] += 1
                 continue
 
             # Directional filters for sell_yes
             if side == "sell_yes":
                 if buy_only:
-                    continue   # sell_yes disabled — delta risk in trending markets
+                    filt["buy_only"] += 1
+                    continue   # sell_yes disabled
                 if _spot_trending_up():
+                    filt["trend"] += 1
                     continue   # BTC trending up — short delta exposure, skip
 
             # Liquidity-scaled slippage: wider spread on thinner pools
@@ -285,6 +330,7 @@ def run_backtest(
             slippage_cost = slip * (capped_size / entry_price)
             result.total_slippage += slippage_cost
 
+            filt["entered"] += 1
             open_pos[mid] = Position(
                 market_id     = mid,
                 contract_type = c["contract_type"],
@@ -298,6 +344,8 @@ def run_backtest(
                 entry_gap     = gap,
                 size_usd      = capped_size,
             )
+
+    result.filter_stats = filt
 
     # Mark still-open positions at last known price — unrealized, not counted in P&L
     last_snap = snapshots[-1] if snapshots else {}
@@ -378,6 +426,23 @@ def print_report(result: BacktestResult) -> None:
         gx = f"{t.exit_gap:+.1f}pp" if t.exit_gap is not None else "    ?"
         print(f"  {t.side:10s} {t.contract_type:20s} {t.strike:>10,.0f} "
               f"{ep:>7s} {xp:>7s} {ge:>7s} {gx:>7s} ${t.pnl:+7.2f}  {t.exit_reason or ''}")
+
+    if result.filter_stats:
+        f = result.filter_stats
+        total = sum(f.values())
+        print(f"\n{'='*70}")
+        print(f"  ENTRY FILTER STATS  (contract-ticks evaluated)")
+        print(f"{'='*70}")
+        print(f"  vol_gap=null (no IV):  {f['gap_null']:>8,}")
+        print(f"  liquidity < min:       {f['liq']:>8,}")
+        print(f"  price out of range:    {f['price']:>8,}")
+        print(f"  near expiry:           {f['time']:>8,}")
+        print(f"  |gap| too large:       {f['gap_large']:>8,}")
+        print(f"  near ATM (moneyness):  {f['moneyness']:>8,}")
+        print(f"  gap too small:         {f['gap_small']:>8,}")
+        print(f"  buy_only blocked:      {f['buy_only']:>8,}")
+        print(f"  trend filter:          {f['trend']:>8,}")
+        print(f"  → ENTERED:             {f['entered']:>8,}")
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
