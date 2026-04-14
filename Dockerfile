@@ -64,7 +64,7 @@ WORKDIR /app
 
 # 3. Clone the repository directly into the container
 # We clone into a temp dir or the current WORKDIR
-RUN git clone https://github.com/kodi1046/PBTC5.git .
+RUN git clone https://github.com/kodi1046/PolyVol.git .
 
 # 4. Python deps (pip install from the freshly cloned requirements.txt)
 RUN pip install --no-cache-dir -r requirements.txt
